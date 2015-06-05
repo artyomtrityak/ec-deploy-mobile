@@ -2,51 +2,42 @@
  * Electric Cloud Deploy Mobile App
  */
 'use strict';
+import React, {
+  TabBarIOS,
+  AppRegistry
+} from 'react-native';
 
-var React = require('react-native');
-var {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-} = React;
+import SettingsComponent from './components/settings.component';
+import JobsComponent from './components/jobs.component';
+import DashboardComponent from './components/dashboard.component';
 
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
+var ECDeploy = React.createClass({
+  statics: {
+    title: 'Electric Deploy',
+    description: 'Electric Deploy mobile app'
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5
-  }
-});
 
-var ecdeploy = React.createClass({
+  getInitialState: function() {
+    return {
+      activeTab: 'redTab'
+    };
+  },
+
   render: function() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native222333!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js 114455
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
+      <TabBarIOS tintColor="black" barTintColor='#3abeff'>
+        <TabBarIOS.Item title="Dashboard" icon={require('image!icon4')}>
+          <DashboardComponent />
+        </TabBarIOS.Item>
+        <TabBarIOS.Item title="Jobs" icon={require('image!icon4')}>
+          <JobsComponent />
+        </TabBarIOS.Item>
+        <TabBarIOS.Item title="Settings" icon={require('image!ok')} selected={true} >
+          <SettingsComponent />
+        </TabBarIOS.Item>
+      </TabBarIOS>
     );
   }
 });
 
-AppRegistry.registerComponent('ecdeploy', () => ecdeploy);
+AppRegistry.registerComponent('ecdeploy', () => ECDeploy);

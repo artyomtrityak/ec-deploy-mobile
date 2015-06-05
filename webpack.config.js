@@ -3,7 +3,6 @@ var webpack = require('webpack'),
     AnybarWebpackPlugin = require('anybar-webpack');
 
 module.exports = {
-
     watch: true,
     entry: path.join(__dirname, '/app/index.jsx'),
     module: {
@@ -11,7 +10,6 @@ module.exports = {
           {
             test: /\.jsx$/,
             loaders: ['eslint'],
-            include: [new RegExp(path.join(__dirname, 'app'))],
             exclude: /node_modules/
           }
         ],
