@@ -6,25 +6,15 @@ import React, {
   View
 } from 'react-native';
 
-import AppStore from 'stores/app.store';
-
 
 var styles = StyleSheet.create({
-  container: {
+  tabContent: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
+    alignItems: 'center'
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5
+  tabText: {
+    color: 'black',
+    margin: 50
   }
 });
 
@@ -36,17 +26,9 @@ export default React.createClass({
 
   render: function() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native la2!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+      <View style={[styles.tabContent, {backgroundColor: '#FFF'}]}>
+        <Text style={styles.tabText}>{'Settings'}</Text>
+        <Text style={styles.tabText}>{'Details'}</Text>
       </View>
     );
   }

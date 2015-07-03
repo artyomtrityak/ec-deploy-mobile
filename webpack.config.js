@@ -2,20 +2,9 @@ var webpack = require('webpack'),
     path = require('path'),
     AnybarWebpackPlugin = require('anybar-webpack');
 
-var VENDOR_LIBS = [
-    'react-native',
-    'flux',
-    'immutable',
-    'eventemitter2'
-];
-
 module.exports = {
     watch: true,
     entry: path.join(__dirname, '/app/index.jsx'),
-    /*entry: {
-        app: path.join(__dirname, '/app/index.jsx'),
-        vendor: VENDOR_LIBS
-    },*/
     module: {
         preLoaders: [
           {

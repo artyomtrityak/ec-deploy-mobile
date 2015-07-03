@@ -55,37 +55,9 @@
 
 	var _reactNative2 = _interopRequireDefault(_reactNative);
 
-	var _storesAppStore = __webpack_require__(52);
+	var _componentsNavigationComponent = __webpack_require__(77);
 
-	var _storesAppStore2 = _interopRequireDefault(_storesAppStore);
-
-	var _componentsSettingsComponent = __webpack_require__(76);
-
-	var _componentsSettingsComponent2 = _interopRequireDefault(_componentsSettingsComponent);
-
-	console.log('REACTR!', _reactNative2['default']);
-
-	//import JobsComponent from './components/jobs.component';
-	//import DashboardComponent from './components/dashboard.component';
-
-	var styles = _reactNative.StyleSheet.create({
-	  container: {
-	    flex: 1,
-	    justifyContent: 'center',
-	    alignItems: 'center',
-	    backgroundColor: '#F5FCFF'
-	  },
-	  welcome: {
-	    fontSize: 20,
-	    textAlign: 'center',
-	    margin: 10
-	  },
-	  instructions: {
-	    textAlign: 'center',
-	    color: '#333333',
-	    marginBottom: 5
-	  }
-	});
+	var _componentsNavigationComponent2 = _interopRequireDefault(_componentsNavigationComponent);
 
 	var ECDeploy = _reactNative2['default'].createClass({
 	  displayName: 'ECDeploy',
@@ -95,14 +67,8 @@
 	    description: 'Electric Deploy mobile app'
 	  },
 
-	  getInitialState: function getInitialState() {
-	    return {
-	      activeTab: 'redTab'
-	    };
-	  },
-
 	  render: function render() {
-	    return _reactNative2['default'].createElement(_componentsSettingsComponent2['default'], null);
+	    return _reactNative2['default'].createElement(_componentsNavigationComponent2['default'], null);
 	  }
 	});
 
@@ -6965,26 +6931,14 @@
 
 	var _reactNative2 = _interopRequireDefault(_reactNative);
 
-	var _storesAppStore = __webpack_require__(52);
-
-	var _storesAppStore2 = _interopRequireDefault(_storesAppStore);
-
 	var styles = _reactNative.StyleSheet.create({
-	  container: {
+	  tabContent: {
 	    flex: 1,
-	    justifyContent: 'center',
-	    alignItems: 'center',
-	    backgroundColor: '#F5FCFF'
+	    alignItems: 'center'
 	  },
-	  welcome: {
-	    fontSize: 20,
-	    textAlign: 'center',
-	    margin: 10
-	  },
-	  instructions: {
-	    textAlign: 'center',
-	    color: '#333333',
-	    marginBottom: 5
+	  tabText: {
+	    color: 'black',
+	    margin: 50
 	  }
 	});
 
@@ -6998,23 +6952,210 @@
 	  render: function render() {
 	    return _reactNative2['default'].createElement(
 	      _reactNative.View,
-	      { style: styles.container },
+	      { style: [styles.tabContent, { backgroundColor: '#FFF' }] },
 	      _reactNative2['default'].createElement(
 	        _reactNative.Text,
-	        { style: styles.welcome },
-	        'Welcome to React Native la2!'
+	        { style: styles.tabText },
+	        'Settings'
 	      ),
 	      _reactNative2['default'].createElement(
 	        _reactNative.Text,
-	        { style: styles.instructions },
-	        'To get started, edit index.ios.js'
+	        { style: styles.tabText },
+	        'Details'
+	      )
+	    );
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 77 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Electric Cloud Deploy Mobile App
+	 */
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _reactNative2 = _interopRequireDefault(_reactNative);
+
+	var _storesAppStore = __webpack_require__(52);
+
+	var _storesAppStore2 = _interopRequireDefault(_storesAppStore);
+
+	var _dashboardComponent = __webpack_require__(78);
+
+	var _dashboardComponent2 = _interopRequireDefault(_dashboardComponent);
+
+	var _jobsComponent = __webpack_require__(79);
+
+	var _jobsComponent2 = _interopRequireDefault(_jobsComponent);
+
+	var _settingsComponent = __webpack_require__(76);
+
+	var _settingsComponent2 = _interopRequireDefault(_settingsComponent);
+
+	exports['default'] = _reactNative2['default'].createClass({
+	  displayName: 'navigation.component',
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      selectedTab: 'settings',
+	      notifCount: 0,
+	      presses: 0
+	    };
+	  },
+
+	  selectTab: function selectTab(tabName) {
+	    this.setState({
+	      selectedTab: tabName
+	    });
+	  },
+
+	  render: function render() {
+	    return _reactNative2['default'].createElement(
+	      _reactNative.TabBarIOS,
+	      {
+	        tintColor: 'white',
+	        barTintColor: 'black' },
+	      _reactNative2['default'].createElement(
+	        _reactNative.TabBarIOS.Item,
+	        {
+	          title: 'Dashboard',
+	          selected: this.state.selectedTab === 'dashboard',
+	          onPress: this.selectTab.bind(this, 'dashboard') },
+	        _reactNative2['default'].createElement(_dashboardComponent2['default'], null)
+	      ),
+	      _reactNative2['default'].createElement(
+	        _reactNative.TabBarIOS.Item,
+	        {
+	          title: 'Jobs',
+	          badge: this.state.notifCount > 0 ? this.state.notifCount : undefined,
+	          selected: this.state.selectedTab === 'jobs',
+	          onPress: this.selectTab.bind(this, 'jobs') },
+	        _reactNative2['default'].createElement(_jobsComponent2['default'], null)
+	      ),
+	      _reactNative2['default'].createElement(
+	        _reactNative.TabBarIOS.Item,
+	        {
+	          title: 'Settings',
+	          selected: this.state.selectedTab === 'settings',
+	          onPress: this.selectTab.bind(this, 'settings') },
+	        _reactNative2['default'].createElement(_settingsComponent2['default'], null)
+	      )
+	    );
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 78 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _reactNative2 = _interopRequireDefault(_reactNative);
+
+	var styles = _reactNative.StyleSheet.create({
+	  tabContent: {
+	    flex: 1,
+	    alignItems: 'center'
+	  },
+	  tabText: {
+	    color: 'black',
+	    margin: 50
+	  }
+	});
+
+	exports['default'] = _reactNative2['default'].createClass({
+	  displayName: 'dashboard.component',
+
+	  getInitialState: function getInitialState() {
+	    return {};
+	  },
+
+	  render: function render() {
+	    return _reactNative2['default'].createElement(
+	      _reactNative.View,
+	      { style: [styles.tabContent, { backgroundColor: '#FFF' }] },
+	      _reactNative2['default'].createElement(
+	        _reactNative.Text,
+	        { style: styles.tabText },
+	        'Dashboard'
 	      ),
 	      _reactNative2['default'].createElement(
 	        _reactNative.Text,
-	        { style: styles.instructions },
-	        'Press Cmd+R to reload,',
-	        '\n',
-	        'Cmd+D or shake for dev menu'
+	        { style: styles.tabText },
+	        'Details'
+	      )
+	    );
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 79 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _reactNative2 = _interopRequireDefault(_reactNative);
+
+	var styles = _reactNative.StyleSheet.create({
+	  tabContent: {
+	    flex: 1,
+	    alignItems: 'center'
+	  },
+	  tabText: {
+	    color: 'black',
+	    margin: 50
+	  }
+	});
+
+	exports['default'] = _reactNative2['default'].createClass({
+	  displayName: 'jobs.component',
+
+	  getInitialState: function getInitialState() {
+	    return {};
+	  },
+
+	  render: function render() {
+	    return _reactNative2['default'].createElement(
+	      _reactNative.View,
+	      { style: [styles.tabContent, { backgroundColor: '#FFF' }] },
+	      _reactNative2['default'].createElement(
+	        _reactNative.Text,
+	        { style: styles.tabText },
+	        'Jobs'
+	      ),
+	      _reactNative2['default'].createElement(
+	        _reactNative.Text,
+	        { style: styles.tabText },
+	        'Details'
 	      )
 	    );
 	  }
