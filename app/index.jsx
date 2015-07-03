@@ -3,13 +3,39 @@
  */
 'use strict';
 import React, {
-  TabBarIOS,
-  AppRegistry
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View
 } from 'react-native';
 
+console.log('REACTR!', React);
+
+import AppStore from 'stores/app.store';
+
+
 import SettingsComponent from './components/settings.component';
-import JobsComponent from './components/jobs.component';
-import DashboardComponent from './components/dashboard.component';
+//import JobsComponent from './components/jobs.component';
+//import DashboardComponent from './components/dashboard.component';
+
+var styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF'
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5
+  }
+});
 
 var ECDeploy = React.createClass({
   statics: {
@@ -25,19 +51,9 @@ var ECDeploy = React.createClass({
 
   render: function() {
     return (
-      <TabBarIOS tintColor="black" barTintColor='#3abeff'>
-        <TabBarIOS.Item title="Dashboard" icon={require('image!icon4')}>
-          <DashboardComponent />
-        </TabBarIOS.Item>
-        <TabBarIOS.Item title="Jobs" icon={require('image!icon4')}>
-          <JobsComponent />
-        </TabBarIOS.Item>
-        <TabBarIOS.Item title="Settings" icon={require('image!ok')} selected={true} >
-          <SettingsComponent />
-        </TabBarIOS.Item>
-      </TabBarIOS>
+      <SettingsComponent />
     );
   }
 });
 
-AppRegistry.registerComponent('ecdeploy', () => ECDeploy);
+AppRegistry.registerComponent('ecdeploy2', () => ECDeploy);

@@ -17,11 +17,11 @@
 #define TIMEOUT_SECONDS 240
 #define TEXT_TO_LOOK_FOR @"Welcome to React Native!"
 
-@interface ecdeployTests : XCTestCase
+@interface ecdeploy2Tests : XCTestCase
 
 @end
 
-@implementation ecdeployTests
+@implementation ecdeploy2Tests
 
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL(^)(UIView *view))test
@@ -50,18 +50,15 @@
     redboxError = [[RCTRedBox sharedInstance] currentErrorMessage];
 
     foundElement = [self findSubviewInView:vc.view matching:^BOOL(UIView *view) {
-      if ([view respondsToSelector:@selector(attributedText)]) {
-        NSString *text = [(id)view attributedText].string;
-        if ([text isEqualToString:TEXT_TO_LOOK_FOR]) {
-          return YES;
-        }
+      if ([view.accessibilityLabel isEqualToString:TEXT_TO_LOOK_FOR]) {
+        return YES;
       }
       return NO;
     }];
   }
 
   XCTAssertNil(redboxError, @"RedBox error: %@", redboxError);
-  XCTAssertTrue(foundElement, @"Cound't find element with text '%@' in %d seconds", TEXT_TO_LOOK_FOR, TIMEOUT_SECONDS);
+  XCTAssertTrue(foundElement, @"Couldn't find element with text '%@' in %d seconds", TEXT_TO_LOOK_FOR, TIMEOUT_SECONDS);
 }
 
 

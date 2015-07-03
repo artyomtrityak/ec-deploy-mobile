@@ -6,6 +6,7 @@ import React, {
   View
 } from 'react-native';
 
+
 var styles = StyleSheet.create({
   tabContent: {
     flex: 1,

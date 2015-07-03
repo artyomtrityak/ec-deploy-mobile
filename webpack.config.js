@@ -2,20 +2,31 @@ var webpack = require('webpack'),
     path = require('path'),
     AnybarWebpackPlugin = require('anybar-webpack');
 
+var VENDOR_LIBS = [
+    'react-native',
+    'flux',
+    'immutable',
+    'eventemitter2'
+];
+
 module.exports = {
     watch: true,
     entry: path.join(__dirname, '/app/index.jsx'),
+    /*entry: {
+        app: path.join(__dirname, '/app/index.jsx'),
+        vendor: VENDOR_LIBS
+    },*/
     module: {
         preLoaders: [
           {
-            test: /\.jsx$/,
+            test: /\.jsx$|\.js$/,
             loaders: ['eslint'],
             exclude: /node_modules/
           }
         ],
         loaders: [
             {
-                test: /\.(jsx|es6)$/,
+                test: /\.(jsx|js)$/,
                 exclude: /node_modules/,
                 loaders: ['babel-loader?optional=runtime']
             }
@@ -32,7 +43,9 @@ module.exports = {
         emitError: true
     },
     resolve: {
-        extensions: ['', '.js', '.jsx', '.es6']
+        root: path.resolve('./app'),
+        extensions: ['', '.js', '.jsx'],
+        modulesDirectories: ['node_modules']
     },
     plugins: [
         new webpack.NoErrorsPlugin(),
