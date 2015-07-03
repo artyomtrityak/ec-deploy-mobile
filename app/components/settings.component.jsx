@@ -6,6 +6,8 @@ import React, {
   View
 } from 'react-native';
 
+import LoaderComponent from './loader.component';
+
 
 var styles = StyleSheet.create({
   tabContent: {
@@ -29,6 +31,8 @@ export default React.createClass({
       <View style={[styles.tabContent, {backgroundColor: '#FFF'}]}>
         <Text style={styles.tabText}>{'Settings'}</Text>
         <Text style={styles.tabText}>{'Details'}</Text>
+
+        <LoaderComponent loading={true} />
       </View>
     );
   }

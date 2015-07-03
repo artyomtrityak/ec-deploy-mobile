@@ -55,7 +55,7 @@
 
 	var _reactNative2 = _interopRequireDefault(_reactNative);
 
-	var _componentsNavigationComponent = __webpack_require__(77);
+	var _componentsNavigationComponent = __webpack_require__(52);
 
 	var _componentsNavigationComponent2 = _interopRequireDefault(_componentsNavigationComponent);
 
@@ -479,15 +479,10 @@
 /* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
+	/**
+	 * Electric Cloud Deploy Mobile App
+	 */
 	'use strict';
-
-	var _inherits = __webpack_require__(53)['default'];
-
-	var _get = __webpack_require__(58)['default'];
-
-	var _createClass = __webpack_require__(64)['default'];
-
-	var _classCallCheck = __webpack_require__(67)['default'];
 
 	var _interopRequireDefault = __webpack_require__(1)['default'];
 
@@ -495,19 +490,165 @@
 	  value: true
 	});
 
-	var _eventemitter2 = __webpack_require__(68);
+	var _reactNative = __webpack_require__(2);
+
+	var _reactNative2 = _interopRequireDefault(_reactNative);
+
+	var _storesAppStore = __webpack_require__(54);
+
+	var _storesAppStore2 = _interopRequireDefault(_storesAppStore);
+
+	var _dashboardComponent = __webpack_require__(53);
+
+	var _dashboardComponent2 = _interopRequireDefault(_dashboardComponent);
+
+	var _jobsComponent = __webpack_require__(78);
+
+	var _jobsComponent2 = _interopRequireDefault(_jobsComponent);
+
+	var _settingsComponent = __webpack_require__(79);
+
+	var _settingsComponent2 = _interopRequireDefault(_settingsComponent);
+
+	exports['default'] = _reactNative2['default'].createClass({
+	  displayName: 'navigation.component',
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      selectedTab: 'settings',
+	      notifCount: 0,
+	      presses: 0
+	    };
+	  },
+
+	  selectTab: function selectTab(tabName) {
+	    this.setState({
+	      selectedTab: tabName
+	    });
+	  },
+
+	  render: function render() {
+	    return _reactNative2['default'].createElement(
+	      _reactNative.TabBarIOS,
+	      {
+	        tintColor: 'white',
+	        barTintColor: 'black' },
+	      _reactNative2['default'].createElement(
+	        _reactNative.TabBarIOS.Item,
+	        {
+	          title: 'Dashboard',
+	          selected: this.state.selectedTab === 'dashboard',
+	          onPress: this.selectTab.bind(this, 'dashboard') },
+	        _reactNative2['default'].createElement(_dashboardComponent2['default'], null)
+	      ),
+	      _reactNative2['default'].createElement(
+	        _reactNative.TabBarIOS.Item,
+	        {
+	          title: 'Jobs',
+	          badge: this.state.notifCount > 0 ? this.state.notifCount : undefined,
+	          selected: this.state.selectedTab === 'jobs',
+	          onPress: this.selectTab.bind(this, 'jobs') },
+	        _reactNative2['default'].createElement(_jobsComponent2['default'], null)
+	      ),
+	      _reactNative2['default'].createElement(
+	        _reactNative.TabBarIOS.Item,
+	        {
+	          title: 'Settings',
+	          selected: this.state.selectedTab === 'settings',
+	          onPress: this.selectTab.bind(this, 'settings') },
+	        _reactNative2['default'].createElement(_settingsComponent2['default'], null)
+	      )
+	    );
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 53 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _reactNative2 = _interopRequireDefault(_reactNative);
+
+	var styles = _reactNative.StyleSheet.create({
+	  tabContent: {
+	    flex: 1,
+	    alignItems: 'center'
+	  },
+	  tabText: {
+	    color: 'black',
+	    margin: 50
+	  }
+	});
+
+	exports['default'] = _reactNative2['default'].createClass({
+	  displayName: 'dashboard.component',
+
+	  getInitialState: function getInitialState() {
+	    return {};
+	  },
+
+	  render: function render() {
+	    return _reactNative2['default'].createElement(
+	      _reactNative.View,
+	      { style: [styles.tabContent, { backgroundColor: '#FFF' }] },
+	      _reactNative2['default'].createElement(
+	        _reactNative.Text,
+	        { style: styles.tabText },
+	        'Dashboard'
+	      ),
+	      _reactNative2['default'].createElement(
+	        _reactNative.Text,
+	        { style: styles.tabText },
+	        'Details'
+	      )
+	    );
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 54 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _inherits = __webpack_require__(55)['default'];
+
+	var _get = __webpack_require__(60)['default'];
+
+	var _createClass = __webpack_require__(66)['default'];
+
+	var _classCallCheck = __webpack_require__(69)['default'];
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _eventemitter2 = __webpack_require__(70);
 
 	var _eventemitter22 = _interopRequireDefault(_eventemitter2);
 
-	var _immutable = __webpack_require__(69);
+	var _immutable = __webpack_require__(71);
 
 	var _immutable2 = _interopRequireDefault(_immutable);
 
-	var _dispatchersAppDispatcher = __webpack_require__(70);
+	var _dispatchersAppDispatcher = __webpack_require__(72);
 
 	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
 
-	var _constantsAppConstants = __webpack_require__(74);
+	var _constantsAppConstants = __webpack_require__(76);
 
 	// Private data and functions
 	var appState = _immutable2['default'].Map({ loading: true });
@@ -585,12 +726,12 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 53 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _Object$create = __webpack_require__(54)["default"];
+	var _Object$create = __webpack_require__(56)["default"];
 
 	exports["default"] = function (subClass, superClass) {
 	  if (typeof superClass !== "function" && superClass !== null) {
@@ -611,22 +752,22 @@
 	exports.__esModule = true;
 
 /***/ },
-/* 54 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(55), __esModule: true };
+	module.exports = { "default": __webpack_require__(57), __esModule: true };
 
 /***/ },
-/* 55 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(56);
+	var $ = __webpack_require__(58);
 	module.exports = function create(P, D){
 	  return $.create(P, D);
 	};
 
 /***/ },
-/* 56 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -678,7 +819,7 @@
 	  return it;
 	}
 
-	var $ = module.exports = __webpack_require__(57)({
+	var $ = module.exports = __webpack_require__(59)({
 	  g: global,
 	  core: core,
 	  html: global.document && document.documentElement,
@@ -727,7 +868,7 @@
 	if(typeof __g != 'undefined')__g = global;
 
 /***/ },
-/* 57 */
+/* 59 */
 /***/ function(module, exports) {
 
 	module.exports = function($){
@@ -737,12 +878,12 @@
 	};
 
 /***/ },
-/* 58 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _Object$getOwnPropertyDescriptor = __webpack_require__(59)["default"];
+	var _Object$getOwnPropertyDescriptor = __webpack_require__(61)["default"];
 
 	exports["default"] = function get(_x, _x2, _x3) {
 	  var _again = true;
@@ -786,27 +927,27 @@
 	exports.__esModule = true;
 
 /***/ },
-/* 59 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(60), __esModule: true };
+	module.exports = { "default": __webpack_require__(62), __esModule: true };
 
 /***/ },
-/* 60 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(56);
-	__webpack_require__(61);
+	var $ = __webpack_require__(58);
+	__webpack_require__(63);
 	module.exports = function getOwnPropertyDescriptor(it, key){
 	  return $.getDesc(it, key);
 	};
 
 /***/ },
-/* 61 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $        = __webpack_require__(56)
-	  , $def     = __webpack_require__(62)
+	var $        = __webpack_require__(58)
+	  , $def     = __webpack_require__(64)
 	  , isObject = $.isObject
 	  , toObject = $.toObject;
 	$.each.call(('freeze,seal,preventExtensions,isFrozen,isSealed,isExtensible,' +
@@ -833,7 +974,7 @@
 	    return fn(Object($.assertDefined(it)));
 	  } : ID == 8 ? function keys(it){
 	    return fn(toObject(it));
-	  } : __webpack_require__(63).get;
+	  } : __webpack_require__(65).get;
 	  try {
 	    fn('z');
 	  } catch(e){
@@ -843,10 +984,10 @@
 	});
 
 /***/ },
-/* 62 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $          = __webpack_require__(56)
+	var $          = __webpack_require__(58)
 	  , global     = $.g
 	  , core       = $.core
 	  , isFunction = $.isFunction;
@@ -896,11 +1037,11 @@
 	module.exports = $def;
 
 /***/ },
-/* 63 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
-	var $ = __webpack_require__(56)
+	var $ = __webpack_require__(58)
 	  , toString = {}.toString
 	  , getNames = $.getNames;
 
@@ -921,12 +1062,12 @@
 	};
 
 /***/ },
-/* 64 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _Object$defineProperty = __webpack_require__(65)["default"];
+	var _Object$defineProperty = __webpack_require__(67)["default"];
 
 	exports["default"] = (function () {
 	  function defineProperties(target, props) {
@@ -950,22 +1091,22 @@
 	exports.__esModule = true;
 
 /***/ },
-/* 65 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(66), __esModule: true };
+	module.exports = { "default": __webpack_require__(68), __esModule: true };
 
 /***/ },
-/* 66 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(56);
+	var $ = __webpack_require__(58);
 	module.exports = function defineProperty(it, key, desc){
 	  return $.setDesc(it, key, desc);
 	};
 
 /***/ },
-/* 67 */
+/* 69 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -979,7 +1120,7 @@
 	exports.__esModule = true;
 
 /***/ },
-/* 68 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -1558,7 +1699,7 @@
 
 
 /***/ },
-/* 69 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -6490,26 +6631,26 @@
 	}));
 
 /***/ },
-/* 70 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _inherits = __webpack_require__(53)['default'];
+	var _inherits = __webpack_require__(55)['default'];
 
-	var _get = __webpack_require__(58)['default'];
+	var _get = __webpack_require__(60)['default'];
 
-	var _createClass = __webpack_require__(64)['default'];
+	var _createClass = __webpack_require__(66)['default'];
 
-	var _classCallCheck = __webpack_require__(67)['default'];
+	var _classCallCheck = __webpack_require__(69)['default'];
 
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
 
-	var _flux = __webpack_require__(71);
+	var _flux = __webpack_require__(73);
 
-	var _constantsAppConstants = __webpack_require__(74);
+	var _constantsAppConstants = __webpack_require__(76);
 
 	var AppDispatcher = (function (_Dispatcher) {
 	  function AppDispatcher() {
@@ -6547,7 +6688,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 71 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -6559,11 +6700,11 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 
-	module.exports.Dispatcher = __webpack_require__(72)
+	module.exports.Dispatcher = __webpack_require__(74)
 
 
 /***/ },
-/* 72 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -6580,7 +6721,7 @@
 
 	"use strict";
 
-	var invariant = __webpack_require__(73);
+	var invariant = __webpack_require__(75);
 
 	var _lastID = 1;
 	var _prefix = 'ID_';
@@ -6819,14 +6960,14 @@
 
 
 /***/ },
-/* 73 */
+/* 75 */
 /***/ function(module, exports) {
 
 	
 
 
 /***/ },
-/* 74 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6837,7 +6978,7 @@
 	    value: true
 	});
 
-	var _keymirror = __webpack_require__(75);
+	var _keymirror = __webpack_require__(77);
 
 	var _keymirror2 = _interopRequireDefault(_keymirror);
 
@@ -6857,7 +6998,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 75 */
+/* 77 */
 /***/ function(module, exports) {
 
 	/**
@@ -6916,201 +7057,7 @@
 
 
 /***/ },
-/* 76 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _reactNative = __webpack_require__(2);
-
-	var _reactNative2 = _interopRequireDefault(_reactNative);
-
-	var styles = _reactNative.StyleSheet.create({
-	  tabContent: {
-	    flex: 1,
-	    alignItems: 'center'
-	  },
-	  tabText: {
-	    color: 'black',
-	    margin: 50
-	  }
-	});
-
-	exports['default'] = _reactNative2['default'].createClass({
-	  displayName: 'settings.component',
-
-	  getInitialState: function getInitialState() {
-	    return {};
-	  },
-
-	  render: function render() {
-	    return _reactNative2['default'].createElement(
-	      _reactNative.View,
-	      { style: [styles.tabContent, { backgroundColor: '#FFF' }] },
-	      _reactNative2['default'].createElement(
-	        _reactNative.Text,
-	        { style: styles.tabText },
-	        'Settings'
-	      ),
-	      _reactNative2['default'].createElement(
-	        _reactNative.Text,
-	        { style: styles.tabText },
-	        'Details'
-	      )
-	    );
-	  }
-	});
-	module.exports = exports['default'];
-
-/***/ },
-/* 77 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Electric Cloud Deploy Mobile App
-	 */
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _reactNative = __webpack_require__(2);
-
-	var _reactNative2 = _interopRequireDefault(_reactNative);
-
-	var _storesAppStore = __webpack_require__(52);
-
-	var _storesAppStore2 = _interopRequireDefault(_storesAppStore);
-
-	var _dashboardComponent = __webpack_require__(78);
-
-	var _dashboardComponent2 = _interopRequireDefault(_dashboardComponent);
-
-	var _jobsComponent = __webpack_require__(79);
-
-	var _jobsComponent2 = _interopRequireDefault(_jobsComponent);
-
-	var _settingsComponent = __webpack_require__(76);
-
-	var _settingsComponent2 = _interopRequireDefault(_settingsComponent);
-
-	exports['default'] = _reactNative2['default'].createClass({
-	  displayName: 'navigation.component',
-
-	  getInitialState: function getInitialState() {
-	    return {
-	      selectedTab: 'settings',
-	      notifCount: 0,
-	      presses: 0
-	    };
-	  },
-
-	  selectTab: function selectTab(tabName) {
-	    this.setState({
-	      selectedTab: tabName
-	    });
-	  },
-
-	  render: function render() {
-	    return _reactNative2['default'].createElement(
-	      _reactNative.TabBarIOS,
-	      {
-	        tintColor: 'white',
-	        barTintColor: 'black' },
-	      _reactNative2['default'].createElement(
-	        _reactNative.TabBarIOS.Item,
-	        {
-	          title: 'Dashboard',
-	          selected: this.state.selectedTab === 'dashboard',
-	          onPress: this.selectTab.bind(this, 'dashboard') },
-	        _reactNative2['default'].createElement(_dashboardComponent2['default'], null)
-	      ),
-	      _reactNative2['default'].createElement(
-	        _reactNative.TabBarIOS.Item,
-	        {
-	          title: 'Jobs',
-	          badge: this.state.notifCount > 0 ? this.state.notifCount : undefined,
-	          selected: this.state.selectedTab === 'jobs',
-	          onPress: this.selectTab.bind(this, 'jobs') },
-	        _reactNative2['default'].createElement(_jobsComponent2['default'], null)
-	      ),
-	      _reactNative2['default'].createElement(
-	        _reactNative.TabBarIOS.Item,
-	        {
-	          title: 'Settings',
-	          selected: this.state.selectedTab === 'settings',
-	          onPress: this.selectTab.bind(this, 'settings') },
-	        _reactNative2['default'].createElement(_settingsComponent2['default'], null)
-	      )
-	    );
-	  }
-	});
-	module.exports = exports['default'];
-
-/***/ },
 /* 78 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _reactNative = __webpack_require__(2);
-
-	var _reactNative2 = _interopRequireDefault(_reactNative);
-
-	var styles = _reactNative.StyleSheet.create({
-	  tabContent: {
-	    flex: 1,
-	    alignItems: 'center'
-	  },
-	  tabText: {
-	    color: 'black',
-	    margin: 50
-	  }
-	});
-
-	exports['default'] = _reactNative2['default'].createClass({
-	  displayName: 'dashboard.component',
-
-	  getInitialState: function getInitialState() {
-	    return {};
-	  },
-
-	  render: function render() {
-	    return _reactNative2['default'].createElement(
-	      _reactNative.View,
-	      { style: [styles.tabContent, { backgroundColor: '#FFF' }] },
-	      _reactNative2['default'].createElement(
-	        _reactNative.Text,
-	        { style: styles.tabText },
-	        'Dashboard'
-	      ),
-	      _reactNative2['default'].createElement(
-	        _reactNative.Text,
-	        { style: styles.tabText },
-	        'Details'
-	      )
-	    );
-	  }
-	});
-	module.exports = exports['default'];
-
-/***/ },
-/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7158,6 +7105,135 @@
 	        'Details'
 	      )
 	    );
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 79 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _reactNative2 = _interopRequireDefault(_reactNative);
+
+	var _loaderComponent = __webpack_require__(81);
+
+	var _loaderComponent2 = _interopRequireDefault(_loaderComponent);
+
+	var styles = _reactNative.StyleSheet.create({
+	  tabContent: {
+	    flex: 1,
+	    alignItems: 'center'
+	  },
+	  tabText: {
+	    color: 'black',
+	    margin: 50
+	  }
+	});
+
+	exports['default'] = _reactNative2['default'].createClass({
+	  displayName: 'settings.component',
+
+	  getInitialState: function getInitialState() {
+	    return {};
+	  },
+
+	  render: function render() {
+	    return _reactNative2['default'].createElement(
+	      _reactNative.View,
+	      { style: [styles.tabContent, { backgroundColor: '#FFF' }] },
+	      _reactNative2['default'].createElement(
+	        _reactNative.Text,
+	        { style: styles.tabText },
+	        'Settings'
+	      ),
+	      _reactNative2['default'].createElement(
+	        _reactNative.Text,
+	        { style: styles.tabText },
+	        'Details'
+	      ),
+	      _reactNative2['default'].createElement(_loaderComponent2['default'], { loading: true })
+	    );
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 80 */,
+/* 81 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _reactNative2 = _interopRequireDefault(_reactNative);
+
+	var _jssLoader = __webpack_require__(82);
+
+	var _jssLoader2 = _interopRequireDefault(_jssLoader);
+
+	exports['default'] = _reactNative2['default'].createClass({
+	  displayName: 'loader.component',
+
+	  propTypes: {
+	    loading: _reactNative2['default'].PropTypes.bool
+	  },
+
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      loading: false
+	    };
+	  },
+
+	  render: function render() {
+	    return _reactNative2['default'].createElement(_reactNative.ActivityIndicatorIOS, {
+	      animating: this.props.loading,
+	      style: [_jssLoader2['default'].centering, _jssLoader2['default'].gray, { height: 100 }],
+	      size: 'large'
+	    });
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 82 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	exports['default'] = _reactNative.StyleSheet.create({
+	  centering: {
+	    alignItems: 'center',
+	    justifyContent: 'center'
+	  },
+	  gray: {
+	    backgroundColor: '#cccccc'
+	  },
+	  horizontal: {
+	    flexDirection: 'row',
+	    justifyContent: 'space-around'
 	  }
 	});
 	module.exports = exports['default'];
