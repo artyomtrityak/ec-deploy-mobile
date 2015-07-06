@@ -19,30 +19,32 @@ var styles = StyleSheet.create({
 });
 
 export default React.createClass({
+  displayName: 'DashboardComponent',
+
   propTypes: {
-    navigator: React.PropTypes.array
+    navigator: React.PropTypes.object
   },
 
   statics: {
     title: 'Dashboard'
   },
 
-  getInitialState: function() {
+  getInitialState() {
     return {
     };
   },
   
-  _handleBackButtonPress: function() {
+  _handleBackButtonPress() {
     console.log('back');
     this.props.navigator.pop();
   },
 
-  _handleNextButtonPress: function(nextRoute) {
+  _handleNextButtonPress(nextRoute) {
     console.log('next');
     this.props.navigator.push(nextRoute);
   },
 
-  render: function() {
+  render() {
     return (
       <View style={[styles.tabContent, {backgroundColor: '#FFF'}]}>
         <Text style={styles.tabText}>{'Dashboard'}</Text>

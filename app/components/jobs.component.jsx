@@ -19,16 +19,18 @@ var styles = StyleSheet.create({
 });
 
 export default React.createClass({
+  displayName: 'JobsComponent',
+
   statics: {
     title: 'Jobs'
   },
 
-  getInitialState: function() {
+  getInitialState() {
     return {
     };
   },
 
-  render: function() {
+  render() {
     return (
       <View style={[styles.tabContent, {backgroundColor: '#FFF'}]}>
         <Text style={styles.tabText}>{'Jobs'}</Text>

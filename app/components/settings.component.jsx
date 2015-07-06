@@ -1,9 +1,5 @@
 'use strict';
 
-var Icon = require('react-native-vector-icons/FontAwesome');
-
-var ROCK = (<Icon name="rocket" size={30} color="#900" />);
-
 import React, {
   StyleSheet,
   Text,
@@ -11,8 +7,8 @@ import React, {
   View
 } from 'react-native';
 
-import LoaderComponent from './loader.component';
-
+import LoaderComponent from './utils/loader.component';
+import ButtonComponent from './utils/button.component';
 
 var styles = StyleSheet.create({
   tabContent: {
@@ -28,25 +24,34 @@ var styles = StyleSheet.create({
 });
 
 export default React.createClass({
+  displayName: 'SettingsComponent',
+
   propTypes: {
-    navigator: React.PropTypes.array
+    navigator: React.PropTypes.object
   },
 
   statics: {
     title: 'Settings'
   },
 
-  getInitialState: function() {
+  getInitialState() {
     return {
     };
   },
 
-  render: function() {
+  onConnect() {
+    console.log('connect1234');
+
+    this.props.navigator.push({
+      title: 'New title',
+      component: LoaderComponent
+    });
+  },
+
+  render() {
     return (
       <View style={[styles.tabContent, {backgroundColor: '#FFF'}]}>
         <View style={{margin: 80}}>
-          {ROCK}
-
           <Text style={{fontSize: 16, fontWeight: 'bold'}}>
             Server
           </Text>
@@ -78,6 +83,10 @@ export default React.createClass({
             secureTextEntry={true}
             placeholder={'Your Deploy password'}
           />
+        </View>
+
+        <View style={{}}>
+          <ButtonComponent onPress={this.onConnect} text={'Connect'} icon={'rocket'} />
         </View>
 
         <LoaderComponent loading={true} />

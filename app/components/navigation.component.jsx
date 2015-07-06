@@ -1,7 +1,5 @@
-/**
- * Electric Cloud Deploy Mobile App
- */
 'use strict';
+
 import React, {
   StyleSheet,
   Text,
@@ -9,6 +7,7 @@ import React, {
   TabBarIOS,
   NavigatorIOS
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import AppStore from 'stores/app.store';
 import DashboardComponent from './dashboard.component';
@@ -16,15 +15,10 @@ import JobsComponent from './jobs.component';
 import SettingsComponent from './settings.component';
 
 
-var Icon = require('react-native-vector-icons/FontAwesome');
-
-
 export default React.createClass({
-  statics: {
-    title: 'Navigator'
-  },
+  displayName: 'NavigationComponent',
 
-  getInitialState: function() {
+  getInitialState() {
     return {
       selectedTab: 'dashboard',
       notifCount: 0,
@@ -38,12 +32,13 @@ export default React.createClass({
     });
   },
 
-  render: function() {
+  render() {
     return (
       <TabBarIOS
         tintColor="white"
         barTintColor="black">
         <Icon.TabBarItem
+          badge={1}
           title="Dashboard"
           iconName="cloud"
           selectedIconName="cloud"

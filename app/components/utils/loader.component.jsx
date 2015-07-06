@@ -6,16 +6,14 @@ import React, {
   View
 } from 'react-native';
 
-import LoaderStyles from './jss/loader';
+import LoaderStyles from 'components/jss/loader';
 
 
 export default React.createClass({
+  displayName: 'LoaderComponent',
+
   propTypes: {
     loading: React.PropTypes.bool
-  },
-
-  statics: {
-    title: 'Loader'
   },
 
   getDefaultProps() {

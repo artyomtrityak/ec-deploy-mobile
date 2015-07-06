@@ -1,6 +1,7 @@
 'use strict';
 
 import { StyleSheet } from 'react-native';
+import Colors from './colors-scheme';
 
 export default StyleSheet.create({
   centering: {
@@ -8,7 +9,7 @@ export default StyleSheet.create({
     justifyContent: 'center'
   },
   gray: {
-    backgroundColor: '#cccccc'
+    backgroundColor: Colors.get('gray')
   },
   horizontal: {
     flexDirection: 'row',

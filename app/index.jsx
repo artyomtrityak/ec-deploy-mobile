@@ -1,7 +1,9 @@
+'use strict';
+
 /**
  * Electric Cloud Deploy Mobile App
  */
-'use strict';
+
 import React, { AppRegistry } from 'react-native';
 import NavigationComponent from './components/navigation.component';
 
