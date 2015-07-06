@@ -16,15 +16,17 @@ import JobsComponent from './jobs.component';
 import SettingsComponent from './settings.component';
 
 
-var Icon = require('react-native-vector-icons/Ionicons');
-
-
+var Icon = require('react-native-vector-icons/FontAwesome');
 
 
 export default React.createClass({
+  statics: {
+    title: 'Navigator'
+  },
+
   getInitialState: function() {
     return {
-      selectedTab: 'test',
+      selectedTab: 'dashboard',
       notifCount: 0,
       presses: 0
     };
@@ -41,47 +43,56 @@ export default React.createClass({
       <TabBarIOS
         tintColor="white"
         barTintColor="black">
-        <TabBarIOS.Item
+        <Icon.TabBarItem
           title="Dashboard"
+          iconName="cloud"
+          selectedIconName="cloud"
           selected={this.state.selectedTab === 'dashboard'}
           onPress={this.selectTab.bind(this, 'dashboard')}>
 
           <NavigatorIOS
+            style={{flex: 1}}
             initialRoute={{
               component: DashboardComponent,
-              title: 'My View Title',
-              passProps: { myProp: 'foo' }
+              title: 'Dashboard'
             }}
           />
 
-        </TabBarIOS.Item>
-        <TabBarIOS.Item
+        </Icon.TabBarItem>
+
+        <Icon.TabBarItem
           title="Jobs"
+          iconName="tasks"
+          selectedIconName="tasks"
           badge={this.state.notifCount > 0 ? this.state.notifCount : undefined}
           selected={this.state.selectedTab === 'jobs'}
           onPress={this.selectTab.bind(this, 'jobs')}>
 
-          <JobsComponent />
+          <NavigatorIOS
+            style={{flex: 1}}
+            initialRoute={{
+              component: JobsComponent,
+              title: 'Jobs'
+            }}
+          />
 
-        </TabBarIOS.Item>
-        <TabBarIOS.Item
-          title="Settings"
-          selected={this.state.selectedTab === 'settings'}
-          onPress={this.selectTab.bind(this, 'settings')}>
-
-          <SettingsComponent />
-
-        </TabBarIOS.Item>
+        </Icon.TabBarItem>
 
         <Icon.TabBarItem
-          title="Home"
-          iconName="ios-home-outline"
-          selectedIconName="ios-home"
-          selected={this.state.selectedTab === 'test'}
-          onPress={this.selectTab.bind(this, 'test')}
+          title="Settings"
+          iconName="gear"
+          selectedIconName="gear"
+          selected={this.state.selectedTab === 'settings'}
+          onPress={this.selectTab.bind(this, 'settings')}
           >
 
-          <JobsComponent />
+          <NavigatorIOS
+            style={{flex: 1}}
+            initialRoute={{
+              component: SettingsComponent,
+              title: 'Settings'
+            }}
+          />
 
         </Icon.TabBarItem>
 

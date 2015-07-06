@@ -14,6 +14,10 @@ export default React.createClass({
     loading: React.PropTypes.bool
   },
 
+  statics: {
+    title: 'Loader'
+  },
+
   getDefaultProps() {
     return {
       loading: false

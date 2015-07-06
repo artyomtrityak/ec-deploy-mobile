@@ -28,9 +28,12 @@ var styles = StyleSheet.create({
 });
 
 export default React.createClass({
+  propTypes: {
+    navigator: React.PropTypes.array
+  },
+
   statics: {
-    title: '<ListView> - Simple',
-    description: 'Performant, scrollable list of data.'
+    title: 'Settings'
   },
 
   getInitialState: function() {
@@ -41,7 +44,7 @@ export default React.createClass({
   render: function() {
     return (
       <View style={[styles.tabContent, {backgroundColor: '#FFF'}]}>
-        <View style={{margin: 50}}>
+        <View style={{margin: 80}}>
           {ROCK}
 
           <Text style={{fontSize: 16, fontWeight: 'bold'}}>

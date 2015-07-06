@@ -19,9 +19,27 @@ var styles = StyleSheet.create({
 });
 
 export default React.createClass({
+  propTypes: {
+    navigator: React.PropTypes.array
+  },
+
+  statics: {
+    title: 'Dashboard'
+  },
+
   getInitialState: function() {
     return {
     };
+  },
+  
+  _handleBackButtonPress: function() {
+    console.log('back');
+    this.props.navigator.pop();
+  },
+
+  _handleNextButtonPress: function(nextRoute) {
+    console.log('next');
+    this.props.navigator.push(nextRoute);
   },
 
   render: function() {

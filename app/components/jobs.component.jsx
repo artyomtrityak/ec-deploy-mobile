@@ -19,6 +19,10 @@ var styles = StyleSheet.create({
 });
 
 export default React.createClass({
+  statics: {
+    title: 'Jobs'
+  },
+
   getInitialState: function() {
     return {
     };
