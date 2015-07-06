@@ -16,10 +16,15 @@ import JobsComponent from './jobs.component';
 import SettingsComponent from './settings.component';
 
 
+var Icon = require('react-native-vector-icons/Ionicons');
+
+
+
+
 export default React.createClass({
   getInitialState: function() {
     return {
-      selectedTab: 'settings',
+      selectedTab: 'test',
       notifCount: 0,
       presses: 0
     };
@@ -41,7 +46,13 @@ export default React.createClass({
           selected={this.state.selectedTab === 'dashboard'}
           onPress={this.selectTab.bind(this, 'dashboard')}>
 
-          <DashboardComponent />
+          <NavigatorIOS
+            initialRoute={{
+              component: DashboardComponent,
+              title: 'My View Title',
+              passProps: { myProp: 'foo' }
+            }}
+          />
 
         </TabBarIOS.Item>
         <TabBarIOS.Item
@@ -61,6 +72,19 @@ export default React.createClass({
           <SettingsComponent />
 
         </TabBarIOS.Item>
+
+        <Icon.TabBarItem
+          title="Home"
+          iconName="ios-home-outline"
+          selectedIconName="ios-home"
+          selected={this.state.selectedTab === 'test'}
+          onPress={this.selectTab.bind(this, 'test')}
+          >
+
+          <JobsComponent />
+
+        </Icon.TabBarItem>
+
       </TabBarIOS>
     );
   }
