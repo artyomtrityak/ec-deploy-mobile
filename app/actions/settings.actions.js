@@ -1,8 +1,8 @@
 'use strict';
 
-import AppDispatcher from '../dispatchers/app.dispatcher';
-import UserWebUtils from '../webutils/user.webutils';
-import { ActionTypes } from '../constants/app.constants';
+import AppDispatcher from 'dispatchers/app.dispatcher';
+import UserWebUtils from 'webutils/user.webutils';
+import { ActionTypes } from 'constants/app.constants';
 
 
 export default {

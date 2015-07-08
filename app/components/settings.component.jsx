@@ -88,7 +88,7 @@ export default React.createClass({
         </View>
 
         <View style={{}}>
-          <ButtonComponent onPress={this.onConnect} text={'Connect'} icon={'rocket'} />
+          <ButtonComponent onPress={this.onConnect} text={'Connect'} icon={'user'} />
         </View>
 
         <LoaderComponent loading={true} />

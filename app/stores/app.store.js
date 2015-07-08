@@ -3,8 +3,8 @@
 import EventEmitter from 'eventemitter2';
 import Immutable from 'immutable';
 
-import AppDispatcher from '../dispatchers/app.dispatcher';
-import { ActionTypes } from '../constants/app.constants';
+import AppDispatcher from 'dispatchers/app.dispatcher';
+import { ActionTypes } from 'constants/app.constants';
 
 // Private data and functions
 var appState = Immutable.Map({loading: true});

@@ -27,13 +27,13 @@ export default React.createClass({
   },
 
   render() {
-    var icon = this.props.icon ? <Icon name={this.props.icon} size={30} color="#900" /> : null;
+    var icon = this.props.icon ? <Icon name={this.props.icon} size={20} color="white" /> : null;
     return (
-      <TouchableHighlight onPress={this.props.onPress} underlayColor='#F00'>
-        <View style={{}}>
+      <TouchableHighlight onPress={this.props.onPress} underlayColor='#00adee' style={{marginTop: 10}}>
+        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#567b99', width: 250, height: 30, borderRadius: 5}}>
           {icon}
 
-          <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+          <Text style={{fontSize: 16, fontWeight: 'bold', color: 'white'}}>
             {this.props.text}
           </Text>
         </View>

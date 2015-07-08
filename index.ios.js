@@ -21625,7 +21625,7 @@
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
 	        { style: {} },
-	        _reactNative2['default'].createElement(_utilsButtonComponent2['default'], { onPress: this.onConnect, text: 'Connect', icon: 'rocket' })
+	        _reactNative2['default'].createElement(_utilsButtonComponent2['default'], { onPress: this.onConnect, text: 'Connect', icon: 'user' })
 	      ),
 	      _reactNative2['default'].createElement(_utilsLoaderComponent2['default'], { loading: true })
 	    );
@@ -21770,17 +21770,17 @@
 	  },
 
 	  render: function render() {
-	    var icon = this.props.icon ? _reactNative2['default'].createElement(_reactNativeVectorIconsFontAwesome2['default'], { name: this.props.icon, size: 30, color: '#900' }) : null;
+	    var icon = this.props.icon ? _reactNative2['default'].createElement(_reactNativeVectorIconsFontAwesome2['default'], { name: this.props.icon, size: 20, color: 'white' }) : null;
 	    return _reactNative2['default'].createElement(
 	      _reactNative.TouchableHighlight,
-	      { onPress: this.props.onPress, underlayColor: '#F00' },
+	      { onPress: this.props.onPress, underlayColor: '#00adee', style: { marginTop: 10 } },
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
-	        { style: {} },
+	        { style: { flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#567b99', width: 250, height: 30, borderRadius: 5 } },
 	        icon,
 	        _reactNative2['default'].createElement(
 	          _reactNative.Text,
-	          { style: { fontSize: 16, fontWeight: 'bold' } },
+	          { style: { fontSize: 16, fontWeight: 'bold', color: 'white' } },
 	          this.props.text
 	        )
 	      )
