@@ -530,15 +530,15 @@
 
 	var _storesAppStore2 = _interopRequireDefault(_storesAppStore);
 
-	var _dashboardComponent = __webpack_require__(127);
+	var _dashboardComponent = __webpack_require__(126);
 
 	var _dashboardComponent2 = _interopRequireDefault(_dashboardComponent);
 
-	var _jobsComponent = __webpack_require__(128);
+	var _jobsComponent = __webpack_require__(127);
 
 	var _jobsComponent2 = _interopRequireDefault(_jobsComponent);
 
-	var _settingsComponent = __webpack_require__(129);
+	var _settingsComponent = __webpack_require__(128);
 
 	var _settingsComponent2 = _interopRequireDefault(_settingsComponent);
 
@@ -15178,7 +15178,7 @@
 
 	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
 
-	var _constantsAppConstants = __webpack_require__(125);
+	var _constantsAppConstants = __webpack_require__(124);
 
 	// Private data and functions
 	var appState = _immutable2['default'].Map({ loading: true });
@@ -20950,7 +20950,7 @@
 
 	var _flux = __webpack_require__(122);
 
-	var _constantsAppConstants = __webpack_require__(125);
+	var _constantsAppConstants = __webpack_require__(124);
 
 	var AppDispatcher = (function (_Dispatcher) {
 	  function AppDispatcher() {
@@ -21286,8 +21286,7 @@
 
 
 /***/ },
-/* 124 */,
-/* 125 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21298,7 +21297,7 @@
 	    value: true
 	});
 
-	var _keymirror = __webpack_require__(126);
+	var _keymirror = __webpack_require__(125);
 
 	var _keymirror2 = _interopRequireDefault(_keymirror);
 
@@ -21318,7 +21317,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 126 */
+/* 125 */
 /***/ function(module, exports) {
 
 	/**
@@ -21377,7 +21376,7 @@
 
 
 /***/ },
-/* 127 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21448,7 +21447,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 128 */
+/* 127 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21505,7 +21504,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 129 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21520,13 +21519,17 @@
 
 	var _reactNative2 = _interopRequireDefault(_reactNative);
 
-	var _utilsLoaderComponent = __webpack_require__(130);
+	var _utilsLoaderComponent = __webpack_require__(129);
 
 	var _utilsLoaderComponent2 = _interopRequireDefault(_utilsLoaderComponent);
 
-	var _utilsButtonComponent = __webpack_require__(133);
+	var _utilsButtonComponent = __webpack_require__(132);
 
 	var _utilsButtonComponent2 = _interopRequireDefault(_utilsButtonComponent);
+
+	var _actionsSettingsActions = __webpack_require__(133);
+
+	var _actionsSettingsActions2 = _interopRequireDefault(_actionsSettingsActions);
 
 	var styles = _reactNative.StyleSheet.create({
 	  tabContent: {
@@ -21557,7 +21560,8 @@
 	  },
 
 	  onConnect: function onConnect() {
-	    console.log('connect1234');
+	    console.log('connect1234555');
+	    _actionsSettingsActions2['default'].login('admin', 'changeme');
 
 	    this.props.navigator.push({
 	      title: 'New title',
@@ -21630,7 +21634,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 130 */
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21645,7 +21649,7 @@
 
 	var _reactNative2 = _interopRequireDefault(_reactNative);
 
-	var _componentsJssLoader = __webpack_require__(131);
+	var _componentsJssLoader = __webpack_require__(130);
 
 	var _componentsJssLoader2 = _interopRequireDefault(_componentsJssLoader);
 
@@ -21673,7 +21677,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 131 */
+/* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21686,7 +21690,7 @@
 
 	var _reactNative = __webpack_require__(2);
 
-	var _colorsScheme = __webpack_require__(132);
+	var _colorsScheme = __webpack_require__(131);
 
 	var _colorsScheme2 = _interopRequireDefault(_colorsScheme);
 
@@ -21706,7 +21710,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 132 */
+/* 131 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21727,7 +21731,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 133 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21746,7 +21750,7 @@
 
 	var _reactNativeVectorIconsFontAwesome2 = _interopRequireDefault(_reactNativeVectorIconsFontAwesome);
 
-	var _componentsJssLoader = __webpack_require__(131);
+	var _componentsJssLoader = __webpack_require__(130);
 
 	var _componentsJssLoader2 = _interopRequireDefault(_componentsJssLoader);
 
@@ -21783,6 +21787,136 @@
 	    );
 	  }
 	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 133 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _dispatchersAppDispatcher = __webpack_require__(121);
+
+	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
+
+	var _webutilsUserWebutils = __webpack_require__(134);
+
+	var _webutilsUserWebutils2 = _interopRequireDefault(_webutilsUserWebutils);
+
+	var _constantsAppConstants = __webpack_require__(124);
+
+	exports['default'] = {
+	  login: function login(_login, password) {
+	    _dispatchersAppDispatcher2['default'].handleViewAction({
+	      type: _constantsAppConstants.ActionTypes.LOGIN_PROCESSING
+	    });
+
+	    _webutilsUserWebutils2['default'].login(_login, password).then(function (data) {
+	      console.log('data:', data);
+	    })['catch'](function (err) {
+	      console.log('ERR:', err);
+	    });
+	  }
+	};
+	module.exports = exports['default'];
+
+/***/ },
+/* 134 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _commanderClient = __webpack_require__(135);
+
+	var _commanderClient2 = _interopRequireDefault(_commanderClient);
+
+	exports['default'] = {
+	  login: function login(userName, password) {
+	    return _commanderClient2['default'].fetch({
+	      operation: 'login',
+	      parameters: {
+	        userName: userName,
+	        password: password
+	      }
+	    }).then(function (response) {
+	      if (response.responses) {
+	        response = response.responses[0];
+	      } else {
+	        throw 'Invalid username or password';
+	      }
+	      _commanderClient2['default'].setSessionId(response.sessionId);
+
+	      return response;
+	    });
+	  }
+	};
+	module.exports = exports['default'];
+
+/***/ },
+/* 135 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	var requestId = 1;
+	var userSessionId = undefined;
+
+	exports['default'] = {
+	  setSessionId: function setSessionId(sessionId) {
+	    userSessionId = sessionId;
+	  },
+
+	  fetch: (function (_fetch) {
+	    function fetch(_x) {
+	      return _fetch.apply(this, arguments);
+	    }
+
+	    fetch.toString = function () {
+	      return _fetch.toString();
+	    };
+
+	    return fetch;
+	  })(function (data) {
+	    var requestBody = '';
+
+	    data.requestId = requestId;
+	    requestId += 1;
+
+	    if (userSessionId) {
+	      requestBody = 'COMMANDER_SESSION_ID=' + userSessionId + '\n';
+	    }
+	    requestBody += JSON.stringify([[data], {}]);
+
+	    return fetch('http://localhost:3001/api', {
+	      method: 'post',
+	      headers: {
+	        'Accept': 'application/json',
+	        'Content-Type': 'application/x-www-form-urlencoded'
+	      },
+	      body: requestBody
+	    }).then(function (rawResponse) {
+	      return rawResponse.json();
+	    }).then(function (response) {
+	      return response;
+	    });
+	  })
+
+	};
 	module.exports = exports['default'];
 
 /***/ }

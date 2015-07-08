@@ -9,6 +9,7 @@ import React, {
 
 import LoaderComponent from './utils/loader.component';
 import ButtonComponent from './utils/button.component';
+import SettingsActions from 'actions/settings.actions';
 
 var styles = StyleSheet.create({
   tabContent: {
@@ -40,7 +41,8 @@ export default React.createClass({
   },
 
   onConnect() {
-    console.log('connect1234');
+    console.log('connect1234555');
+    SettingsActions.login('admin', 'changeme');
 
     this.props.navigator.push({
       title: 'New title',
