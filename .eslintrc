@@ -34,7 +34,7 @@
     // vars
     "no-unused-vars": 0,
 
-    "no-use-before-define": 2,
+    "no-use-before-define": 0,
 
     // eslint-plugin-react
     "react/display-name": 0,

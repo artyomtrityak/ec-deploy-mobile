@@ -6,17 +6,23 @@ import { ActionTypes } from 'constants/app.constants';
 
 
 export default {
-  login(login, password) {
+  login(server, login, password) {
     AppDispatcher.handleViewAction({
       type: ActionTypes.LOGIN_PROCESSING
     });
 
-    UserWebUtils.login(login, password)
+    UserWebUtils.login(server, login, password)
     .then((data) => {
-      console.log('data:', data);
+      AppDispatcher.handleServerAction({
+        type: ActionTypes.LOGIN_DONE,
+        user: data
+      });
     })
-    .catch((err) => {
-      console.log('ERR:', err);
+    .catch((error) => {
+      AppDispatcher.handleServerAction({
+        type: ActionTypes.LOGIN_ERROR,
+        error: error
+      });
     });
   }
 };

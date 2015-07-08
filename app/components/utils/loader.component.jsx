@@ -26,7 +26,7 @@ export default React.createClass({
     return (
       <ActivityIndicatorIOS
         animating={this.props.loading}
-        style={[LoaderStyles.centering, LoaderStyles.gray, {height: 100}]}
+        style={[LoaderStyles.centering, {height: 130}]}
         size="large"
       />
     );

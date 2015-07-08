@@ -10,6 +10,7 @@ import React, {
 import LoaderComponent from './utils/loader.component';
 import ButtonComponent from './utils/button.component';
 import SettingsActions from 'actions/settings.actions';
+import SettingsStore from 'stores/settings.store';
 
 var styles = StyleSheet.create({
   tabContent: {
@@ -36,21 +37,38 @@ export default React.createClass({
   },
 
   getInitialState() {
-    return {
-    };
+    return SettingsStore.getState();
+  },
+
+  componentDidMount() {
+    SettingsStore.on('change', this.handleChange);
+  },
+
+  handleChange() {
+    console.log('handle change', SettingsStore.getState());
+    this.setState(SettingsStore.getState());
   },
 
   onConnect() {
-    console.log('connect1234555');
-    SettingsActions.login('admin', 'changeme');
+    SettingsActions.login('192.168.7.182', 'admin', 'changeme');
 
+    /*
     this.props.navigator.push({
       title: 'New title',
       component: LoaderComponent
     });
+    */
   },
 
   render() {
+    if (this.state.loading) {
+      return (
+        <View style={[styles.tabContent, {marginTop: 200}]}>
+          <LoaderComponent loading={true} />
+        </View>
+      );
+    }
+
     return (
       <View style={[styles.tabContent, {backgroundColor: '#FFF'}]}>
         <View style={{margin: 80}}>
@@ -90,8 +108,6 @@ export default React.createClass({
         <View style={{}}>
           <ButtonComponent onPress={this.onConnect} text={'Connect'} icon={'user'} />
         </View>
-
-        <LoaderComponent loading={true} />
       </View>
     );
   }
