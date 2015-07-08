@@ -9,9 +9,6 @@
     "start2": "react-native start",
     "webpack": "webpack --config webpack.config.js --colors --progress"
   },
-  "dependencies": {
-    "react-native-vector-icons": "^0.6.2"
-  },
   "devDependencies": {
     "anybar-webpack": "^1.0.8",
     "babel-core": "^5.4.7",
@@ -27,7 +24,8 @@
     "invariant": "^2.1.0",
     "keymirror": "^0.1.1",
     "node-libs-browser": "^0.5.2",
-    "react-native": "^0.6.0",
+    "react-native": "^0.7.0-rc.2",
+    "react-native-vector-icons": "^0.6.3",
     "webpack": "^1.9.10"
   }
 }

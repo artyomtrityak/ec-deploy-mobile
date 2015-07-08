@@ -18,8 +18,12 @@ module.exports = {
                 test: /\.(jsx|js)$/,
                 exclude: /node_modules/,
                 loaders: ['babel-loader?optional=runtime']
+            },
+            {
+                test: /create-icon-set\.js$/,
+                loaders: ['babel-loader?optional=runtime']
             }
-        ]
+        ],
     },
     output: {
         path: path.join(__dirname, '/'),
