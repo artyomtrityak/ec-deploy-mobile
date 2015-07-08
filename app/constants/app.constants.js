@@ -7,7 +7,8 @@ export default {
         APP_LOADED: null,
         LOGIN_PROCESSING: null,
         LOGIN_DONE: null,
-        LOGIN_ERROR: null
+        LOGIN_ERROR: null,
+        CREDENTIALS_CHANGE: null
     }),
 
     PayloadSources: keyMirror({

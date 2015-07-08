@@ -24,5 +24,13 @@ export default {
         error: error
       });
     });
+  },
+
+  credentialsChange(field, value) {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.CREDENTIALS_CHANGE,
+      field: field,
+      value: value
+    });
   }
 };

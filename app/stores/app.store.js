@@ -6,6 +6,7 @@ import Immutable from 'immutable';
 import AppDispatcher from 'dispatchers/app.dispatcher';
 import { ActionTypes } from 'constants/app.constants';
 
+
 // Private data and functions
 var appState = Immutable.Map({loading: true});
 
@@ -36,7 +37,6 @@ store.dispatchToken = AppDispatcher.register((payload) => {
   console.log(action);
 
   switch (action.type) {
-
     case ActionTypes.LOGIN_PROCESSING:
       _showLoading();
       store.emitChange();
@@ -44,19 +44,16 @@ store.dispatchToken = AppDispatcher.register((payload) => {
 
     case ActionTypes.LOGIN_ERROR:
       _hideLoading();
-
       store.emitChange();
       break;
 
     case ActionTypes.APP_LOADED:
       _hideLoading();
-
       store.emitChange();
       break;
 
     case ActionTypes.LOGIN_DONE:
       _hideLoading();
-
       store.emitChange();
       break;
   }

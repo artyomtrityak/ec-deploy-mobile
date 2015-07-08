@@ -6,6 +6,7 @@ import Immutable from 'immutable';
 import AppDispatcher from 'dispatchers/app.dispatcher';
 import { ActionTypes } from 'constants/app.constants';
 
+
 // Private data and functions
 var settingsState = Immutable.Map({loading: false});
 
@@ -19,6 +20,10 @@ function _hideLoading () {
 
 function _loginUser (user) {
   settingsState = settingsState.set('user', Immutable.fromJS(user));
+}
+
+function _changeCredential(field, value) {
+  settingsState = settingsState.set(field, value); 
 }
 
 // Store eventemitter
@@ -37,28 +42,28 @@ var store = new SettingsStore();
 store.dispatchToken = AppDispatcher.register((payload) => {
   var action = payload.action;
 
-  console.log(action);
-
   switch (action.type) {
-
     case ActionTypes.LOGIN_PROCESSING:
       _showLoading();
-      console.log('login processing');
       store.emitChange();
       break;
 
     case ActionTypes.LOGIN_ERROR:
       _hideLoading();
-
       store.emitChange();
       break;
 
     case ActionTypes.LOGIN_DONE:
       _loginUser(action.user);
       _hideLoading();
-
       store.emitChange();
       break;
+
+    case ActionTypes.CREDENTIALS_CHANGE:
+      _changeCredential(action.field, action.value);
+      store.emitChange();
+      break;
+      
   }
 });
 

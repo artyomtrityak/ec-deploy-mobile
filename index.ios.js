@@ -15226,7 +15226,6 @@
 	  console.log(action);
 
 	  switch (action.type) {
-
 	    case _constantsAppConstants.ActionTypes.LOGIN_PROCESSING:
 	      _showLoading();
 	      store.emitChange();
@@ -15234,19 +15233,16 @@
 
 	    case _constantsAppConstants.ActionTypes.LOGIN_ERROR:
 	      _hideLoading();
-
 	      store.emitChange();
 	      break;
 
 	    case _constantsAppConstants.ActionTypes.APP_LOADED:
 	      _hideLoading();
-
 	      store.emitChange();
 	      break;
 
 	    case _constantsAppConstants.ActionTypes.LOGIN_DONE:
 	      _hideLoading();
-
 	      store.emitChange();
 	      break;
 	  }
@@ -21306,7 +21302,8 @@
 	        APP_LOADED: null,
 	        LOGIN_PROCESSING: null,
 	        LOGIN_DONE: null,
-	        LOGIN_ERROR: null
+	        LOGIN_ERROR: null,
+	        CREDENTIALS_CHANGE: null
 	    }),
 
 	    PayloadSources: (0, _keymirror2['default'])({
@@ -21573,7 +21570,11 @@
 	  },
 
 	  onConnect: function onConnect() {
-	    _actionsSettingsActions2['default'].login('192.168.7.182', 'admin', 'changeme');
+	    if (!this.state.server || !this.state.userName || !this.state.password) {
+	      return;
+	    }
+	    //SettingsActions.login('192.168.7.182', 'admin', 'changeme');
+	    _actionsSettingsActions2['default'].login(this.state.server, this.state.userName, this.state.password);
 
 	    /*
 	    this.props.navigator.push({
@@ -21583,9 +21584,11 @@
 	    */
 	  },
 
-	  render: function render() {
-	    var _this = this;
+	  onChangeText: function onChangeText(field, value) {
+	    _actionsSettingsActions2['default'].credentialsChange(field, value);
+	  },
 
+	  render: function render() {
 	    if (this.state.loading) {
 	      return _reactNative2['default'].createElement(
 	        _reactNative.View,
@@ -21608,9 +21611,8 @@
 	        _reactNative2['default'].createElement(_reactNative.TextInput, {
 	          style: { height: 40, borderColor: 'gray', borderWidth: 1, width: 250 },
 	          placeholder: 'Deploy server address',
-	          onChangeText: function (text) {
-	            return _this.setState({ input: text });
-	          }
+	          onChangeText: this.onChangeText.bind(this, 'server'),
+	          value: this.state.server
 	        })
 	      ),
 	      _reactNative2['default'].createElement(
@@ -21624,9 +21626,8 @@
 	        _reactNative2['default'].createElement(_reactNative.TextInput, {
 	          style: { height: 40, borderColor: 'gray', borderWidth: 1, width: 250 },
 	          placeholder: 'Your Deploy username',
-	          onChangeText: function (text) {
-	            return _this.setState({ input: text });
-	          }
+	          onChangeText: this.onChangeText.bind(this, 'userName'),
+	          value: this.state.userName
 	        })
 	      ),
 	      _reactNative2['default'].createElement(
@@ -21641,7 +21642,9 @@
 	          style: { height: 40, borderColor: 'gray', borderWidth: 1, width: 250 },
 	          password: true,
 	          secureTextEntry: true,
-	          placeholder: 'Your Deploy password'
+	          placeholder: 'Your Deploy password',
+	          onChangeText: this.onChangeText.bind(this, 'password'),
+	          value: this.state.password
 	        })
 	      ),
 	      _reactNative2['default'].createElement(
@@ -21848,6 +21851,14 @@
 	        type: _constantsAppConstants.ActionTypes.LOGIN_ERROR,
 	        error: error
 	      });
+	    });
+	  },
+
+	  credentialsChange: function credentialsChange(field, value) {
+	    _dispatchersAppDispatcher2['default'].handleViewAction({
+	      type: _constantsAppConstants.ActionTypes.CREDENTIALS_CHANGE,
+	      field: field,
+	      value: value
 	    });
 	  }
 	};
@@ -26916,6 +26927,10 @@
 	  settingsState = settingsState.set('user', _immutable2['default'].fromJS(user));
 	}
 
+	function _changeCredential(field, value) {
+	  settingsState = settingsState.set(field, value);
+	}
+
 	// Store eventemitter
 
 	var SettingsStore = (function (_EventEmitter) {
@@ -26948,28 +26963,28 @@
 	store.dispatchToken = _dispatchersAppDispatcher2['default'].register(function (payload) {
 	  var action = payload.action;
 
-	  console.log(action);
-
 	  switch (action.type) {
-
 	    case _constantsAppConstants.ActionTypes.LOGIN_PROCESSING:
 	      _showLoading();
-	      console.log('login processing');
 	      store.emitChange();
 	      break;
 
 	    case _constantsAppConstants.ActionTypes.LOGIN_ERROR:
 	      _hideLoading();
-
 	      store.emitChange();
 	      break;
 
 	    case _constantsAppConstants.ActionTypes.LOGIN_DONE:
 	      _loginUser(action.user);
 	      _hideLoading();
-
 	      store.emitChange();
 	      break;
+
+	    case _constantsAppConstants.ActionTypes.CREDENTIALS_CHANGE:
+	      _changeCredential(action.field, action.value);
+	      store.emitChange();
+	      break;
+
 	  }
 	});
 

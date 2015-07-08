@@ -50,7 +50,13 @@ export default React.createClass({
   },
 
   onConnect() {
-    SettingsActions.login('192.168.7.182', 'admin', 'changeme');
+    if (!this.state.server || !this.state.userName || !this.state.password) {
+      return;
+    }
+    //SettingsActions.login('192.168.7.182', 'admin', 'changeme');
+    SettingsActions.login(
+      this.state.server, this.state.userName, this.state.password
+    );
 
     /*
     this.props.navigator.push({
@@ -58,6 +64,10 @@ export default React.createClass({
       component: LoaderComponent
     });
     */
+  },
+
+  onChangeText(field, value) {
+    SettingsActions.credentialsChange(field, value);
   },
 
   render() {
@@ -78,7 +88,8 @@ export default React.createClass({
           <TextInput
             style={{height: 40, borderColor: 'gray', borderWidth: 1, width: 250}}
             placeholder={'Deploy server address'}
-            onChangeText={(text) => this.setState({input: text})}
+            onChangeText={this.onChangeText.bind(this, 'server')}
+            value={this.state.server}
           />
         </View>
 
@@ -89,7 +100,8 @@ export default React.createClass({
           <TextInput
             style={{height: 40, borderColor: 'gray', borderWidth: 1, width: 250}}
             placeholder={'Your Deploy username'}
-            onChangeText={(text) => this.setState({input: text})}
+            onChangeText={this.onChangeText.bind(this, 'userName')}
+            value={this.state.userName}
           />
         </View>
 
@@ -102,6 +114,8 @@ export default React.createClass({
             password={true}
             secureTextEntry={true}
             placeholder={'Your Deploy password'}
+            onChangeText={this.onChangeText.bind(this, 'password')}
+            value={this.state.password}
           />
         </View>
 
