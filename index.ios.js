@@ -21964,6 +21964,7 @@
 	    }).then(function (rawResponse) {
 	      return rawResponse.json();
 	    }).then(function (response) {
+	      console.log('raw2:', response);
 	      onDone.resolve(parseResponse(response));
 	    })['catch'](function (error) {
 	      _reactNative.AlertIOS.alert('Server error', error);
@@ -21976,7 +21977,7 @@
 
 	function parseResponse(response) {
 	  if (!response.responses) {
-	    throw response;
+	    throw 'Unknown server error';
 	  }
 	  response = response.responses[0];
 	  if (response.error) {

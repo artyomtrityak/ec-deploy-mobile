@@ -41,6 +41,7 @@ export default {
       return rawResponse.json();
     })
     .then((response) => {
+      console.log('raw2:', response);
       onDone.resolve(
         parseResponse(response)
       );
@@ -56,7 +57,7 @@ export default {
 
 function parseResponse(response) {
   if (!response.responses) {
-    throw response;
+    throw 'Unknown server error';
   }
   response = response.responses[0];
   if (response.error) {
