@@ -44,6 +44,10 @@ export default React.createClass({
     SettingsStore.on('change', this.handleChange);
   },
 
+  componentWillUnmount() {
+    SettingsStore.off('change', this.handleChange);
+  },
+
   handleChange() {
     console.log('handle change', SettingsStore.getState());
     this.setState(SettingsStore.getState());

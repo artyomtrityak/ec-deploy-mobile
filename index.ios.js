@@ -538,7 +538,7 @@
 
 	var _jobsComponent2 = _interopRequireDefault(_jobsComponent);
 
-	var _settingsComponent = __webpack_require__(128);
+	var _settingsComponent = __webpack_require__(136);
 
 	var _settingsComponent2 = _interopRequireDefault(_settingsComponent);
 
@@ -21390,6 +21390,14 @@
 
 	var _reactNative2 = _interopRequireDefault(_reactNative);
 
+	var _storesSettingsStore = __webpack_require__(128);
+
+	var _storesSettingsStore2 = _interopRequireDefault(_storesSettingsStore);
+
+	var _utilsNotLoggedInComponent = __webpack_require__(135);
+
+	var _utilsNotLoggedInComponent2 = _interopRequireDefault(_utilsNotLoggedInComponent);
+
 	var styles = _reactNative.StyleSheet.create({
 	  tabContent: {
 	    flex: 1,
@@ -21413,7 +21421,24 @@
 	  },
 
 	  getInitialState: function getInitialState() {
-	    return {};
+	    return {
+	      settings: _storesSettingsStore2['default'].getState()
+	    };
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    _storesSettingsStore2['default'].on('change', this.handleChange);
+	    //JobsActions.getJobs();
+	  },
+
+	  componentWillUnmount: function componentWillUnmount() {
+	    _storesSettingsStore2['default'].off('change', this.handleChange);
+	  },
+
+	  handleChange: function handleChange() {
+	    this.setState({
+	      settings: _storesSettingsStore2['default'].getState()
+	    });
 	  },
 
 	  _handleBackButtonPress: function _handleBackButtonPress() {
@@ -21427,6 +21452,12 @@
 	  },
 
 	  render: function render() {
+	    console.log(this.state);
+
+	    if (!this.state.settings.user) {
+	      return _reactNative2['default'].createElement(_utilsNotLoggedInComponent2['default'], null);
+	    }
+
 	    return _reactNative2['default'].createElement(
 	      _reactNative.View,
 	      { style: [styles.tabContent, { backgroundColor: '#FFF' }] },
@@ -21461,13 +21492,23 @@
 
 	var _reactNative2 = _interopRequireDefault(_reactNative);
 
-	var _actionsJobsActions = __webpack_require__(139);
+	var _actionsJobsActions = __webpack_require__(129);
 
 	var _actionsJobsActions2 = _interopRequireDefault(_actionsJobsActions);
 
-	var _storesSettingsStore = __webpack_require__(138);
+	var _storesSettingsStore = __webpack_require__(128);
 
 	var _storesSettingsStore2 = _interopRequireDefault(_storesSettingsStore);
+
+	var _storesJobsStore = __webpack_require__(134);
+
+	var _storesJobsStore2 = _interopRequireDefault(_storesJobsStore);
+
+	var _utilsNotLoggedInComponent = __webpack_require__(135);
+
+	var _utilsNotLoggedInComponent2 = _interopRequireDefault(_utilsNotLoggedInComponent);
+
+	console.log(_utilsNotLoggedInComponent2['default']);
 
 	var styles = _reactNative.StyleSheet.create({
 	  tabContent: {
@@ -21488,16 +21529,37 @@
 	  },
 
 	  getInitialState: function getInitialState() {
-	    return {};
+	    return {
+	      jobs: _storesJobsStore2['default'].getState(),
+	      settings: _storesSettingsStore2['default'].getState()
+	    };
 	  },
 
 	  componentDidMount: function componentDidMount() {
-	    console.log('jobs mount');
+	    _storesSettingsStore2['default'].on('change', this.handleChange);
+	    _storesJobsStore2['default'].on('change', this.handleChange);
 	    //JobsActions.getJobs();
 	  },
 
+	  componentWillUnmount: function componentWillUnmount() {
+	    _storesSettingsStore2['default'].off('change', this.handleChange);
+	    _storesJobsStore2['default'].off('change', this.handleChange);
+	  },
+
+	  handleChange: function handleChange() {
+	    this.setState({
+	      jobs: _storesJobsStore2['default'].getState(),
+	      settings: _storesSettingsStore2['default'].getState()
+	    });
+	  },
+
 	  render: function render() {
-	    console.log(_actionsJobsActions2['default'].getJobs());
+	    console.log(this.state);
+
+	    if (!this.state.settings.user) {
+	      return _reactNative2['default'].createElement(_utilsNotLoggedInComponent2['default'], null);
+	    }
+
 	    return _reactNative2['default'].createElement(
 	      _reactNative.View,
 	      { style: [styles.tabContent, { backgroundColor: '#FFF' }] },
@@ -21522,157 +21584,111 @@
 
 	'use strict';
 
+	var _inherits = __webpack_require__(109)['default'];
+
+	var _get = __webpack_require__(112)['default'];
+
+	var _createClass = __webpack_require__(115)['default'];
+
+	var _classCallCheck = __webpack_require__(118)['default'];
+
 	var _interopRequireDefault = __webpack_require__(1)['default'];
 
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
 
-	var _reactNative = __webpack_require__(2);
+	var _eventemitter2 = __webpack_require__(119);
 
-	var _reactNative2 = _interopRequireDefault(_reactNative);
+	var _eventemitter22 = _interopRequireDefault(_eventemitter2);
 
-	var _utilsLoaderComponent = __webpack_require__(132);
+	var _immutable = __webpack_require__(120);
 
-	var _utilsLoaderComponent2 = _interopRequireDefault(_utilsLoaderComponent);
+	var _immutable2 = _interopRequireDefault(_immutable);
 
-	var _utilsButtonComponent = __webpack_require__(129);
+	var _dispatchersAppDispatcher = __webpack_require__(121);
 
-	var _utilsButtonComponent2 = _interopRequireDefault(_utilsButtonComponent);
+	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
 
-	var _actionsSettingsActions = __webpack_require__(133);
+	var _constantsAppConstants = __webpack_require__(124);
 
-	var _actionsSettingsActions2 = _interopRequireDefault(_actionsSettingsActions);
+	// Private data and functions
+	var settingsState = _immutable2['default'].Map({ loading: false });
 
-	var _storesSettingsStore = __webpack_require__(138);
+	function _showLoading() {
+	  settingsState = settingsState.set('loading', true);
+	}
 
-	var _storesSettingsStore2 = _interopRequireDefault(_storesSettingsStore);
+	function _hideLoading() {
+	  settingsState = settingsState.set('loading', false);
+	}
 
-	var styles = _reactNative.StyleSheet.create({
-	  tabContent: {
-	    flex: 1,
-	    alignItems: 'center',
-	    flexDirection: 'column',
-	    justifyContent: 'flex-start'
-	  },
-	  tabText: {
-	    color: 'black',
-	    margin: 50
+	function _loginUser(user) {
+	  settingsState = settingsState.set('user', _immutable2['default'].fromJS(user));
+	}
+
+	function _changeCredential(field, value) {
+	  settingsState = settingsState.set(field, value);
+	}
+
+	// Store eventemitter
+
+	var SettingsStore = (function (_EventEmitter) {
+	  function SettingsStore() {
+	    _classCallCheck(this, SettingsStore);
+
+	    _get(Object.getPrototypeOf(SettingsStore.prototype), 'constructor', this).apply(this, arguments);
 	  }
-	});
 
-	exports['default'] = _reactNative2['default'].createClass({
-	  displayName: 'SettingsComponent',
+	  _inherits(SettingsStore, _EventEmitter);
 
-	  propTypes: {
-	    navigator: _reactNative2['default'].PropTypes.object
-	  },
-
-	  statics: {
-	    title: 'Settings'
-	  },
-
-	  getInitialState: function getInitialState() {
-	    return _storesSettingsStore2['default'].getState();
-	  },
-
-	  componentDidMount: function componentDidMount() {
-	    _storesSettingsStore2['default'].on('change', this.handleChange);
-	  },
-
-	  handleChange: function handleChange() {
-	    console.log('handle change', _storesSettingsStore2['default'].getState());
-	    this.setState(_storesSettingsStore2['default'].getState());
-	  },
-
-	  onConnect: function onConnect() {
-	    //if (!this.state.server || !this.state.userName || !this.state.password) {
-	    //  return;
-	    //}
-	    _actionsSettingsActions2['default'].login('192.168.7.182', 'admin', 'changeme');
-	    /*SettingsActions.login(
-	      this.state.server, this.state.userName, this.state.password
-	    );*/
-
-	    /*
-	    this.props.navigator.push({
-	      title: 'New title',
-	      component: LoaderComponent
-	    });
-	    */
-	  },
-
-	  onChangeText: function onChangeText(field, value) {
-	    _actionsSettingsActions2['default'].credentialsChange(field, value);
-	  },
-
-	  render: function render() {
-	    if (this.state.loading) {
-	      return _reactNative2['default'].createElement(
-	        _reactNative.View,
-	        { style: [styles.tabContent, { marginTop: 200 }] },
-	        _reactNative2['default'].createElement(_utilsLoaderComponent2['default'], { loading: true })
-	      );
+	  _createClass(SettingsStore, [{
+	    key: 'getState',
+	    value: function getState() {
+	      return settingsState.toJS();
 	    }
+	  }, {
+	    key: 'emitChange',
+	    value: function emitChange() {
+	      this.emit('change');
+	    }
+	  }]);
 
-	    return _reactNative2['default'].createElement(
-	      _reactNative.View,
-	      { style: [styles.tabContent, { backgroundColor: '#FFF' }] },
-	      _reactNative2['default'].createElement(
-	        _reactNative.View,
-	        { style: { margin: 80 } },
-	        _reactNative2['default'].createElement(
-	          _reactNative.Text,
-	          { style: { fontSize: 16, fontWeight: 'bold' } },
-	          'Server'
-	        ),
-	        _reactNative2['default'].createElement(_reactNative.TextInput, {
-	          style: { height: 40, borderColor: 'gray', borderWidth: 1, width: 250 },
-	          placeholder: 'Deploy server address',
-	          onChangeText: this.onChangeText.bind(this, 'server'),
-	          value: this.state.server
-	        })
-	      ),
-	      _reactNative2['default'].createElement(
-	        _reactNative.View,
-	        { style: {} },
-	        _reactNative2['default'].createElement(
-	          _reactNative.Text,
-	          { style: { fontSize: 16, fontWeight: 'bold' } },
-	          'Login'
-	        ),
-	        _reactNative2['default'].createElement(_reactNative.TextInput, {
-	          style: { height: 40, borderColor: 'gray', borderWidth: 1, width: 250 },
-	          placeholder: 'Your Deploy username',
-	          onChangeText: this.onChangeText.bind(this, 'userName'),
-	          value: this.state.userName
-	        })
-	      ),
-	      _reactNative2['default'].createElement(
-	        _reactNative.View,
-	        { style: {} },
-	        _reactNative2['default'].createElement(
-	          _reactNative.Text,
-	          { style: { fontSize: 16, fontWeight: 'bold' } },
-	          'Password'
-	        ),
-	        _reactNative2['default'].createElement(_reactNative.TextInput, {
-	          style: { height: 40, borderColor: 'gray', borderWidth: 1, width: 250 },
-	          password: true,
-	          secureTextEntry: true,
-	          placeholder: 'Your Deploy password',
-	          onChangeText: this.onChangeText.bind(this, 'password'),
-	          value: this.state.password
-	        })
-	      ),
-	      _reactNative2['default'].createElement(
-	        _reactNative.View,
-	        { style: {} },
-	        _reactNative2['default'].createElement(_utilsButtonComponent2['default'], { onPress: this.onConnect, text: 'Connect', icon: 'user' })
-	      )
-	    );
+	  return SettingsStore;
+	})(_eventemitter22['default']);
+
+	var store = new SettingsStore();
+
+	// Dispatcher
+	store.dispatchToken = _dispatchersAppDispatcher2['default'].register(function (payload) {
+	  var action = payload.action;
+
+	  switch (action.type) {
+	    case _constantsAppConstants.ActionTypes.LOGIN_PROCESSING:
+	      _showLoading();
+	      store.emitChange();
+	      break;
+
+	    case _constantsAppConstants.ActionTypes.LOGIN_ERROR:
+	      _hideLoading();
+	      store.emitChange();
+	      break;
+
+	    case _constantsAppConstants.ActionTypes.LOGIN_DONE:
+	      _loginUser(action.user);
+	      _hideLoading();
+	      store.emitChange();
+	      break;
+
+	    case _constantsAppConstants.ActionTypes.CREDENTIALS_CHANGE:
+	      _changeCredential(action.field, action.value);
+	      store.emitChange();
+	      break;
+
 	  }
 	});
+
+	exports['default'] = store;
 	module.exports = exports['default'];
 
 /***/ },
@@ -21687,51 +21703,31 @@
 	  value: true
 	});
 
-	var _reactNative = __webpack_require__(2);
+	var _dispatchersAppDispatcher = __webpack_require__(121);
 
-	var _reactNative2 = _interopRequireDefault(_reactNative);
+	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
 
-	var _reactNativeVectorIconsFontAwesome = __webpack_require__(57);
+	var _webutilsJobsWebutils = __webpack_require__(130);
 
-	var _reactNativeVectorIconsFontAwesome2 = _interopRequireDefault(_reactNativeVectorIconsFontAwesome);
+	var _webutilsJobsWebutils2 = _interopRequireDefault(_webutilsJobsWebutils);
 
-	var _componentsJssLoader = __webpack_require__(130);
+	var _constantsAppConstants = __webpack_require__(124);
 
-	var _componentsJssLoader2 = _interopRequireDefault(_componentsJssLoader);
+	exports['default'] = {
+	  getJobs: function getJobs() {
+	    _dispatchersAppDispatcher2['default'].handleViewAction({
+	      type: _constantsAppConstants.ActionTypes.RETRIVING_JOBS
+	    });
 
-	exports['default'] = _reactNative2['default'].createClass({
-	  displayName: 'Button',
-
-	  propTypes: {
-	    onPress: _reactNative2['default'].PropTypes.func.required,
-	    text: _reactNative2['default'].PropTypes.string,
-	    icon: _reactNative2['default'].PropTypes.string
-	  },
-
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      loading: false
-	    };
-	  },
-
-	  render: function render() {
-	    var icon = this.props.icon ? _reactNative2['default'].createElement(_reactNativeVectorIconsFontAwesome2['default'], { name: this.props.icon, size: 20, color: 'white' }) : null;
-	    return _reactNative2['default'].createElement(
-	      _reactNative.TouchableHighlight,
-	      { onPress: this.props.onPress, underlayColor: '#00adee', style: { marginTop: 10 } },
-	      _reactNative2['default'].createElement(
-	        _reactNative.View,
-	        { style: { flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#567b99', width: 250, height: 30, borderRadius: 5 } },
-	        icon,
-	        _reactNative2['default'].createElement(
-	          _reactNative.Text,
-	          { style: { fontSize: 16, fontWeight: 'bold', color: 'white' } },
-	          this.props.text
-	        )
-	      )
-	    );
+	    _webutilsJobsWebutils2['default'].getJobs().then(function (data) {
+	      console.log('JOBS!', data);
+	      _dispatchersAppDispatcher2['default'].handleServerAction({
+	        type: _constantsAppConstants.ActionTypes.RETRIVED_JOBS,
+	        jobs: data
+	      });
+	    });
 	  }
-	});
+	};
 	module.exports = exports['default'];
 
 /***/ },
@@ -21746,25 +21742,19 @@
 	  value: true
 	});
 
-	var _reactNative = __webpack_require__(2);
+	var _commanderClient = __webpack_require__(131);
 
-	var _colorsScheme = __webpack_require__(131);
+	var _commanderClient2 = _interopRequireDefault(_commanderClient);
 
-	var _colorsScheme2 = _interopRequireDefault(_colorsScheme);
-
-	exports['default'] = _reactNative.StyleSheet.create({
-	  centering: {
-	    alignItems: 'center',
-	    justifyContent: 'center'
-	  },
-	  gray: {
-	    backgroundColor: _colorsScheme2['default'].get('gray')
-	  },
-	  horizontal: {
-	    flexDirection: 'row',
-	    justifyContent: 'space-around'
+	exports['default'] = {
+	  getJobs: function getJobs() {
+	    return _commanderClient2['default'].fetch({
+	      operation: 'getJobs'
+	    }).then(function (response) {
+	      return response;
+	    });
 	  }
-	});
+	};
 	module.exports = exports['default'];
 
 /***/ },
@@ -21779,156 +21769,7 @@
 	  value: true
 	});
 
-	var _immutable = __webpack_require__(120);
-
-	var _immutable2 = _interopRequireDefault(_immutable);
-
-	exports['default'] = _immutable2['default'].Map({
-	  gray: '#cccccc'
-	});
-	module.exports = exports['default'];
-
-/***/ },
-/* 132 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _reactNative = __webpack_require__(2);
-
-	var _reactNative2 = _interopRequireDefault(_reactNative);
-
-	var _componentsJssLoader = __webpack_require__(130);
-
-	var _componentsJssLoader2 = _interopRequireDefault(_componentsJssLoader);
-
-	exports['default'] = _reactNative2['default'].createClass({
-	  displayName: 'LoaderComponent',
-
-	  propTypes: {
-	    loading: _reactNative2['default'].PropTypes.bool
-	  },
-
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      loading: false
-	    };
-	  },
-
-	  render: function render() {
-	    return _reactNative2['default'].createElement(_reactNative.ActivityIndicatorIOS, {
-	      animating: this.props.loading,
-	      style: [_componentsJssLoader2['default'].centering, { height: 130 }],
-	      size: 'large'
-	    });
-	  }
-	});
-	module.exports = exports['default'];
-
-/***/ },
-/* 133 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _dispatchersAppDispatcher = __webpack_require__(121);
-
-	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
-
-	var _webutilsUserWebutils = __webpack_require__(134);
-
-	var _webutilsUserWebutils2 = _interopRequireDefault(_webutilsUserWebutils);
-
-	var _constantsAppConstants = __webpack_require__(124);
-
-	exports['default'] = {
-	  login: function login(server, _login, password) {
-	    _dispatchersAppDispatcher2['default'].handleViewAction({
-	      type: _constantsAppConstants.ActionTypes.LOGIN_PROCESSING
-	    });
-
-	    _webutilsUserWebutils2['default'].login(server, _login, password).then(function (data) {
-	      _dispatchersAppDispatcher2['default'].handleServerAction({
-	        type: _constantsAppConstants.ActionTypes.LOGIN_DONE,
-	        user: data
-	      });
-	    })['catch'](function (error) {
-	      _dispatchersAppDispatcher2['default'].handleServerAction({
-	        type: _constantsAppConstants.ActionTypes.LOGIN_ERROR,
-	        error: error
-	      });
-	    });
-	  },
-
-	  credentialsChange: function credentialsChange(field, value) {
-	    _dispatchersAppDispatcher2['default'].handleViewAction({
-	      type: _constantsAppConstants.ActionTypes.CREDENTIALS_CHANGE,
-	      field: field,
-	      value: value
-	    });
-	  }
-	};
-	module.exports = exports['default'];
-
-/***/ },
-/* 134 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _commanderClient = __webpack_require__(135);
-
-	var _commanderClient2 = _interopRequireDefault(_commanderClient);
-
-	exports['default'] = {
-	  login: function login(server, userName, password) {
-	    _commanderClient2['default'].setServer(server);
-
-	    return _commanderClient2['default'].fetch({
-	      operation: 'login',
-	      parameters: {
-	        userName: userName,
-	        password: password
-	      }
-	    }, false).then(function (response) {
-	      _commanderClient2['default'].setSessionId(response.sessionId);
-	      return response;
-	    });
-	  }
-	};
-	module.exports = exports['default'];
-
-/***/ },
-/* 135 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _bluebird = __webpack_require__(136);
+	var _bluebird = __webpack_require__(132);
 
 	var _bluebird2 = _interopRequireDefault(_bluebird);
 
@@ -21971,14 +21812,10 @@
 	      value: [[data], {}]
 	    };
 	    if (userSessionId && useSessionId) {
-
 	      requestBody.sessionId = 'COMMANDER_SESSION_ID=' + userSessionId;
-	      console.log('SET sessid', requestBody);
 	    }
 
 	    requestBody = JSON.stringify(requestBody);
-
-	    console.log(requestBody);
 
 	    fetch('http://localhost:3001/api', {
 	      method: 'post',
@@ -22017,7 +21854,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 136 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process, global, setImmediate) {/* @preserve
@@ -26824,10 +26661,10 @@
 
 	},{"./es5.js":14}]},{},[4])(4)
 	});                    ;if (typeof window !== 'undefined' && window !== null) {                               window.P = window.Promise;                                                     } else if (typeof self !== 'undefined' && self !== null) {                             self.P = self.Promise;                                                         }
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(60), (function() { return this; }()), __webpack_require__(137).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(60), (function() { return this; }()), __webpack_require__(133).setImmediate))
 
 /***/ },
-/* 137 */
+/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(60).nextTick;
@@ -26906,10 +26743,10 @@
 	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
 	  delete immediateIds[id];
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(137).setImmediate, __webpack_require__(137).clearImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(133).setImmediate, __webpack_require__(133).clearImmediate))
 
 /***/ },
-/* 138 */
+/* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26943,39 +26780,31 @@
 	var _constantsAppConstants = __webpack_require__(124);
 
 	// Private data and functions
-	var settingsState = _immutable2['default'].Map({ loading: false });
+	var jobsState = _immutable2['default'].Map({ loading: false });
 
 	function _showLoading() {
-	  settingsState = settingsState.set('loading', true);
+	  jobsState = jobsState.set('loading', true);
 	}
 
 	function _hideLoading() {
-	  settingsState = settingsState.set('loading', false);
-	}
-
-	function _loginUser(user) {
-	  settingsState = settingsState.set('user', _immutable2['default'].fromJS(user));
-	}
-
-	function _changeCredential(field, value) {
-	  settingsState = settingsState.set(field, value);
+	  jobsState = jobsState.set('loading', false);
 	}
 
 	// Store eventemitter
 
-	var SettingsStore = (function (_EventEmitter) {
-	  function SettingsStore() {
-	    _classCallCheck(this, SettingsStore);
+	var JobsStore = (function (_EventEmitter) {
+	  function JobsStore() {
+	    _classCallCheck(this, JobsStore);
 
-	    _get(Object.getPrototypeOf(SettingsStore.prototype), 'constructor', this).apply(this, arguments);
+	    _get(Object.getPrototypeOf(JobsStore.prototype), 'constructor', this).apply(this, arguments);
 	  }
 
-	  _inherits(SettingsStore, _EventEmitter);
+	  _inherits(JobsStore, _EventEmitter);
 
-	  _createClass(SettingsStore, [{
+	  _createClass(JobsStore, [{
 	    key: 'getState',
 	    value: function getState() {
-	      return settingsState.toJS();
+	      return jobsState.toJS();
 	    }
 	  }, {
 	    key: 'emitChange',
@@ -26984,41 +26813,312 @@
 	    }
 	  }]);
 
-	  return SettingsStore;
+	  return JobsStore;
 	})(_eventemitter22['default']);
 
-	var store = new SettingsStore();
+	var store = new JobsStore();
 
 	// Dispatcher
 	store.dispatchToken = _dispatchersAppDispatcher2['default'].register(function (payload) {
 	  var action = payload.action;
 
 	  switch (action.type) {
-	    case _constantsAppConstants.ActionTypes.LOGIN_PROCESSING:
-	      _showLoading();
-	      store.emitChange();
-	      break;
-
 	    case _constantsAppConstants.ActionTypes.LOGIN_ERROR:
 	      _hideLoading();
 	      store.emitChange();
 	      break;
-
-	    case _constantsAppConstants.ActionTypes.LOGIN_DONE:
-	      _loginUser(action.user);
-	      _hideLoading();
-	      store.emitChange();
-	      break;
-
-	    case _constantsAppConstants.ActionTypes.CREDENTIALS_CHANGE:
-	      _changeCredential(action.field, action.value);
-	      store.emitChange();
-	      break;
-
 	  }
 	});
 
 	exports['default'] = store;
+	module.exports = exports['default'];
+
+/***/ },
+/* 135 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _reactNative2 = _interopRequireDefault(_reactNative);
+
+	exports['default'] = _reactNative2['default'].createClass({
+	  displayName: 'NotLoggenInComponent',
+
+	  render: function render() {
+	    return _reactNative2['default'].createElement(
+	      _reactNative.View,
+	      { style: { flex: 1, justifyContent: 'center', alignItems: 'center' } },
+	      _reactNative2['default'].createElement(
+	        _reactNative.Text,
+	        null,
+	        'You should log in'
+	      )
+	    );
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 136 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _reactNative2 = _interopRequireDefault(_reactNative);
+
+	var _utilsLoaderComponent = __webpack_require__(140);
+
+	var _utilsLoaderComponent2 = _interopRequireDefault(_utilsLoaderComponent);
+
+	var _utilsButtonComponent = __webpack_require__(137);
+
+	var _utilsButtonComponent2 = _interopRequireDefault(_utilsButtonComponent);
+
+	var _actionsSettingsActions = __webpack_require__(141);
+
+	var _actionsSettingsActions2 = _interopRequireDefault(_actionsSettingsActions);
+
+	var _storesSettingsStore = __webpack_require__(128);
+
+	var _storesSettingsStore2 = _interopRequireDefault(_storesSettingsStore);
+
+	var styles = _reactNative.StyleSheet.create({
+	  tabContent: {
+	    flex: 1,
+	    alignItems: 'center',
+	    flexDirection: 'column',
+	    justifyContent: 'flex-start'
+	  },
+	  tabText: {
+	    color: 'black',
+	    margin: 50
+	  }
+	});
+
+	exports['default'] = _reactNative2['default'].createClass({
+	  displayName: 'SettingsComponent',
+
+	  propTypes: {
+	    navigator: _reactNative2['default'].PropTypes.object
+	  },
+
+	  statics: {
+	    title: 'Settings'
+	  },
+
+	  getInitialState: function getInitialState() {
+	    return _storesSettingsStore2['default'].getState();
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    _storesSettingsStore2['default'].on('change', this.handleChange);
+	  },
+
+	  componentWillUnmount: function componentWillUnmount() {
+	    _storesSettingsStore2['default'].off('change', this.handleChange);
+	  },
+
+	  handleChange: function handleChange() {
+	    console.log('handle change', _storesSettingsStore2['default'].getState());
+	    this.setState(_storesSettingsStore2['default'].getState());
+	  },
+
+	  onConnect: function onConnect() {
+	    //if (!this.state.server || !this.state.userName || !this.state.password) {
+	    //  return;
+	    //}
+	    _actionsSettingsActions2['default'].login('192.168.7.182', 'admin', 'changeme');
+	    /*SettingsActions.login(
+	      this.state.server, this.state.userName, this.state.password
+	    );*/
+
+	    /*
+	    this.props.navigator.push({
+	      title: 'New title',
+	      component: LoaderComponent
+	    });
+	    */
+	  },
+
+	  onChangeText: function onChangeText(field, value) {
+	    _actionsSettingsActions2['default'].credentialsChange(field, value);
+	  },
+
+	  render: function render() {
+	    if (this.state.loading) {
+	      return _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: [styles.tabContent, { marginTop: 200 }] },
+	        _reactNative2['default'].createElement(_utilsLoaderComponent2['default'], { loading: true })
+	      );
+	    }
+
+	    return _reactNative2['default'].createElement(
+	      _reactNative.View,
+	      { style: [styles.tabContent, { backgroundColor: '#FFF' }] },
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: { margin: 80 } },
+	        _reactNative2['default'].createElement(
+	          _reactNative.Text,
+	          { style: { fontSize: 16, fontWeight: 'bold' } },
+	          'Server'
+	        ),
+	        _reactNative2['default'].createElement(_reactNative.TextInput, {
+	          style: { height: 40, borderColor: 'gray', borderWidth: 1, width: 250 },
+	          placeholder: 'Deploy server address',
+	          onChangeText: this.onChangeText.bind(this, 'server'),
+	          value: this.state.server
+	        })
+	      ),
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: {} },
+	        _reactNative2['default'].createElement(
+	          _reactNative.Text,
+	          { style: { fontSize: 16, fontWeight: 'bold' } },
+	          'Login'
+	        ),
+	        _reactNative2['default'].createElement(_reactNative.TextInput, {
+	          style: { height: 40, borderColor: 'gray', borderWidth: 1, width: 250 },
+	          placeholder: 'Your Deploy username',
+	          onChangeText: this.onChangeText.bind(this, 'userName'),
+	          value: this.state.userName
+	        })
+	      ),
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: {} },
+	        _reactNative2['default'].createElement(
+	          _reactNative.Text,
+	          { style: { fontSize: 16, fontWeight: 'bold' } },
+	          'Password'
+	        ),
+	        _reactNative2['default'].createElement(_reactNative.TextInput, {
+	          style: { height: 40, borderColor: 'gray', borderWidth: 1, width: 250 },
+	          password: true,
+	          secureTextEntry: true,
+	          placeholder: 'Your Deploy password',
+	          onChangeText: this.onChangeText.bind(this, 'password'),
+	          value: this.state.password
+	        })
+	      ),
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: {} },
+	        _reactNative2['default'].createElement(_utilsButtonComponent2['default'], { onPress: this.onConnect, text: 'Connect', icon: 'user' })
+	      )
+	    );
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 137 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _reactNative2 = _interopRequireDefault(_reactNative);
+
+	var _reactNativeVectorIconsFontAwesome = __webpack_require__(57);
+
+	var _reactNativeVectorIconsFontAwesome2 = _interopRequireDefault(_reactNativeVectorIconsFontAwesome);
+
+	var _componentsJssLoader = __webpack_require__(138);
+
+	var _componentsJssLoader2 = _interopRequireDefault(_componentsJssLoader);
+
+	exports['default'] = _reactNative2['default'].createClass({
+	  displayName: 'Button',
+
+	  propTypes: {
+	    onPress: _reactNative2['default'].PropTypes.func.required,
+	    text: _reactNative2['default'].PropTypes.string,
+	    icon: _reactNative2['default'].PropTypes.string
+	  },
+
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      loading: false
+	    };
+	  },
+
+	  render: function render() {
+	    var icon = this.props.icon ? _reactNative2['default'].createElement(_reactNativeVectorIconsFontAwesome2['default'], { name: this.props.icon, size: 20, color: 'white' }) : null;
+	    return _reactNative2['default'].createElement(
+	      _reactNative.TouchableHighlight,
+	      { onPress: this.props.onPress, underlayColor: '#00adee', style: { marginTop: 10 } },
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: { flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#567b99', width: 250, height: 30, borderRadius: 5 } },
+	        icon,
+	        _reactNative2['default'].createElement(
+	          _reactNative.Text,
+	          { style: { fontSize: 16, fontWeight: 'bold', color: 'white' } },
+	          this.props.text
+	        )
+	      )
+	    );
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 138 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _colorsScheme = __webpack_require__(139);
+
+	var _colorsScheme2 = _interopRequireDefault(_colorsScheme);
+
+	exports['default'] = _reactNative.StyleSheet.create({
+	  centering: {
+	    alignItems: 'center',
+	    justifyContent: 'center'
+	  },
+	  gray: {
+	    backgroundColor: _colorsScheme2['default'].get('gray')
+	  },
+	  horizontal: {
+	    flexDirection: 'row',
+	    justifyContent: 'space-around'
+	  }
+	});
 	module.exports = exports['default'];
 
 /***/ },
@@ -27033,31 +27133,13 @@
 	  value: true
 	});
 
-	var _dispatchersAppDispatcher = __webpack_require__(121);
+	var _immutable = __webpack_require__(120);
 
-	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
+	var _immutable2 = _interopRequireDefault(_immutable);
 
-	var _webutilsJobsWebutils = __webpack_require__(140);
-
-	var _webutilsJobsWebutils2 = _interopRequireDefault(_webutilsJobsWebutils);
-
-	var _constantsAppConstants = __webpack_require__(124);
-
-	exports['default'] = {
-	  getJobs: function getJobs() {
-	    _dispatchersAppDispatcher2['default'].handleViewAction({
-	      type: _constantsAppConstants.ActionTypes.RETRIVING_JOBS
-	    });
-
-	    _webutilsJobsWebutils2['default'].getJobs().then(function (data) {
-	      console.log('JOBS!', data);
-	      _dispatchersAppDispatcher2['default'].handleServerAction({
-	        type: _constantsAppConstants.ActionTypes.RETRIVED_JOBS,
-	        jobs: data
-	      });
-	    });
-	  }
-	};
+	exports['default'] = _immutable2['default'].Map({
+	  gray: '#cccccc'
+	});
 	module.exports = exports['default'];
 
 /***/ },
@@ -27072,15 +27154,116 @@
 	  value: true
 	});
 
-	var _commanderClient = __webpack_require__(135);
+	var _reactNative = __webpack_require__(2);
+
+	var _reactNative2 = _interopRequireDefault(_reactNative);
+
+	var _componentsJssLoader = __webpack_require__(138);
+
+	var _componentsJssLoader2 = _interopRequireDefault(_componentsJssLoader);
+
+	exports['default'] = _reactNative2['default'].createClass({
+	  displayName: 'LoaderComponent',
+
+	  propTypes: {
+	    loading: _reactNative2['default'].PropTypes.bool
+	  },
+
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      loading: false
+	    };
+	  },
+
+	  render: function render() {
+	    return _reactNative2['default'].createElement(_reactNative.ActivityIndicatorIOS, {
+	      animating: this.props.loading,
+	      style: [_componentsJssLoader2['default'].centering, { height: 130 }],
+	      size: 'large'
+	    });
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 141 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _dispatchersAppDispatcher = __webpack_require__(121);
+
+	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
+
+	var _webutilsUserWebutils = __webpack_require__(142);
+
+	var _webutilsUserWebutils2 = _interopRequireDefault(_webutilsUserWebutils);
+
+	var _constantsAppConstants = __webpack_require__(124);
+
+	exports['default'] = {
+	  login: function login(server, _login, password) {
+	    _dispatchersAppDispatcher2['default'].handleViewAction({
+	      type: _constantsAppConstants.ActionTypes.LOGIN_PROCESSING
+	    });
+
+	    _webutilsUserWebutils2['default'].login(server, _login, password).then(function (data) {
+	      _dispatchersAppDispatcher2['default'].handleServerAction({
+	        type: _constantsAppConstants.ActionTypes.LOGIN_DONE,
+	        user: data
+	      });
+	    })['catch'](function (error) {
+	      _dispatchersAppDispatcher2['default'].handleServerAction({
+	        type: _constantsAppConstants.ActionTypes.LOGIN_ERROR,
+	        error: error
+	      });
+	    });
+	  },
+
+	  credentialsChange: function credentialsChange(field, value) {
+	    _dispatchersAppDispatcher2['default'].handleViewAction({
+	      type: _constantsAppConstants.ActionTypes.CREDENTIALS_CHANGE,
+	      field: field,
+	      value: value
+	    });
+	  }
+	};
+	module.exports = exports['default'];
+
+/***/ },
+/* 142 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _commanderClient = __webpack_require__(131);
 
 	var _commanderClient2 = _interopRequireDefault(_commanderClient);
 
 	exports['default'] = {
-	  getJobs: function getJobs() {
+	  login: function login(server, userName, password) {
+	    _commanderClient2['default'].setServer(server);
+
 	    return _commanderClient2['default'].fetch({
-	      operation: 'getJobs'
-	    }).then(function (response) {
+	      operation: 'login',
+	      parameters: {
+	        userName: userName,
+	        password: password
+	      }
+	    }, false).then(function (response) {
+	      _commanderClient2['default'].setSessionId(response.sessionId);
 	      return response;
 	    });
 	  }

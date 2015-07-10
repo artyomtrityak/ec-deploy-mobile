@@ -6,6 +6,9 @@ import React, {
   View
 } from 'react-native';
 
+import SettingsStore from 'stores/settings.store';
+import NotLoggenInComponent from './utils/not-logged-in.component';
+
 
 var styles = StyleSheet.create({
   tabContent: {
@@ -31,7 +34,23 @@ export default React.createClass({
 
   getInitialState() {
     return {
+      settings: SettingsStore.getState()
     };
+  },
+
+  componentDidMount() {
+    SettingsStore.on('change', this.handleChange);
+    //JobsActions.getJobs();
+  },
+
+  componentWillUnmount() {
+    SettingsStore.off('change', this.handleChange);
+  },
+
+  handleChange() {
+    this.setState({
+      settings: SettingsStore.getState()
+    });
   },
   
   _handleBackButtonPress() {
@@ -45,6 +64,12 @@ export default React.createClass({
   },
 
   render() {
+    console.log(this.state);
+
+    if (!this.state.settings.user) {
+      return (<NotLoggenInComponent />);  
+    }
+    
     return (
       <View style={[styles.tabContent, {backgroundColor: '#FFF'}]}>
         <Text style={styles.tabText}>{'Dashboard'}</Text>

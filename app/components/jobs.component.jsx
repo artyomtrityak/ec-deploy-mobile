@@ -8,6 +8,10 @@ import React, {
 
 import JobsActions from 'actions/jobs.actions';
 import SettingsStore from 'stores/settings.store';
+import JobsStore from 'stores/jobs.store';
+import NotLoggenInComponent from './utils/not-logged-in.component';
+
+console.log(NotLoggenInComponent);
 
 
 var styles = StyleSheet.create({
@@ -30,16 +34,36 @@ export default React.createClass({
 
   getInitialState() {
     return {
+      jobs: JobsStore.getState(),
+      settings: SettingsStore.getState()
     };
   },
 
   componentDidMount() {
-    console.log('jobs mount');
+    SettingsStore.on('change', this.handleChange);
+    JobsStore.on('change', this.handleChange);
     //JobsActions.getJobs();
   },
 
+  componentWillUnmount() {
+    SettingsStore.off('change', this.handleChange);
+    JobsStore.off('change', this.handleChange);
+  },
+
+  handleChange() {
+    this.setState({
+      jobs: JobsStore.getState(),
+      settings: SettingsStore.getState()
+    });
+  },
+
   render() {
-    console.log(JobsActions.getJobs());
+    console.log(this.state);
+
+    if (!this.state.settings.user) {
+      return (<NotLoggenInComponent />);  
+    }
+
     return (
       <View style={[styles.tabContent, {backgroundColor: '#FFF'}]}>
         <Text style={styles.tabText}>{'Jobs'}</Text>

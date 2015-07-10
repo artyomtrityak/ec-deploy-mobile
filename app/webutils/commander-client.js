@@ -28,14 +28,10 @@ export default {
       value: [[data], {}]
     };
     if (userSessionId && useSessionId) {
-
       requestBody.sessionId = 'COMMANDER_SESSION_ID=' + userSessionId;
-      console.log('SET sessid', requestBody);
     }
 
     requestBody = JSON.stringify(requestBody);
-
-    console.log(requestBody);
 
     fetch('http://localhost:3001/api', {
       method: 'post',
