@@ -9,7 +9,7 @@ export default {
       operation: 'getJobs'
     })
     .then((response) => {
-      return response;
+      return response.job;
     });
   }
 };

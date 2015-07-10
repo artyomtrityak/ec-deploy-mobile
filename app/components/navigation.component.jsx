@@ -42,7 +42,10 @@ export default React.createClass({
           iconName="cloud"
           selectedIconName="cloud"
           selected={this.state.selectedTab === 'dashboard'}
-          onPress={this.selectTab.bind(this, 'dashboard')}>
+          onPress={() => {
+            this.selectTab('dashboard');
+            DashboardComponent.refresh(true);
+          }}>
 
           <NavigatorIOS
             style={{flex: 1}}
@@ -62,7 +65,10 @@ export default React.createClass({
           selectedIconName="tasks"
           badge={this.state.notifCount > 0 ? this.state.notifCount : undefined}
           selected={this.state.selectedTab === 'jobs'}
-          onPress={this.selectTab.bind(this, 'jobs')}>
+          onPress={() => {
+            this.selectTab('jobs');
+            JobsComponent.refresh(true);
+          }}>
 
           <NavigatorIOS
             style={{flex: 1}}

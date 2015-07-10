@@ -18,6 +18,10 @@ function _hideLoading () {
   jobsState = jobsState.set('loading', false);
 }
 
+function _setJobs (jobs) {
+  jobsState = jobsState.set('jobs', jobs); 
+}
+
 // Store eventemitter
 class JobsStore extends EventEmitter {
   getState() {
@@ -35,7 +39,18 @@ store.dispatchToken = AppDispatcher.register((payload) => {
   var action = payload.action;
 
   switch (action.type) {
-    case ActionTypes.LOGIN_ERROR:
+    case ActionTypes.RETRIVING_JOBS:
+      _showLoading();
+      store.emitChange();
+      break;
+
+    case ActionTypes.RETRIVED_JOBS:
+      _hideLoading();
+      _setJobs(action.jobs);
+      store.emitChange();
+      break;
+
+    case ActionTypes.SERVER_ERROR:
       _hideLoading();
       store.emitChange();
       break;

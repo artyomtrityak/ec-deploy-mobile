@@ -2,6 +2,8 @@
 
 import Promise from 'bluebird';
 import { AlertIOS } from 'react-native';
+import AppDispatcher from 'dispatchers/app.dispatcher';
+import { ActionTypes } from 'constants/app.constants';
 
 var userSessionId,
     serverAddr,
@@ -23,7 +25,6 @@ export default {
     data.requestId = requestId;
     requestId += 1;
 
-    console.log(userSessionId, useSessionId);
     requestBody = {
       value: [[data], {}]
     };
@@ -46,17 +47,9 @@ export default {
       return rawResponse.json();
     })
     .then((response) => {
-      onDone.resolve(
-        parseResponse(response)
-      );
+      onDone.resolve(parseResponse(response));
     })
-    .catch((error) => {
-      if (typeof error !== 'string') {
-        error = 'Unknown error';
-      }
-      AlertIOS.alert('Server error', error);
-      onDone.reject(error);
-    });
+    .catch(handleServerError.bind(null, onDone));
 
     return onDone.promise;
   }
@@ -71,4 +64,16 @@ function parseResponse(response) {
     throw response.error.message;
   }
   return response;
+}
+
+function handleServerError (onDone, error) {
+  if (typeof error !== 'string') {
+    error = 'Unknown error';
+  }
+  AlertIOS.alert('Server error', error);
+  AppDispatcher.handleServerAction({
+    type: ActionTypes.SERVER_ERROR,
+    error: error
+  });
+  onDone.reject(error);
 }

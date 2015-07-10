@@ -21,11 +21,11 @@ var styles = StyleSheet.create({
   }
 });
 
-function Refresh () {
-  console.log('REFRESH');
+function Refresh (smartLoad=false) {
   if (!SettingsStore.getState().user) {
     return;
   }
+
 }
 
 export default React.createClass({

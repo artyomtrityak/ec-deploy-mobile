@@ -10,6 +10,7 @@ import JobsActions from 'actions/jobs.actions';
 import SettingsStore from 'stores/settings.store';
 import JobsStore from 'stores/jobs.store';
 import NotLoggenInComponent from './utils/not-logged-in.component';
+import LoaderComponent from './utils/loader.component';
 
 
 var styles = StyleSheet.create({
@@ -23,10 +24,14 @@ var styles = StyleSheet.create({
   }
 });
 
-function Refresh () {
+function Refresh (smartLoad=false) {
   if (!SettingsStore.getState().user) {
     return;
   }
+  if (smartLoad === true && JobsStore.getState().jobs) {
+    return;
+  }
+  JobsActions.getJobs();
 }
 
 export default React.createClass({
@@ -47,7 +52,6 @@ export default React.createClass({
   componentDidMount() {
     SettingsStore.on('change', this.handleChange);
     JobsStore.on('change', this.handleChange);
-    //JobsActions.getJobs();
   },
 
   componentWillUnmount() {
@@ -63,7 +67,13 @@ export default React.createClass({
   },
 
   render() {
-    console.log(this.state);
+    if (this.state.jobs.loading) {
+      return (
+        <View style={[styles.tabContent, {marginTop: 200}]}>
+          <LoaderComponent loading={true} />
+        </View>
+      );
+    }
 
     if (!this.state.settings.user) {
       return (<NotLoggenInComponent />);  

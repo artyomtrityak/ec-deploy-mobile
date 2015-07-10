@@ -10,7 +10,8 @@ export default {
         LOGIN_ERROR: null,
         CREDENTIALS_CHANGE: null,
         RETRIVING_JOBS: null,
-        RETRIVED_JOBS: null
+        RETRIVED_JOBS: null,
+        SERVER_ERROR: null
     }),
 
     PayloadSources: keyMirror({

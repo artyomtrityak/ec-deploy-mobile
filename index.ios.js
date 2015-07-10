@@ -560,6 +560,8 @@
 	  },
 
 	  render: function render() {
+	    var _this = this;
+
 	    return _reactNative2['default'].createElement(
 	      _reactNative.TabBarIOS,
 	      {
@@ -573,7 +575,10 @@
 	          iconName: 'cloud',
 	          selectedIconName: 'cloud',
 	          selected: this.state.selectedTab === 'dashboard',
-	          onPress: this.selectTab.bind(this, 'dashboard') },
+	          onPress: function () {
+	            _this.selectTab('dashboard');
+	            _dashboardComponent2['default'].refresh(true);
+	          } },
 	        _reactNative2['default'].createElement(_reactNative.NavigatorIOS, {
 	          style: { flex: 1 },
 	          initialRoute: {
@@ -592,7 +597,10 @@
 	          selectedIconName: 'tasks',
 	          badge: this.state.notifCount > 0 ? this.state.notifCount : undefined,
 	          selected: this.state.selectedTab === 'jobs',
-	          onPress: this.selectTab.bind(this, 'jobs') },
+	          onPress: function () {
+	            _this.selectTab('jobs');
+	            _jobsComponent2['default'].refresh(true);
+	          } },
 	        _reactNative2['default'].createElement(_reactNative.NavigatorIOS, {
 	          style: { flex: 1 },
 	          initialRoute: {
@@ -21309,7 +21317,8 @@
 	        LOGIN_ERROR: null,
 	        CREDENTIALS_CHANGE: null,
 	        RETRIVING_JOBS: null,
-	        RETRIVED_JOBS: null
+	        RETRIVED_JOBS: null,
+	        SERVER_ERROR: null
 	    }),
 
 	    PayloadSources: (0, _keymirror2['default'])({
@@ -21414,7 +21423,8 @@
 	});
 
 	function Refresh() {
-	  console.log('REFRESH');
+	  var smartLoad = arguments[0] === undefined ? false : arguments[0];
+
 	  if (!_storesSettingsStore2['default'].getState().user) {
 	    return;
 	  }
@@ -21580,6 +21590,7 @@
 	      break;
 
 	    case _constantsAppConstants.ActionTypes.LOGIN_ERROR:
+	    case _constantsAppConstants.ActionTypes.SERVER_ERROR:
 	      _hideLoading();
 	      store.emitChange();
 	      break;
@@ -21666,6 +21677,10 @@
 
 	var _utilsNotLoggedInComponent2 = _interopRequireDefault(_utilsNotLoggedInComponent);
 
+	var _utilsLoaderComponent = __webpack_require__(140);
+
+	var _utilsLoaderComponent2 = _interopRequireDefault(_utilsLoaderComponent);
+
 	var styles = _reactNative.StyleSheet.create({
 	  tabContent: {
 	    flex: 1,
@@ -21678,9 +21693,15 @@
 	});
 
 	function Refresh() {
+	  var smartLoad = arguments[0] === undefined ? false : arguments[0];
+
 	  if (!_storesSettingsStore2['default'].getState().user) {
 	    return;
 	  }
+	  if (smartLoad === true && _storesJobsStore2['default'].getState().jobs) {
+	    return;
+	  }
+	  _actionsJobsActions2['default'].getJobs();
 	}
 
 	exports['default'] = _reactNative2['default'].createClass({
@@ -21701,7 +21722,6 @@
 	  componentDidMount: function componentDidMount() {
 	    _storesSettingsStore2['default'].on('change', this.handleChange);
 	    _storesJobsStore2['default'].on('change', this.handleChange);
-	    //JobsActions.getJobs();
 	  },
 
 	  componentWillUnmount: function componentWillUnmount() {
@@ -21717,7 +21737,13 @@
 	  },
 
 	  render: function render() {
-	    console.log(this.state);
+	    if (this.state.jobs.loading) {
+	      return _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: [styles.tabContent, { marginTop: 200 }] },
+	        _reactNative2['default'].createElement(_utilsLoaderComponent2['default'], { loading: true })
+	      );
+	    }
 
 	    if (!this.state.settings.user) {
 	      return _reactNative2['default'].createElement(_utilsNotLoggedInComponent2['default'], null);
@@ -21770,7 +21796,6 @@
 	    });
 
 	    _webutilsJobsWebutils2['default'].getJobs().then(function (data) {
-	      console.log('JOBS!', data);
 	      _dispatchersAppDispatcher2['default'].handleServerAction({
 	        type: _constantsAppConstants.ActionTypes.RETRIVED_JOBS,
 	        jobs: data
@@ -21801,7 +21826,7 @@
 	    return _commanderClient2['default'].fetch({
 	      operation: 'getJobs'
 	    }).then(function (response) {
-	      return response;
+	      return response.job;
 	    });
 	  }
 	};
@@ -21824,6 +21849,12 @@
 	var _bluebird2 = _interopRequireDefault(_bluebird);
 
 	var _reactNative = __webpack_require__(2);
+
+	var _dispatchersAppDispatcher = __webpack_require__(121);
+
+	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
+
+	var _constantsAppConstants = __webpack_require__(124);
 
 	var userSessionId,
 	    serverAddr,
@@ -21857,7 +21888,6 @@
 	    data.requestId = requestId;
 	    requestId += 1;
 
-	    console.log(userSessionId, useSessionId);
 	    requestBody = {
 	      value: [[data], {}]
 	    };
@@ -21879,13 +21909,7 @@
 	      return rawResponse.json();
 	    }).then(function (response) {
 	      onDone.resolve(parseResponse(response));
-	    })['catch'](function (error) {
-	      if (typeof error !== 'string') {
-	        error = 'Unknown error';
-	      }
-	      _reactNative.AlertIOS.alert('Server error', error);
-	      onDone.reject(error);
-	    });
+	    })['catch'](handleServerError.bind(null, onDone));
 
 	    return onDone.promise;
 	  })
@@ -21900,6 +21924,18 @@
 	    throw response.error.message;
 	  }
 	  return response;
+	}
+
+	function handleServerError(onDone, error) {
+	  if (typeof error !== 'string') {
+	    error = 'Unknown error';
+	  }
+	  _reactNative.AlertIOS.alert('Server error', error);
+	  _dispatchersAppDispatcher2['default'].handleServerAction({
+	    type: _constantsAppConstants.ActionTypes.SERVER_ERROR,
+	    error: error
+	  });
+	  onDone.reject(error);
 	}
 	module.exports = exports['default'];
 
@@ -26840,6 +26876,10 @@
 	  jobsState = jobsState.set('loading', false);
 	}
 
+	function _setJobs(jobs) {
+	  jobsState = jobsState.set('jobs', jobs);
+	}
+
 	// Store eventemitter
 
 	var JobsStore = (function (_EventEmitter) {
@@ -26873,7 +26913,18 @@
 	  var action = payload.action;
 
 	  switch (action.type) {
-	    case _constantsAppConstants.ActionTypes.LOGIN_ERROR:
+	    case _constantsAppConstants.ActionTypes.RETRIVING_JOBS:
+	      _showLoading();
+	      store.emitChange();
+	      break;
+
+	    case _constantsAppConstants.ActionTypes.RETRIVED_JOBS:
+	      _hideLoading();
+	      _setJobs(action.jobs);
+	      store.emitChange();
+	      break;
+
+	    case _constantsAppConstants.ActionTypes.SERVER_ERROR:
 	      _hideLoading();
 	      store.emitChange();
 	      break;

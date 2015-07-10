@@ -13,7 +13,6 @@ export default {
 
     JobsWebUtils.getJobs()
     .then((data) => {
-      console.log('JOBS!', data);
       AppDispatcher.handleServerAction({
         type: ActionTypes.RETRIVED_JOBS,
         jobs: data
