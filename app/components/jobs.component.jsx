@@ -6,6 +6,9 @@ import React, {
   View
 } from 'react-native';
 
+import JobsActions from 'actions/jobs.actions';
+import SettingsStore from 'stores/settings.store';
+
 
 var styles = StyleSheet.create({
   tabContent: {
@@ -30,7 +33,13 @@ export default React.createClass({
     };
   },
 
+  componentDidMount() {
+    console.log('jobs mount');
+    //JobsActions.getJobs();
+  },
+
   render() {
+    console.log(JobsActions.getJobs());
     return (
       <View style={[styles.tabContent, {backgroundColor: '#FFF'}]}>
         <Text style={styles.tabText}>{'Jobs'}</Text>

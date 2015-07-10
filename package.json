@@ -6,7 +6,6 @@
   "license": "Apache License 2.0",
   "scripts": {
     "start": "node_modules/react-native/packager/packager.sh",
-    "start2": "react-native start",
     "webpack": "webpack --config webpack.config.js --colors --progress"
   },
   "devDependencies": {

@@ -8,7 +8,9 @@ export default {
         LOGIN_PROCESSING: null,
         LOGIN_DONE: null,
         LOGIN_ERROR: null,
-        CREDENTIALS_CHANGE: null
+        CREDENTIALS_CHANGE: null,
+        RETRIVING_JOBS: null,
+        RETRIVED_JOBS: null
     }),
 
     PayloadSources: keyMirror({

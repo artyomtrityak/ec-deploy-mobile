@@ -21303,7 +21303,9 @@
 	        LOGIN_PROCESSING: null,
 	        LOGIN_DONE: null,
 	        LOGIN_ERROR: null,
-	        CREDENTIALS_CHANGE: null
+	        CREDENTIALS_CHANGE: null,
+	        RETRIVING_JOBS: null,
+	        RETRIVED_JOBS: null
 	    }),
 
 	    PayloadSources: (0, _keymirror2['default'])({
@@ -21459,6 +21461,14 @@
 
 	var _reactNative2 = _interopRequireDefault(_reactNative);
 
+	var _actionsJobsActions = __webpack_require__(139);
+
+	var _actionsJobsActions2 = _interopRequireDefault(_actionsJobsActions);
+
+	var _storesSettingsStore = __webpack_require__(138);
+
+	var _storesSettingsStore2 = _interopRequireDefault(_storesSettingsStore);
+
 	var styles = _reactNative.StyleSheet.create({
 	  tabContent: {
 	    flex: 1,
@@ -21481,7 +21491,13 @@
 	    return {};
 	  },
 
+	  componentDidMount: function componentDidMount() {
+	    console.log('jobs mount');
+	    //JobsActions.getJobs();
+	  },
+
 	  render: function render() {
+	    console.log(_actionsJobsActions2['default'].getJobs());
 	    return _reactNative2['default'].createElement(
 	      _reactNative.View,
 	      { style: [styles.tabContent, { backgroundColor: '#FFF' }] },
@@ -21570,11 +21586,13 @@
 	  },
 
 	  onConnect: function onConnect() {
-	    if (!this.state.server || !this.state.userName || !this.state.password) {
-	      return;
-	    }
-	    //SettingsActions.login('192.168.7.182', 'admin', 'changeme');
-	    _actionsSettingsActions2['default'].login(this.state.server, this.state.userName, this.state.password);
+	    //if (!this.state.server || !this.state.userName || !this.state.password) {
+	    //  return;
+	    //}
+	    _actionsSettingsActions2['default'].login('192.168.7.182', 'admin', 'changeme');
+	    /*SettingsActions.login(
+	      this.state.server, this.state.userName, this.state.password
+	    );*/
 
 	    /*
 	    this.props.navigator.push({
@@ -21948,25 +21966,36 @@
 	    data.requestId = requestId;
 	    requestId += 1;
 
+	    console.log(userSessionId, useSessionId);
+	    requestBody = {
+	      value: [[data], {}]
+	    };
 	    if (userSessionId && useSessionId) {
-	      requestBody = 'COMMANDER_SESSION_ID=' + userSessionId + '\n';
+
+	      requestBody.sessionId = 'COMMANDER_SESSION_ID=' + userSessionId;
+	      console.log('SET sessid', requestBody);
 	    }
-	    requestBody += JSON.stringify([[data], {}]);
+
+	    requestBody = JSON.stringify(requestBody);
+
+	    console.log(requestBody);
 
 	    fetch('http://localhost:3001/api', {
 	      method: 'post',
 	      headers: {
 	        'Server-IP': serverAddr,
 	        'Accept': 'application/json',
-	        'Content-Type': 'application/x-www-form-urlencoded'
+	        'Content-Type': 'application/json'
 	      },
 	      body: requestBody
 	    }).then(function (rawResponse) {
 	      return rawResponse.json();
 	    }).then(function (response) {
-	      console.log('raw2:', response);
 	      onDone.resolve(parseResponse(response));
 	    })['catch'](function (error) {
+	      if (typeof error !== 'string') {
+	        error = 'Unknown error';
+	      }
 	      _reactNative.AlertIOS.alert('Server error', error);
 	      onDone.reject(error);
 	    });
@@ -26990,6 +27019,72 @@
 	});
 
 	exports['default'] = store;
+	module.exports = exports['default'];
+
+/***/ },
+/* 139 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _dispatchersAppDispatcher = __webpack_require__(121);
+
+	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
+
+	var _webutilsJobsWebutils = __webpack_require__(140);
+
+	var _webutilsJobsWebutils2 = _interopRequireDefault(_webutilsJobsWebutils);
+
+	var _constantsAppConstants = __webpack_require__(124);
+
+	exports['default'] = {
+	  getJobs: function getJobs() {
+	    _dispatchersAppDispatcher2['default'].handleViewAction({
+	      type: _constantsAppConstants.ActionTypes.RETRIVING_JOBS
+	    });
+
+	    _webutilsJobsWebutils2['default'].getJobs().then(function (data) {
+	      console.log('JOBS!', data);
+	      _dispatchersAppDispatcher2['default'].handleServerAction({
+	        type: _constantsAppConstants.ActionTypes.RETRIVED_JOBS,
+	        jobs: data
+	      });
+	    });
+	  }
+	};
+	module.exports = exports['default'];
+
+/***/ },
+/* 140 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _commanderClient = __webpack_require__(135);
+
+	var _commanderClient2 = _interopRequireDefault(_commanderClient);
+
+	exports['default'] = {
+	  getJobs: function getJobs() {
+	    return _commanderClient2['default'].fetch({
+	      operation: 'getJobs'
+	    }).then(function (response) {
+	      return response;
+	    });
+	  }
+	};
 	module.exports = exports['default'];
 
 /***/ }

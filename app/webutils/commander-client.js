@@ -23,17 +23,26 @@ export default {
     data.requestId = requestId;
     requestId += 1;
 
+    console.log(userSessionId, useSessionId);
+    requestBody = {
+      value: [[data], {}]
+    };
     if (userSessionId && useSessionId) {
-      requestBody = 'COMMANDER_SESSION_ID=' + userSessionId + '\n';
+
+      requestBody.sessionId = 'COMMANDER_SESSION_ID=' + userSessionId;
+      console.log('SET sessid', requestBody);
     }
-    requestBody += JSON.stringify([[data], {}]);
+
+    requestBody = JSON.stringify(requestBody);
+
+    console.log(requestBody);
 
     fetch('http://localhost:3001/api', {
       method: 'post',
       headers: {
         'Server-IP': serverAddr,
         'Accept': 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/json'
       },
       body: requestBody
     })
@@ -41,12 +50,14 @@ export default {
       return rawResponse.json();
     })
     .then((response) => {
-      console.log('raw2:', response);
       onDone.resolve(
         parseResponse(response)
       );
     })
     .catch((error) => {
+      if (typeof error !== 'string') {
+        error = 'Unknown error';
+      }
       AlertIOS.alert('Server error', error);
       onDone.reject(error);
     });
