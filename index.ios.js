@@ -538,7 +538,7 @@
 
 	var _jobsComponent2 = _interopRequireDefault(_jobsComponent);
 
-	var _settingsComponent = __webpack_require__(136);
+	var _settingsComponent = __webpack_require__(139);
 
 	var _settingsComponent2 = _interopRequireDefault(_settingsComponent);
 
@@ -15244,10 +15244,6 @@
 	      break;
 
 	    case _constantsAppConstants.ActionTypes.LOGIN_ERROR:
-	      _hideLoading();
-	      store.emitChange();
-	      break;
-
 	    case _constantsAppConstants.ActionTypes.APP_LOADED:
 	      _hideLoading();
 	      store.emitChange();
@@ -21677,7 +21673,7 @@
 
 	var _utilsNotLoggedInComponent2 = _interopRequireDefault(_utilsNotLoggedInComponent);
 
-	var _utilsLoaderComponent = __webpack_require__(140);
+	var _utilsLoaderComponent = __webpack_require__(136);
 
 	var _utilsLoaderComponent2 = _interopRequireDefault(_utilsLoaderComponent);
 
@@ -26950,11 +26946,108 @@
 
 	var _reactNative2 = _interopRequireDefault(_reactNative);
 
-	var _utilsLoaderComponent = __webpack_require__(140);
+	var _componentsJssLoader = __webpack_require__(137);
+
+	var _componentsJssLoader2 = _interopRequireDefault(_componentsJssLoader);
+
+	exports['default'] = _reactNative2['default'].createClass({
+	  displayName: 'LoaderComponent',
+
+	  propTypes: {
+	    loading: _reactNative2['default'].PropTypes.bool
+	  },
+
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      loading: false
+	    };
+	  },
+
+	  render: function render() {
+	    return _reactNative2['default'].createElement(_reactNative.ActivityIndicatorIOS, {
+	      animating: this.props.loading,
+	      style: [_componentsJssLoader2['default'].centering, { height: 130 }],
+	      size: 'large'
+	    });
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 137 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _colorsScheme = __webpack_require__(138);
+
+	var _colorsScheme2 = _interopRequireDefault(_colorsScheme);
+
+	exports['default'] = _reactNative.StyleSheet.create({
+	  centering: {
+	    alignItems: 'center',
+	    justifyContent: 'center'
+	  },
+	  gray: {
+	    backgroundColor: _colorsScheme2['default'].get('gray')
+	  },
+	  horizontal: {
+	    flexDirection: 'row',
+	    justifyContent: 'space-around'
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 138 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _immutable = __webpack_require__(120);
+
+	var _immutable2 = _interopRequireDefault(_immutable);
+
+	exports['default'] = _immutable2['default'].Map({
+	  gray: '#cccccc'
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 139 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _reactNative2 = _interopRequireDefault(_reactNative);
+
+	var _utilsLoaderComponent = __webpack_require__(136);
 
 	var _utilsLoaderComponent2 = _interopRequireDefault(_utilsLoaderComponent);
 
-	var _utilsButtonComponent = __webpack_require__(137);
+	var _utilsButtonComponent = __webpack_require__(140);
 
 	var _utilsButtonComponent2 = _interopRequireDefault(_utilsButtonComponent);
 
@@ -27098,7 +27191,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 137 */
+/* 140 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27117,7 +27210,7 @@
 
 	var _reactNativeVectorIconsFontAwesome2 = _interopRequireDefault(_reactNativeVectorIconsFontAwesome);
 
-	var _componentsJssLoader = __webpack_require__(138);
+	var _componentsJssLoader = __webpack_require__(137);
 
 	var _componentsJssLoader2 = _interopRequireDefault(_componentsJssLoader);
 
@@ -27152,103 +27245,6 @@
 	        )
 	      )
 	    );
-	  }
-	});
-	module.exports = exports['default'];
-
-/***/ },
-/* 138 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _reactNative = __webpack_require__(2);
-
-	var _colorsScheme = __webpack_require__(139);
-
-	var _colorsScheme2 = _interopRequireDefault(_colorsScheme);
-
-	exports['default'] = _reactNative.StyleSheet.create({
-	  centering: {
-	    alignItems: 'center',
-	    justifyContent: 'center'
-	  },
-	  gray: {
-	    backgroundColor: _colorsScheme2['default'].get('gray')
-	  },
-	  horizontal: {
-	    flexDirection: 'row',
-	    justifyContent: 'space-around'
-	  }
-	});
-	module.exports = exports['default'];
-
-/***/ },
-/* 139 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _immutable = __webpack_require__(120);
-
-	var _immutable2 = _interopRequireDefault(_immutable);
-
-	exports['default'] = _immutable2['default'].Map({
-	  gray: '#cccccc'
-	});
-	module.exports = exports['default'];
-
-/***/ },
-/* 140 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _reactNative = __webpack_require__(2);
-
-	var _reactNative2 = _interopRequireDefault(_reactNative);
-
-	var _componentsJssLoader = __webpack_require__(138);
-
-	var _componentsJssLoader2 = _interopRequireDefault(_componentsJssLoader);
-
-	exports['default'] = _reactNative2['default'].createClass({
-	  displayName: 'LoaderComponent',
-
-	  propTypes: {
-	    loading: _reactNative2['default'].PropTypes.bool
-	  },
-
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      loading: false
-	    };
-	  },
-
-	  render: function render() {
-	    return _reactNative2['default'].createElement(_reactNative.ActivityIndicatorIOS, {
-	      animating: this.props.loading,
-	      style: [_componentsJssLoader2['default'].centering, { height: 130 }],
-	      size: 'large'
-	    });
 	  }
 	});
 	module.exports = exports['default'];

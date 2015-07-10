@@ -8,6 +8,13 @@
     "start": "node_modules/react-native/packager/packager.sh",
     "webpack": "webpack --config webpack.config.js --colors --progress"
   },
+  "keywords": [
+    "webpack",
+    "react",
+    "javascript",
+    "react-native",
+    "flux"
+  ],
   "devDependencies": {
     "anybar-webpack": "^1.0.8",
     "babel-core": "^5.4.7",

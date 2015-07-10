@@ -55,7 +55,7 @@ export default {
   }
 };
 
-function parseResponse(response) {
+function parseResponse (response) {
   if (!response.responses) {
     throw 'Unknown server error';
   }

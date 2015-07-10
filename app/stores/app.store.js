@@ -43,10 +43,6 @@ store.dispatchToken = AppDispatcher.register((payload) => {
       break;
 
     case ActionTypes.LOGIN_ERROR:
-      _hideLoading();
-      store.emitChange();
-      break;
-
     case ActionTypes.APP_LOADED:
       _hideLoading();
       store.emitChange();
