@@ -14,7 +14,6 @@ import DashboardComponent from './dashboard.component';
 import JobsComponent from './jobs.component';
 import SettingsComponent from './settings.component';
 
-
 export default React.createClass({
   displayName: 'NavigationComponent',
 
@@ -49,7 +48,9 @@ export default React.createClass({
             style={{flex: 1}}
             initialRoute={{
               component: DashboardComponent,
-              title: 'Dashboard'
+              title: 'Dashboard',
+              rightButtonTitle: 'Refresh',
+              onRightButtonPress: DashboardComponent.refresh
             }}
           />
 
@@ -67,7 +68,9 @@ export default React.createClass({
             style={{flex: 1}}
             initialRoute={{
               component: JobsComponent,
-              title: 'Jobs'
+              title: 'Jobs',
+              rightButtonTitle: 'Refresh',
+              onRightButtonPress: JobsComponent.refresh
             }}
           />
 

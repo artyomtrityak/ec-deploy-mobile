@@ -11,8 +11,6 @@ import SettingsStore from 'stores/settings.store';
 import JobsStore from 'stores/jobs.store';
 import NotLoggenInComponent from './utils/not-logged-in.component';
 
-console.log(NotLoggenInComponent);
-
 
 var styles = StyleSheet.create({
   tabContent: {
@@ -25,11 +23,18 @@ var styles = StyleSheet.create({
   }
 });
 
+function Refresh () {
+  if (!SettingsStore.getState().user) {
+    return;
+  }
+}
+
 export default React.createClass({
   displayName: 'JobsComponent',
 
   statics: {
-    title: 'Jobs'
+    title: 'Jobs',
+    refresh: Refresh
   },
 
   getInitialState() {

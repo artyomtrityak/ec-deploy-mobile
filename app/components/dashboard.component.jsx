@@ -21,6 +21,13 @@ var styles = StyleSheet.create({
   }
 });
 
+function Refresh () {
+  console.log('REFRESH');
+  if (!SettingsStore.getState().user) {
+    return;
+  }
+}
+
 export default React.createClass({
   displayName: 'DashboardComponent',
 
@@ -29,7 +36,8 @@ export default React.createClass({
   },
 
   statics: {
-    title: 'Dashboard'
+    title: 'Dashboard',
+    refresh: Refresh
   },
 
   getInitialState() {
@@ -69,7 +77,7 @@ export default React.createClass({
     if (!this.state.settings.user) {
       return (<NotLoggenInComponent />);  
     }
-    
+
     return (
       <View style={[styles.tabContent, {backgroundColor: '#FFF'}]}>
         <Text style={styles.tabText}>{'Dashboard'}</Text>
