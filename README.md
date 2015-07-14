@@ -12,4 +12,5 @@ React Native Flux Webpack application
 - launch xcode project and compile
 
 ##TODO:
+- Change view to scroll view & test rotate
 - Fix ./invariant import from Flux

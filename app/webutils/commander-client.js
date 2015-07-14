@@ -34,6 +34,7 @@ export default {
 
     requestBody = JSON.stringify(requestBody);
 
+    //TODO: change it to Commander Server IP
     fetch('http://localhost:3001/api', {
       method: 'post',
       headers: {
