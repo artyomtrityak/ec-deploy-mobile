@@ -4,7 +4,8 @@ import React, {
   StyleSheet,
   Text,
   TextInput,
-  View
+  View,
+  Image
 } from 'react-native';
 
 import LoaderComponent from './shared/loader.component';
@@ -12,18 +13,11 @@ import ButtonComponent from './shared/button.component';
 import SettingsActions from 'actions/settings.actions';
 import SettingsStore from 'stores/settings.store';
 
-var styles = StyleSheet.create({
-  tabContent: {
-    flex: 1,
-    alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'flex-start'
-  },
-  tabText: {
-    color: 'black',
-    margin: 50
-  }
-});
+//Styles
+import { MainJSS } from './jss/layouts';
+import { LoaderMainOffsetJSS } from './jss/loader';
+import { BoldTextJSS, InputJSS, RowJSS, FirstRowJSS } from './jss/forms';
+
 
 export default React.createClass({
   displayName: 'LoginComponent',
@@ -45,7 +39,6 @@ export default React.createClass({
   },
 
   handleChange() {
-    console.log('handle change', SettingsStore.getState());
     this.setState(SettingsStore.getState());
   },
 
@@ -66,44 +59,45 @@ export default React.createClass({
   render() {
     if (this.state.loading) {
       return (
-        <View style={[styles.tabContent, {marginTop: 200}]}>
+        <View style={ [ MainJSS(), LoaderMainOffsetJSS() ] }>
           <LoaderComponent loading={true} />
         </View>
       );
     }
 
     return (
-      <View style={[styles.tabContent, {backgroundColor: '#FFF'}]}>
-        <View style={{margin: 80}}>
-          <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+      <View style={ MainJSS() }>
+        <View style={ FirstRowJSS() }>
+          <Image source={require('image!logo')} />
+          <Text style={ BoldTextJSS() }>
             Server
           </Text>
           <TextInput
-            style={{height: 40, borderColor: 'gray', borderWidth: 1, width: 250}}
+            style={ InputJSS() }
             placeholder={'Deploy server address'}
             onChangeText={this.onChangeText.bind(this, 'server')}
             value={this.state.server}
           />
         </View>
 
-        <View style={{}}>
-          <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+        <View style={ RowJSS() }>
+          <Text style={ BoldTextJSS() }>
             Login
           </Text>
           <TextInput
-            style={{height: 40, borderColor: 'gray', borderWidth: 1, width: 250}}
+            style={ InputJSS() }
             placeholder={'Your Deploy username'}
             onChangeText={this.onChangeText.bind(this, 'userName')}
             value={this.state.userName}
           />
         </View>
 
-        <View style={{}}>
-          <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+        <View style={ RowJSS() }>
+          <Text style={ BoldTextJSS() }>
             Password
           </Text>
           <TextInput
-            style={{height: 40, borderColor: 'gray', borderWidth: 1, width: 250}}
+            style={ InputJSS() }
             password={true}
             secureTextEntry={true}
             placeholder={'Your Deploy password'}
@@ -112,7 +106,7 @@ export default React.createClass({
           />
         </View>
 
-        <View style={{}}>
+        <View style={ RowJSS() }>
           <ButtonComponent onPress={this.onConnect} text={'Connect'} icon={'user'} />
         </View>
       </View>

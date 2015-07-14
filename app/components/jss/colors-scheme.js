@@ -3,5 +3,7 @@
 import Immutable from 'immutable';
 
 export default Immutable.Map({
-  gray: '#cccccc'
+  lightGray: '#CCCCCC',
+  gray: 'gray',
+  white: '#FFFFFF'
 });

@@ -4,7 +4,7 @@
  * Electric Cloud Deploy Mobile App
  */
 
-import React, { AppRegistry } from 'react-native';
+import React, { AppRegistry, NavigatorIOS } from 'react-native';
 import NavigationComponent from './components/navigation.component';
 import LoginComponent from './components/login.component';
 import SettingsStore from 'stores/settings.store';
@@ -39,7 +39,13 @@ var ECDeploy = React.createClass({
   render: function() {
     if (!this.state.settings.user) {
       return (
-        <LoginComponent />
+        <NavigatorIOS
+          style={{flex: 1}}
+          initialRoute={{
+            component: LoginComponent,
+            title: 'Login'
+          }}
+        />
       );
     }
     return (
