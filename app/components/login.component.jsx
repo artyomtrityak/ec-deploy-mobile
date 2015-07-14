@@ -15,8 +15,8 @@ import SettingsStore from 'stores/settings.store';
 
 //Styles
 import { MainJSS } from './jss/layouts';
-import LoaderJSS from './jss/loader';
-import { BoldTextJSS, InputJSS } from './jss/forms';
+import { LoaderMainOffsetJSS } from './jss/loader';
+import { BoldTextJSS, InputJSS, RowJSS, FirstRowJSS } from './jss/forms';
 
 
 export default React.createClass({
@@ -43,13 +43,13 @@ export default React.createClass({
   },
 
   onConnect() {
-    if (!this.state.server || !this.state.userName || !this.state.password) {
-      return;
-    }
-    //SettingsActions.login('192.168.7.182', 'admin', 'changeme');
-    SettingsActions.login(
-      this.state.server, this.state.userName, this.state.password
-    );
+    //if (!this.state.server || !this.state.userName || !this.state.password) {
+    //  return;
+    //}
+    SettingsActions.login('192.168.7.182', 'admin', 'changeme');
+    //SettingsActions.login(
+    //  this.state.server, this.state.userName, this.state.password
+    //);
   },
 
   onChangeText(field, value) {
@@ -59,7 +59,7 @@ export default React.createClass({
   render() {
     if (this.state.loading) {
       return (
-        <View style={ [ MainJSS(), {marginTop: 200} ] }>
+        <View style={ [ MainJSS(), LoaderMainOffsetJSS() ] }>
           <LoaderComponent loading={true} />
         </View>
       );
@@ -67,7 +67,7 @@ export default React.createClass({
 
     return (
       <View style={ MainJSS() }>
-        <View style={{marginTop: 80}}>
+        <View style={ FirstRowJSS() }>
           <Image source={require('image!logo')} />
           <Text style={ BoldTextJSS() }>
             Server
@@ -80,7 +80,7 @@ export default React.createClass({
           />
         </View>
 
-        <View style={{marginTop: 10}}>
+        <View style={ RowJSS() }>
           <Text style={ BoldTextJSS() }>
             Login
           </Text>
@@ -92,7 +92,7 @@ export default React.createClass({
           />
         </View>
 
-        <View style={{marginTop: 10}}>
+        <View style={ RowJSS() }>
           <Text style={ BoldTextJSS() }>
             Password
           </Text>
@@ -106,7 +106,7 @@ export default React.createClass({
           />
         </View>
 
-        <View style={{marginTop: 10}}>
+        <View style={ RowJSS() }>
           <ButtonComponent onPress={this.onConnect} text={'Connect'} icon={'user'} />
         </View>
       </View>

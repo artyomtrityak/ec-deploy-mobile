@@ -3,7 +3,7 @@
 import { StyleSheet } from 'react-native';
 import Colors from './colors-scheme';
 
-export default StyleSheet.create({
+var LoaderStyles = StyleSheet.create({
   centering: {
     alignItems: 'center',
     justifyContent: 'center'
@@ -19,3 +19,9 @@ export default StyleSheet.create({
     marginTop: 200
   }
 });
+
+export default LoaderStyles;
+
+export function LoaderMainOffsetJSS () {
+  return LoaderStyles.position;
+}

@@ -15,6 +15,13 @@ var TextStyle = StyleSheet.create({
     borderColor: Colors.get('gray'),
     borderWidth: 1,
     width: 250
+  },
+  row: {
+    marginTop: 10
+  },
+
+  firstRow: {
+    marginTop: 80
   }
 });
 
@@ -28,4 +35,12 @@ export function BoldTextJSS () {
 
 export function InputJSS () {
   return TextStyle.input;
+}
+
+export function RowJSS () {
+  return TextStyle.row;
+}
+
+export function FirstRowJSS () {
+  return TextStyle.firstRow;
 }
