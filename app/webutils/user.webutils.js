@@ -18,5 +18,11 @@ export default {
       CommanderClient.setSessionId(response.sessionId);
       return response;
     });
+  },
+
+  logout() {
+    return CommanderClient.fetch({
+      operation: 'logout'
+    });
   }
 };

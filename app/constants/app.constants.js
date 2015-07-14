@@ -8,6 +8,8 @@ export default {
         LOGIN_PROCESSING: null,
         LOGIN_DONE: null,
         LOGIN_ERROR: null,
+        LOGOUT_PROCESSING: null,
+        LOGOUT_DONE: null,
         CREDENTIALS_CHANGE: null,
         RETRIVING_JOBS: null,
         RETRIVED_JOBS: null,

@@ -6,6 +6,8 @@
 
 import React, { AppRegistry } from 'react-native';
 import NavigationComponent from './components/navigation.component';
+import LoginComponent from './components/login.component';
+import SettingsStore from 'stores/settings.store';
 
 
 var ECDeploy = React.createClass({
@@ -14,7 +16,32 @@ var ECDeploy = React.createClass({
     description: 'Electric Deploy mobile app'
   },
 
+  getInitialState() {
+    return {
+      settings: SettingsStore.getState()
+    };
+  },
+
+  componentDidMount() {
+    SettingsStore.on('change', this.handleChange);
+  },
+
+  componentWillUnmount() {
+    SettingsStore.off('change', this.handleChange);
+  },
+
+  handleChange() {
+    this.setState({
+      settings: SettingsStore.getState()
+    });
+  },
+
   render: function() {
+    if (!this.state.settings.user) {
+      return (
+        <LoginComponent />
+      );
+    }
     return (
       <NavigationComponent />
     );

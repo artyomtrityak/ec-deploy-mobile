@@ -60,6 +60,14 @@
 
 	var _componentsNavigationComponent2 = _interopRequireDefault(_componentsNavigationComponent);
 
+	var _componentsLoginComponent = __webpack_require__(143);
+
+	var _componentsLoginComponent2 = _interopRequireDefault(_componentsLoginComponent);
+
+	var _storesSettingsStore = __webpack_require__(127);
+
+	var _storesSettingsStore2 = _interopRequireDefault(_storesSettingsStore);
+
 	var ECDeploy = _reactNative2['default'].createClass({
 	  displayName: 'ECDeploy',
 
@@ -68,7 +76,30 @@
 	    description: 'Electric Deploy mobile app'
 	  },
 
+	  getInitialState: function getInitialState() {
+	    return {
+	      settings: _storesSettingsStore2['default'].getState()
+	    };
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    _storesSettingsStore2['default'].on('change', this.handleChange);
+	  },
+
+	  componentWillUnmount: function componentWillUnmount() {
+	    _storesSettingsStore2['default'].off('change', this.handleChange);
+	  },
+
+	  handleChange: function handleChange() {
+	    this.setState({
+	      settings: _storesSettingsStore2['default'].getState()
+	    });
+	  },
+
 	  render: function render() {
+	    if (!this.state.settings.user) {
+	      return _reactNative2['default'].createElement(_componentsLoginComponent2['default'], null);
+	    }
 	    return _reactNative2['default'].createElement(_componentsNavigationComponent2['default'], null);
 	  }
 	});
@@ -21311,6 +21342,8 @@
 	        LOGIN_PROCESSING: null,
 	        LOGIN_DONE: null,
 	        LOGIN_ERROR: null,
+	        LOGOUT_PROCESSING: null,
+	        LOGOUT_DONE: null,
 	        CREDENTIALS_CHANGE: null,
 	        RETRIVING_JOBS: null,
 	        RETRIVED_JOBS: null,
@@ -21543,6 +21576,10 @@
 	  settingsState = settingsState.set('user', _immutable2['default'].fromJS(user));
 	}
 
+	function _logoutUser(user) {
+	  settingsState = settingsState.set('user', undefined);
+	}
+
 	function _changeCredential(field, value) {
 	  settingsState = settingsState.set(field, value);
 	}
@@ -21581,6 +21618,7 @@
 
 	  switch (action.type) {
 	    case _constantsAppConstants.ActionTypes.LOGIN_PROCESSING:
+	    case _constantsAppConstants.ActionTypes.LOGOUT_PROCESSING:
 	      _showLoading();
 	      store.emitChange();
 	      break;
@@ -21593,6 +21631,12 @@
 
 	    case _constantsAppConstants.ActionTypes.LOGIN_DONE:
 	      _loginUser(action.user);
+	      _hideLoading();
+	      store.emitChange();
+	      break;
+
+	    case _constantsAppConstants.ActionTypes.LOGOUT_DONE:
+	      _logoutUser();
 	      _hideLoading();
 	      store.emitChange();
 	      break;
@@ -27096,30 +27140,13 @@
 	    _storesSettingsStore2['default'].off('change', this.handleChange);
 	  },
 
+	  onLogout: function onLogout() {
+	    _actionsSettingsActions2['default'].logout();
+	  },
+
 	  handleChange: function handleChange() {
 	    console.log('handle change', _storesSettingsStore2['default'].getState());
 	    this.setState(_storesSettingsStore2['default'].getState());
-	  },
-
-	  onConnect: function onConnect() {
-	    //if (!this.state.server || !this.state.userName || !this.state.password) {
-	    //  return;
-	    //}
-	    _actionsSettingsActions2['default'].login('192.168.7.182', 'admin', 'changeme');
-	    /*SettingsActions.login(
-	      this.state.server, this.state.userName, this.state.password
-	    );*/
-
-	    /*
-	    this.props.navigator.push({
-	      title: 'New title',
-	      component: LoaderComponent
-	    });
-	    */
-	  },
-
-	  onChangeText: function onChangeText(field, value) {
-	    _actionsSettingsActions2['default'].credentialsChange(field, value);
 	  },
 
 	  render: function render() {
@@ -27136,55 +27163,8 @@
 	      { style: [styles.tabContent, { backgroundColor: '#FFF' }] },
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
-	        { style: { margin: 80 } },
-	        _reactNative2['default'].createElement(
-	          _reactNative.Text,
-	          { style: { fontSize: 16, fontWeight: 'bold' } },
-	          'Server'
-	        ),
-	        _reactNative2['default'].createElement(_reactNative.TextInput, {
-	          style: { height: 40, borderColor: 'gray', borderWidth: 1, width: 250 },
-	          placeholder: 'Deploy server address',
-	          onChangeText: this.onChangeText.bind(this, 'server'),
-	          value: this.state.server
-	        })
-	      ),
-	      _reactNative2['default'].createElement(
-	        _reactNative.View,
-	        { style: {} },
-	        _reactNative2['default'].createElement(
-	          _reactNative.Text,
-	          { style: { fontSize: 16, fontWeight: 'bold' } },
-	          'Login'
-	        ),
-	        _reactNative2['default'].createElement(_reactNative.TextInput, {
-	          style: { height: 40, borderColor: 'gray', borderWidth: 1, width: 250 },
-	          placeholder: 'Your Deploy username',
-	          onChangeText: this.onChangeText.bind(this, 'userName'),
-	          value: this.state.userName
-	        })
-	      ),
-	      _reactNative2['default'].createElement(
-	        _reactNative.View,
-	        { style: {} },
-	        _reactNative2['default'].createElement(
-	          _reactNative.Text,
-	          { style: { fontSize: 16, fontWeight: 'bold' } },
-	          'Password'
-	        ),
-	        _reactNative2['default'].createElement(_reactNative.TextInput, {
-	          style: { height: 40, borderColor: 'gray', borderWidth: 1, width: 250 },
-	          password: true,
-	          secureTextEntry: true,
-	          placeholder: 'Your Deploy password',
-	          onChangeText: this.onChangeText.bind(this, 'password'),
-	          value: this.state.password
-	        })
-	      ),
-	      _reactNative2['default'].createElement(
-	        _reactNative.View,
-	        { style: {} },
-	        _reactNative2['default'].createElement(_utilsButtonComponent2['default'], { onPress: this.onConnect, text: 'Connect', icon: 'user' })
+	        { style: { marginTop: 80 } },
+	        _reactNative2['default'].createElement(_utilsButtonComponent2['default'], { onPress: this.onLogout, text: 'Logout', icon: 'user' })
 	      )
 	    );
 	  }
@@ -27291,6 +27271,17 @@
 	    });
 	  },
 
+	  logout: function logout() {
+	    _dispatchersAppDispatcher2['default'].handleViewAction({
+	      type: _constantsAppConstants.ActionTypes.LOGOUT_PROCESSING
+	    });
+	    _webutilsUserWebutils2['default'].logout().then(function () {
+	      _dispatchersAppDispatcher2['default'].handleServerAction({
+	        type: _constantsAppConstants.ActionTypes.LOGOUT_DONE
+	      });
+	    });
+	  },
+
 	  credentialsChange: function credentialsChange(field, value) {
 	    _dispatchersAppDispatcher2['default'].handleViewAction({
 	      type: _constantsAppConstants.ActionTypes.CREDENTIALS_CHANGE,
@@ -27331,8 +27322,166 @@
 	      _commanderClient2['default'].setSessionId(response.sessionId);
 	      return response;
 	    });
+	  },
+
+	  logout: function logout() {
+	    return _commanderClient2['default'].fetch({
+	      operation: 'logout'
+	    });
 	  }
 	};
+	module.exports = exports['default'];
+
+/***/ },
+/* 143 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _reactNative2 = _interopRequireDefault(_reactNative);
+
+	var _utilsLoaderComponent = __webpack_require__(136);
+
+	var _utilsLoaderComponent2 = _interopRequireDefault(_utilsLoaderComponent);
+
+	var _utilsButtonComponent = __webpack_require__(140);
+
+	var _utilsButtonComponent2 = _interopRequireDefault(_utilsButtonComponent);
+
+	var _actionsSettingsActions = __webpack_require__(141);
+
+	var _actionsSettingsActions2 = _interopRequireDefault(_actionsSettingsActions);
+
+	var _storesSettingsStore = __webpack_require__(127);
+
+	var _storesSettingsStore2 = _interopRequireDefault(_storesSettingsStore);
+
+	var styles = _reactNative.StyleSheet.create({
+	  tabContent: {
+	    flex: 1,
+	    alignItems: 'center',
+	    flexDirection: 'column',
+	    justifyContent: 'flex-start'
+	  },
+	  tabText: {
+	    color: 'black',
+	    margin: 50
+	  }
+	});
+
+	exports['default'] = _reactNative2['default'].createClass({
+	  displayName: 'LoginComponent',
+
+	  statics: {
+	    title: 'Login'
+	  },
+
+	  getInitialState: function getInitialState() {
+	    return _storesSettingsStore2['default'].getState();
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    _storesSettingsStore2['default'].on('change', this.handleChange);
+	  },
+
+	  componentWillUnmount: function componentWillUnmount() {
+	    _storesSettingsStore2['default'].off('change', this.handleChange);
+	  },
+
+	  handleChange: function handleChange() {
+	    console.log('handle change', _storesSettingsStore2['default'].getState());
+	    this.setState(_storesSettingsStore2['default'].getState());
+	  },
+
+	  onConnect: function onConnect() {
+	    //if (!this.state.server || !this.state.userName || !this.state.password) {
+	    //  return;
+	    //}
+	    _actionsSettingsActions2['default'].login('192.168.7.182', 'admin', 'changeme');
+	    //SettingsActions.login(
+	    //  this.state.server, this.state.userName, this.state.password
+	    //);
+	  },
+
+	  onChangeText: function onChangeText(field, value) {
+	    _actionsSettingsActions2['default'].credentialsChange(field, value);
+	  },
+
+	  render: function render() {
+	    if (this.state.loading) {
+	      return _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: [styles.tabContent, { marginTop: 200 }] },
+	        _reactNative2['default'].createElement(_utilsLoaderComponent2['default'], { loading: true })
+	      );
+	    }
+
+	    return _reactNative2['default'].createElement(
+	      _reactNative.View,
+	      { style: [styles.tabContent, { backgroundColor: '#FFF' }] },
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: { margin: 80 } },
+	        _reactNative2['default'].createElement(
+	          _reactNative.Text,
+	          { style: { fontSize: 16, fontWeight: 'bold' } },
+	          'Server'
+	        ),
+	        _reactNative2['default'].createElement(_reactNative.TextInput, {
+	          style: { height: 40, borderColor: 'gray', borderWidth: 1, width: 250 },
+	          placeholder: 'Deploy server address',
+	          onChangeText: this.onChangeText.bind(this, 'server'),
+	          value: this.state.server
+	        })
+	      ),
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: {} },
+	        _reactNative2['default'].createElement(
+	          _reactNative.Text,
+	          { style: { fontSize: 16, fontWeight: 'bold' } },
+	          'Login'
+	        ),
+	        _reactNative2['default'].createElement(_reactNative.TextInput, {
+	          style: { height: 40, borderColor: 'gray', borderWidth: 1, width: 250 },
+	          placeholder: 'Your Deploy username',
+	          onChangeText: this.onChangeText.bind(this, 'userName'),
+	          value: this.state.userName
+	        })
+	      ),
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: {} },
+	        _reactNative2['default'].createElement(
+	          _reactNative.Text,
+	          { style: { fontSize: 16, fontWeight: 'bold' } },
+	          'Password'
+	        ),
+	        _reactNative2['default'].createElement(_reactNative.TextInput, {
+	          style: { height: 40, borderColor: 'gray', borderWidth: 1, width: 250 },
+	          password: true,
+	          secureTextEntry: true,
+	          placeholder: 'Your Deploy password',
+	          onChangeText: this.onChangeText.bind(this, 'password'),
+	          value: this.state.password
+	        })
+	      ),
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: {} },
+	        _reactNative2['default'].createElement(_utilsButtonComponent2['default'], { onPress: this.onConnect, text: 'Connect', icon: 'user' })
+	      )
+	    );
+	  }
+	});
 	module.exports = exports['default'];
 
 /***/ }

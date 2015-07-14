@@ -26,6 +26,18 @@ export default {
     });
   },
 
+  logout() {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.LOGOUT_PROCESSING
+    });
+    UserWebUtils.logout()
+    .then(() => {
+      AppDispatcher.handleServerAction({
+        type: ActionTypes.LOGOUT_DONE
+      });
+    });
+  },
+
   credentialsChange(field, value) {
     AppDispatcher.handleViewAction({
       type: ActionTypes.CREDENTIALS_CHANGE,

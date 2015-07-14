@@ -22,6 +22,10 @@ function _loginUser (user) {
   settingsState = settingsState.set('user', Immutable.fromJS(user));
 }
 
+function _logoutUser (user) {
+  settingsState = settingsState.set('user', undefined);
+}
+
 function _changeCredential(field, value) {
   settingsState = settingsState.set(field, value); 
 }
@@ -44,6 +48,7 @@ store.dispatchToken = AppDispatcher.register((payload) => {
 
   switch (action.type) {
     case ActionTypes.LOGIN_PROCESSING:
+    case ActionTypes.LOGOUT_PROCESSING:
       _showLoading();
       store.emitChange();
       break;
@@ -56,6 +61,12 @@ store.dispatchToken = AppDispatcher.register((payload) => {
 
     case ActionTypes.LOGIN_DONE:
       _loginUser(action.user);
+      _hideLoading();
+      store.emitChange();
+      break;
+
+    case ActionTypes.LOGOUT_DONE:
+      _logoutUser();
       _hideLoading();
       store.emitChange();
       break;

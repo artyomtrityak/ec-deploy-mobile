@@ -48,30 +48,13 @@ export default React.createClass({
     SettingsStore.off('change', this.handleChange);
   },
 
+  onLogout() {
+    SettingsActions.logout();
+  },
+
   handleChange() {
     console.log('handle change', SettingsStore.getState());
     this.setState(SettingsStore.getState());
-  },
-
-  onConnect() {
-    if (!this.state.server || !this.state.userName || !this.state.password) {
-      return;
-    }
-    //SettingsActions.login('192.168.7.182', 'admin', 'changeme');
-    SettingsActions.login(
-      this.state.server, this.state.userName, this.state.password
-    );
-
-    /*
-    this.props.navigator.push({
-      title: 'New title',
-      component: LoaderComponent
-    });
-    */
-  },
-
-  onChangeText(field, value) {
-    SettingsActions.credentialsChange(field, value);
   },
 
   render() {
@@ -85,46 +68,8 @@ export default React.createClass({
 
     return (
       <View style={[styles.tabContent, {backgroundColor: '#FFF'}]}>
-        <View style={{margin: 80}}>
-          <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-            Server
-          </Text>
-          <TextInput
-            style={{height: 40, borderColor: 'gray', borderWidth: 1, width: 250}}
-            placeholder={'Deploy server address'}
-            onChangeText={this.onChangeText.bind(this, 'server')}
-            value={this.state.server}
-          />
-        </View>
-
-        <View style={{}}>
-          <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-            Login
-          </Text>
-          <TextInput
-            style={{height: 40, borderColor: 'gray', borderWidth: 1, width: 250}}
-            placeholder={'Your Deploy username'}
-            onChangeText={this.onChangeText.bind(this, 'userName')}
-            value={this.state.userName}
-          />
-        </View>
-
-        <View style={{}}>
-          <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-            Password
-          </Text>
-          <TextInput
-            style={{height: 40, borderColor: 'gray', borderWidth: 1, width: 250}}
-            password={true}
-            secureTextEntry={true}
-            placeholder={'Your Deploy password'}
-            onChangeText={this.onChangeText.bind(this, 'password')}
-            value={this.state.password}
-          />
-        </View>
-
-        <View style={{}}>
-          <ButtonComponent onPress={this.onConnect} text={'Connect'} icon={'user'} />
+        <View style={{marginTop: 80}}>
+          <ButtonComponent onPress={this.onLogout} text={'Logout'} icon={'user'} />
         </View>
       </View>
     );
