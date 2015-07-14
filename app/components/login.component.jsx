@@ -13,18 +13,11 @@ import ButtonComponent from './shared/button.component';
 import SettingsActions from 'actions/settings.actions';
 import SettingsStore from 'stores/settings.store';
 
-var styles = StyleSheet.create({
-  tabContent: {
-    flex: 1,
-    alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'flex-start'
-  },
-  tabText: {
-    color: 'black',
-    margin: 50
-  }
-});
+//Styles
+import { MainJSS } from './jss/layouts';
+import LoaderJSS from './jss/loader';
+import { BoldTextJSS, InputJSS } from './jss/forms';
+
 
 export default React.createClass({
   displayName: 'LoginComponent',
@@ -46,18 +39,17 @@ export default React.createClass({
   },
 
   handleChange() {
-    console.log('handle change', SettingsStore.getState());
     this.setState(SettingsStore.getState());
   },
 
   onConnect() {
-    //if (!this.state.server || !this.state.userName || !this.state.password) {
-    //  return;
-    //}
-    SettingsActions.login('192.168.7.182', 'admin', 'changeme');
-    //SettingsActions.login(
-    //  this.state.server, this.state.userName, this.state.password
-    //);
+    if (!this.state.server || !this.state.userName || !this.state.password) {
+      return;
+    }
+    //SettingsActions.login('192.168.7.182', 'admin', 'changeme');
+    SettingsActions.login(
+      this.state.server, this.state.userName, this.state.password
+    );
   },
 
   onChangeText(field, value) {
@@ -67,21 +59,21 @@ export default React.createClass({
   render() {
     if (this.state.loading) {
       return (
-        <View style={[styles.tabContent, {marginTop: 200}]}>
+        <View style={ [ MainJSS(), {marginTop: 200} ] }>
           <LoaderComponent loading={true} />
         </View>
       );
     }
 
     return (
-      <View style={[styles.tabContent, {backgroundColor: '#FFF'}]}>
+      <View style={ MainJSS() }>
         <View style={{marginTop: 80}}>
           <Image source={require('image!logo')} />
-          <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+          <Text style={ BoldTextJSS() }>
             Server
           </Text>
           <TextInput
-            style={{height: 40, borderColor: 'gray', borderWidth: 1, width: 250}}
+            style={ InputJSS() }
             placeholder={'Deploy server address'}
             onChangeText={this.onChangeText.bind(this, 'server')}
             value={this.state.server}
@@ -89,11 +81,11 @@ export default React.createClass({
         </View>
 
         <View style={{marginTop: 10}}>
-          <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+          <Text style={ BoldTextJSS() }>
             Login
           </Text>
           <TextInput
-            style={{height: 40, borderColor: 'gray', borderWidth: 1, width: 250}}
+            style={ InputJSS() }
             placeholder={'Your Deploy username'}
             onChangeText={this.onChangeText.bind(this, 'userName')}
             value={this.state.userName}
@@ -101,11 +93,11 @@ export default React.createClass({
         </View>
 
         <View style={{marginTop: 10}}>
-          <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+          <Text style={ BoldTextJSS() }>
             Password
           </Text>
           <TextInput
-            style={{height: 40, borderColor: 'gray', borderWidth: 1, width: 250}}
+            style={ InputJSS() }
             password={true}
             secureTextEntry={true}
             placeholder={'Your Deploy password'}

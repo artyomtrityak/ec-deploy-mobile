@@ -27047,6 +27047,9 @@
 	  horizontal: {
 	    flexDirection: 'row',
 	    justifyContent: 'space-around'
+	  },
+	  position: {
+	    marginTop: 200
 	  }
 	});
 	module.exports = exports['default'];
@@ -27068,7 +27071,9 @@
 	var _immutable2 = _interopRequireDefault(_immutable);
 
 	exports['default'] = _immutable2['default'].Map({
-	  gray: '#cccccc'
+	  lightGray: '#CCCCCC',
+	  gray: 'gray',
+	  white: '#FFFFFF'
 	});
 	module.exports = exports['default'];
 
@@ -27364,18 +27369,15 @@
 
 	var _storesSettingsStore2 = _interopRequireDefault(_storesSettingsStore);
 
-	var styles = _reactNative.StyleSheet.create({
-	  tabContent: {
-	    flex: 1,
-	    alignItems: 'center',
-	    flexDirection: 'column',
-	    justifyContent: 'flex-start'
-	  },
-	  tabText: {
-	    color: 'black',
-	    margin: 50
-	  }
-	});
+	//Styles
+
+	var _jssLayouts = __webpack_require__(145);
+
+	var _jssLoader = __webpack_require__(137);
+
+	var _jssLoader2 = _interopRequireDefault(_jssLoader);
+
+	var _jssForms = __webpack_require__(146);
 
 	exports['default'] = _reactNative2['default'].createClass({
 	  displayName: 'LoginComponent',
@@ -27397,18 +27399,15 @@
 	  },
 
 	  handleChange: function handleChange() {
-	    console.log('handle change', _storesSettingsStore2['default'].getState());
 	    this.setState(_storesSettingsStore2['default'].getState());
 	  },
 
 	  onConnect: function onConnect() {
-	    //if (!this.state.server || !this.state.userName || !this.state.password) {
-	    //  return;
-	    //}
-	    _actionsSettingsActions2['default'].login('192.168.7.182', 'admin', 'changeme');
-	    //SettingsActions.login(
-	    //  this.state.server, this.state.userName, this.state.password
-	    //);
+	    if (!this.state.server || !this.state.userName || !this.state.password) {
+	      return;
+	    }
+	    //SettingsActions.login('192.168.7.182', 'admin', 'changeme');
+	    _actionsSettingsActions2['default'].login(this.state.server, this.state.userName, this.state.password);
 	  },
 
 	  onChangeText: function onChangeText(field, value) {
@@ -27419,25 +27418,25 @@
 	    if (this.state.loading) {
 	      return _reactNative2['default'].createElement(
 	        _reactNative.View,
-	        { style: [styles.tabContent, { marginTop: 200 }] },
+	        { style: [(0, _jssLayouts.MainJSS)(), { marginTop: 200 }] },
 	        _reactNative2['default'].createElement(_sharedLoaderComponent2['default'], { loading: true })
 	      );
 	    }
 
 	    return _reactNative2['default'].createElement(
 	      _reactNative.View,
-	      { style: [styles.tabContent, { backgroundColor: '#FFF' }] },
+	      { style: (0, _jssLayouts.MainJSS)() },
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
 	        { style: { marginTop: 80 } },
 	        _reactNative2['default'].createElement(_reactNative.Image, { source: __webpack_require__(144) }),
 	        _reactNative2['default'].createElement(
 	          _reactNative.Text,
-	          { style: { fontSize: 16, fontWeight: 'bold' } },
+	          { style: (0, _jssForms.BoldTextJSS)() },
 	          'Server'
 	        ),
 	        _reactNative2['default'].createElement(_reactNative.TextInput, {
-	          style: { height: 40, borderColor: 'gray', borderWidth: 1, width: 250 },
+	          style: (0, _jssForms.InputJSS)(),
 	          placeholder: 'Deploy server address',
 	          onChangeText: this.onChangeText.bind(this, 'server'),
 	          value: this.state.server
@@ -27448,11 +27447,11 @@
 	        { style: { marginTop: 10 } },
 	        _reactNative2['default'].createElement(
 	          _reactNative.Text,
-	          { style: { fontSize: 16, fontWeight: 'bold' } },
+	          { style: (0, _jssForms.BoldTextJSS)() },
 	          'Login'
 	        ),
 	        _reactNative2['default'].createElement(_reactNative.TextInput, {
-	          style: { height: 40, borderColor: 'gray', borderWidth: 1, width: 250 },
+	          style: (0, _jssForms.InputJSS)(),
 	          placeholder: 'Your Deploy username',
 	          onChangeText: this.onChangeText.bind(this, 'userName'),
 	          value: this.state.userName
@@ -27463,11 +27462,11 @@
 	        { style: { marginTop: 10 } },
 	        _reactNative2['default'].createElement(
 	          _reactNative.Text,
-	          { style: { fontSize: 16, fontWeight: 'bold' } },
+	          { style: (0, _jssForms.BoldTextJSS)() },
 	          'Password'
 	        ),
 	        _reactNative2['default'].createElement(_reactNative.TextInput, {
-	          style: { height: 40, borderColor: 'gray', borderWidth: 1, width: 250 },
+	          style: (0, _jssForms.InputJSS)(),
 	          password: true,
 	          secureTextEntry: true,
 	          placeholder: 'Your Deploy password',
@@ -27490,6 +27489,87 @@
 /***/ function(module, exports) {
 
 	module.exports = require("image!logo");
+
+/***/ },
+/* 145 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	exports.MainJSS = MainJSS;
+
+	var _reactNative = __webpack_require__(2);
+
+	var _colorsScheme = __webpack_require__(138);
+
+	var _colorsScheme2 = _interopRequireDefault(_colorsScheme);
+
+	var LayoutStyle = _reactNative.StyleSheet.create({
+	  main: {
+	    flex: 1,
+	    alignItems: 'center',
+	    flexDirection: 'column',
+	    justifyContent: 'flex-start',
+	    backgroundColor: _colorsScheme2['default'].get('white')
+	  }
+	});
+
+	function MainJSS() {
+	  return LayoutStyle.main;
+	}
+
+/***/ },
+/* 146 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	exports.TextJSS = TextJSS;
+	exports.BoldTextJSS = BoldTextJSS;
+	exports.InputJSS = InputJSS;
+
+	var _reactNative = __webpack_require__(2);
+
+	var _colorsScheme = __webpack_require__(138);
+
+	var _colorsScheme2 = _interopRequireDefault(_colorsScheme);
+
+	var TextStyle = _reactNative.StyleSheet.create({
+	  main: {
+	    fontSize: 16
+	  },
+	  bold: {
+	    fontWeight: 'bold'
+	  },
+	  input: {
+	    height: 40,
+	    borderColor: _colorsScheme2['default'].get('gray'),
+	    borderWidth: 1,
+	    width: 250
+	  }
+	});
+
+	function TextJSS() {
+	  return TextStyle.main;
+	}
+
+	function BoldTextJSS() {
+	  return [TextJSS(), TextStyle.bold];
+	}
+
+	function InputJSS() {
+	  return TextStyle.input;
+	}
 
 /***/ }
 /******/ ])));

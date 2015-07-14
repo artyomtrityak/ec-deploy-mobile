@@ -14,5 +14,8 @@ export default StyleSheet.create({
   horizontal: {
     flexDirection: 'row',
     justifyContent: 'space-around'
+  },
+  position: {
+    marginTop: 200
   }
 });
