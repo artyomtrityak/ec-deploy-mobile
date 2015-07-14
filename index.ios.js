@@ -21436,9 +21436,9 @@
 
 	var _storesSettingsStore2 = _interopRequireDefault(_storesSettingsStore);
 
-	var _utilsNotLoggedInComponent = __webpack_require__(128);
+	var _sharedNotLoggedInComponent = __webpack_require__(128);
 
-	var _utilsNotLoggedInComponent2 = _interopRequireDefault(_utilsNotLoggedInComponent);
+	var _sharedNotLoggedInComponent2 = _interopRequireDefault(_sharedNotLoggedInComponent);
 
 	var styles = _reactNative.StyleSheet.create({
 	  tabContent: {
@@ -21506,7 +21506,7 @@
 	    console.log(this.state);
 
 	    if (!this.state.settings.user) {
-	      return _reactNative2['default'].createElement(_utilsNotLoggedInComponent2['default'], null);
+	      return _reactNative2['default'].createElement(_sharedNotLoggedInComponent2['default'], null);
 	    }
 
 	    return _reactNative2['default'].createElement(
@@ -21713,13 +21713,13 @@
 
 	var _storesJobsStore2 = _interopRequireDefault(_storesJobsStore);
 
-	var _utilsNotLoggedInComponent = __webpack_require__(128);
+	var _sharedNotLoggedInComponent = __webpack_require__(128);
 
-	var _utilsNotLoggedInComponent2 = _interopRequireDefault(_utilsNotLoggedInComponent);
+	var _sharedNotLoggedInComponent2 = _interopRequireDefault(_sharedNotLoggedInComponent);
 
-	var _utilsLoaderComponent = __webpack_require__(136);
+	var _sharedLoaderComponent = __webpack_require__(136);
 
-	var _utilsLoaderComponent2 = _interopRequireDefault(_utilsLoaderComponent);
+	var _sharedLoaderComponent2 = _interopRequireDefault(_sharedLoaderComponent);
 
 	var styles = _reactNative.StyleSheet.create({
 	  tabContent: {
@@ -21781,12 +21781,12 @@
 	      return _reactNative2['default'].createElement(
 	        _reactNative.View,
 	        { style: [styles.tabContent, { marginTop: 200 }] },
-	        _reactNative2['default'].createElement(_utilsLoaderComponent2['default'], { loading: true })
+	        _reactNative2['default'].createElement(_sharedLoaderComponent2['default'], { loading: true })
 	      );
 	    }
 
 	    if (!this.state.settings.user) {
-	      return _reactNative2['default'].createElement(_utilsNotLoggedInComponent2['default'], null);
+	      return _reactNative2['default'].createElement(_sharedNotLoggedInComponent2['default'], null);
 	    }
 
 	    return _reactNative2['default'].createElement(
@@ -27088,13 +27088,13 @@
 
 	var _reactNative2 = _interopRequireDefault(_reactNative);
 
-	var _utilsLoaderComponent = __webpack_require__(136);
+	var _sharedLoaderComponent = __webpack_require__(136);
 
-	var _utilsLoaderComponent2 = _interopRequireDefault(_utilsLoaderComponent);
+	var _sharedLoaderComponent2 = _interopRequireDefault(_sharedLoaderComponent);
 
-	var _utilsButtonComponent = __webpack_require__(140);
+	var _sharedButtonComponent = __webpack_require__(140);
 
-	var _utilsButtonComponent2 = _interopRequireDefault(_utilsButtonComponent);
+	var _sharedButtonComponent2 = _interopRequireDefault(_sharedButtonComponent);
 
 	var _actionsSettingsActions = __webpack_require__(141);
 
@@ -27154,7 +27154,7 @@
 	      return _reactNative2['default'].createElement(
 	        _reactNative.View,
 	        { style: [styles.tabContent, { marginTop: 200 }] },
-	        _reactNative2['default'].createElement(_utilsLoaderComponent2['default'], { loading: true })
+	        _reactNative2['default'].createElement(_sharedLoaderComponent2['default'], { loading: true })
 	      );
 	    }
 
@@ -27164,7 +27164,7 @@
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
 	        { style: { marginTop: 80 } },
-	        _reactNative2['default'].createElement(_utilsButtonComponent2['default'], { onPress: this.onLogout, text: 'Logout', icon: 'user' })
+	        _reactNative2['default'].createElement(_sharedButtonComponent2['default'], { onPress: this.onLogout, text: 'Logout', icon: 'user' })
 	      )
 	    );
 	  }
@@ -27348,13 +27348,13 @@
 
 	var _reactNative2 = _interopRequireDefault(_reactNative);
 
-	var _utilsLoaderComponent = __webpack_require__(136);
+	var _sharedLoaderComponent = __webpack_require__(136);
 
-	var _utilsLoaderComponent2 = _interopRequireDefault(_utilsLoaderComponent);
+	var _sharedLoaderComponent2 = _interopRequireDefault(_sharedLoaderComponent);
 
-	var _utilsButtonComponent = __webpack_require__(140);
+	var _sharedButtonComponent = __webpack_require__(140);
 
-	var _utilsButtonComponent2 = _interopRequireDefault(_utilsButtonComponent);
+	var _sharedButtonComponent2 = _interopRequireDefault(_sharedButtonComponent);
 
 	var _actionsSettingsActions = __webpack_require__(141);
 
@@ -27420,7 +27420,7 @@
 	      return _reactNative2['default'].createElement(
 	        _reactNative.View,
 	        { style: [styles.tabContent, { marginTop: 200 }] },
-	        _reactNative2['default'].createElement(_utilsLoaderComponent2['default'], { loading: true })
+	        _reactNative2['default'].createElement(_sharedLoaderComponent2['default'], { loading: true })
 	      );
 	    }
 
@@ -27477,7 +27477,7 @@
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
 	        { style: {} },
-	        _reactNative2['default'].createElement(_utilsButtonComponent2['default'], { onPress: this.onConnect, text: 'Connect', icon: 'user' })
+	        _reactNative2['default'].createElement(_sharedButtonComponent2['default'], { onPress: this.onConnect, text: 'Connect', icon: 'user' })
 	      )
 	    );
 	  }

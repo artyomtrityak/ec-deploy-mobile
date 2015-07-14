@@ -7,7 +7,7 @@ import React, {
 } from 'react-native';
 
 import SettingsStore from 'stores/settings.store';
-import NotLoggenInComponent from './utils/not-logged-in.component';
+import NotLoggenInComponent from './shared/not-logged-in.component';
 
 
 var styles = StyleSheet.create({

@@ -7,8 +7,8 @@ import React, {
   View
 } from 'react-native';
 
-import LoaderComponent from './utils/loader.component';
-import ButtonComponent from './utils/button.component';
+import LoaderComponent from './shared/loader.component';
+import ButtonComponent from './shared/button.component';
 import SettingsActions from 'actions/settings.actions';
 import SettingsStore from 'stores/settings.store';
 

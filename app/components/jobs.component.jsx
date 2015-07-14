@@ -9,8 +9,8 @@ import React, {
 import JobsActions from 'actions/jobs.actions';
 import SettingsStore from 'stores/settings.store';
 import JobsStore from 'stores/jobs.store';
-import NotLoggenInComponent from './utils/not-logged-in.component';
-import LoaderComponent from './utils/loader.component';
+import NotLoggenInComponent from './shared/not-logged-in.component';
+import LoaderComponent from './shared/loader.component';
 
 
 var styles = StyleSheet.create({
