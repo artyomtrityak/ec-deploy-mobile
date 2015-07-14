@@ -27214,7 +27214,7 @@
 	    var icon = this.props.icon ? _reactNative2['default'].createElement(_reactNativeVectorIconsFontAwesome2['default'], { name: this.props.icon, size: 20, color: 'white' }) : null;
 	    return _reactNative2['default'].createElement(
 	      _reactNative.TouchableHighlight,
-	      { onPress: this.props.onPress, underlayColor: '#00adee', style: { marginTop: 10 } },
+	      { onPress: this.props.onPress, underlayColor: '#00adee' },
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
 	        { style: { flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#567b99', width: 250, height: 30, borderRadius: 5 } },
@@ -27429,7 +27429,8 @@
 	      { style: [styles.tabContent, { backgroundColor: '#FFF' }] },
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
-	        { style: { margin: 80 } },
+	        { style: { marginTop: 80 } },
+	        _reactNative2['default'].createElement(_reactNative.Image, { source: __webpack_require__(144) }),
 	        _reactNative2['default'].createElement(
 	          _reactNative.Text,
 	          { style: { fontSize: 16, fontWeight: 'bold' } },
@@ -27444,7 +27445,7 @@
 	      ),
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
-	        { style: {} },
+	        { style: { marginTop: 10 } },
 	        _reactNative2['default'].createElement(
 	          _reactNative.Text,
 	          { style: { fontSize: 16, fontWeight: 'bold' } },
@@ -27459,7 +27460,7 @@
 	      ),
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
-	        { style: {} },
+	        { style: { marginTop: 10 } },
 	        _reactNative2['default'].createElement(
 	          _reactNative.Text,
 	          { style: { fontSize: 16, fontWeight: 'bold' } },
@@ -27476,13 +27477,19 @@
 	      ),
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
-	        { style: {} },
+	        { style: { marginTop: 10 } },
 	        _reactNative2['default'].createElement(_sharedButtonComponent2['default'], { onPress: this.onConnect, text: 'Connect', icon: 'user' })
 	      )
 	    );
 	  }
 	});
 	module.exports = exports['default'];
+
+/***/ },
+/* 144 */
+/***/ function(module, exports) {
+
+	module.exports = require("image!logo");
 
 /***/ }
 /******/ ])));

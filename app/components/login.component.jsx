@@ -4,7 +4,8 @@ import React, {
   StyleSheet,
   Text,
   TextInput,
-  View
+  View,
+  Image
 } from 'react-native';
 
 import LoaderComponent from './shared/loader.component';
@@ -74,7 +75,8 @@ export default React.createClass({
 
     return (
       <View style={[styles.tabContent, {backgroundColor: '#FFF'}]}>
-        <View style={{margin: 80}}>
+        <View style={{marginTop: 80}}>
+          <Image source={require('image!logo')} />
           <Text style={{fontSize: 16, fontWeight: 'bold'}}>
             Server
           </Text>
@@ -86,7 +88,7 @@ export default React.createClass({
           />
         </View>
 
-        <View style={{}}>
+        <View style={{marginTop: 10}}>
           <Text style={{fontSize: 16, fontWeight: 'bold'}}>
             Login
           </Text>
@@ -98,7 +100,7 @@ export default React.createClass({
           />
         </View>
 
-        <View style={{}}>
+        <View style={{marginTop: 10}}>
           <Text style={{fontSize: 16, fontWeight: 'bold'}}>
             Password
           </Text>
@@ -112,7 +114,7 @@ export default React.createClass({
           />
         </View>
 
-        <View style={{}}>
+        <View style={{marginTop: 10}}>
           <ButtonComponent onPress={this.onConnect} text={'Connect'} icon={'user'} />
         </View>
       </View>
