@@ -13,52 +13,29 @@ import React, {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Colors from './jss/colors-scheme';
 import SettingsStore from 'stores/settings.store';
-import NotLoggedInComponent from './utils/not-logged-in.component';
+import NotLoggedInComponent from './shared/not-logged-in.component';
 import JobsComponent from './jobs.component';
+import Styles from './jss/dashboard';
 //import ApplicationComponent from './application.component';
 //import EnvironmentComponent from './environment.component';
 //import PipelinesComponent from './pipelines.component';
 
-
-var styles = StyleSheet.create({
-  tabContent: {
-    flex: 1
-  },
-  row: {
-    flexDirection: 'row',
-    padding: 10,
-    backgroundColor: Colors.gray
-  },
-  icon: {
-    marginRight: 10,
-    color: '#000'
-  },
-  separator: {
-    height: 1,
-    backgroundColor: '#CCCCCC'
-  },
-  text: {
-    flex: 1,
-    fontSize: 25
-  }
-});
-
 var listItems = [
   {
     name: 'Applications',
-    icon: 'toggle-right',
+    icon: require('image!appIcon'),
     targetComponent: JobsComponent,
     targetComponentTitle: 'Jobs list'
   },
   {
     name: 'Environments',
-    icon: 'server',
+    icon: require('image!envIcon'),
     targetComponent: JobsComponent,
     targetComponentTitle: 'Jobs list'
   },
   {
     name: 'Pipelines',
-    icon: 'pied-piper',
+    icon: require('image!pipeIcon'),
     targetComponent: JobsComponent,
     targetComponentTitle: 'Jobs list'
   }
@@ -118,17 +95,16 @@ export default React.createClass({
     return (
       <TouchableHighlight
         onPress={
-          this.goToNextScreen.bind(rowData.targetComponent, rowData.targetComponentTitle)
+          this.goToNextScreen.bind(this, rowData.targetComponent, rowData.targetComponentTitle)
         }
-        //Change this color to darker one
-        underlayColor={Colors.gray}
+        underlayColor={Colors.get('white')}
       >
         <View>
-          <View style={styles.row}>
-            <Icon name={rowData.icon} style={styles.icon} size={30}/>
-            <Text style={styles.text}>{rowData.name}</Text>
+          <View style={Styles.row}>
+            <Image source={rowData.icon} style={Styles.icon}/>
+            <Text style={Styles.text}>{rowData.name}</Text>
           </View>
-          <View style={styles.separator} />
+          <View style={Styles.separator} />
         </View>
       </TouchableHighlight>
     );
@@ -147,7 +123,7 @@ export default React.createClass({
     }
 
     return (
-      <View style={[styles.tabContent, {backgroundColor: '#FFF'}]}>
+      <View style={[Styles.tabContent, {backgroundColor: '#FFF'}]}>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this._renderRow}
