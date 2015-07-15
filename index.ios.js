@@ -56,6 +56,8 @@
 
 	var _reactNative2 = _interopRequireDefault(_reactNative);
 
+	//Components
+
 	var _componentsNavigationComponent = __webpack_require__(56);
 
 	var _componentsNavigationComponent2 = _interopRequireDefault(_componentsNavigationComponent);
@@ -64,9 +66,17 @@
 
 	var _componentsLoginComponent2 = _interopRequireDefault(_componentsLoginComponent);
 
+	//Stores
+
 	var _storesSettingsStore = __webpack_require__(127);
 
 	var _storesSettingsStore2 = _interopRequireDefault(_storesSettingsStore);
+
+	//Actions
+
+	var _actionsSettingsActions = __webpack_require__(143);
+
+	var _actionsSettingsActions2 = _interopRequireDefault(_actionsSettingsActions);
 
 	var ECDeploy = _reactNative2['default'].createClass({
 	  displayName: 'ECDeploy',
@@ -84,6 +94,7 @@
 
 	  componentDidMount: function componentDidMount() {
 	    _storesSettingsStore2['default'].on('change', this.handleChange);
+	    _actionsSettingsActions2['default'].initialize();
 	  },
 
 	  componentWillUnmount: function componentWillUnmount() {
@@ -21345,16 +21356,18 @@
 	exports['default'] = {
 	    ActionTypes: (0, _keymirror2['default'])({
 	        APP_LOADED: null,
+	        INIT_PROCESSING: null,
+	        INIT_DONE: null,
 	        LOGIN_PROCESSING: null,
 	        LOGIN_DONE: null,
 	        LOGIN_ERROR: null,
 	        LOGOUT_PROCESSING: null,
 	        LOGOUT_DONE: null,
 	        CREDENTIALS_CHANGE: null,
-	        RETRIVING_JOB: null,
 	        REMEMBER_ME_SETTING: null,
 	        PUSH_NOTIFICATIONS_SETTING: null,
 	        AUTO_SYNC_SETTING: null,
+	        RETRIVING_JOB: null,
 	        RETRIVING_JOBS: null,
 	        RETRIVED_JOB: null,
 	        RETRIVED_JOBS: null,
@@ -21635,6 +21648,7 @@
 	  switch (action.type) {
 	    case _constantsAppConstants.ActionTypes.LOGIN_PROCESSING:
 	    case _constantsAppConstants.ActionTypes.LOGOUT_PROCESSING:
+	    case _constantsAppConstants.ActionTypes.INIT_PROCESSING:
 	      _showLoading();
 	      store.emitChange();
 	      break;
@@ -21653,6 +21667,14 @@
 
 	    case _constantsAppConstants.ActionTypes.LOGOUT_DONE:
 	      _logoutUser();
+	      _hideLoading();
+	      store.emitChange();
+	      break;
+
+	    case _constantsAppConstants.ActionTypes.INIT_DONE:
+	      _changeCredential('rememberMe', action.rememberMe);
+	      _changeCredential('autoSync', action.autoSync);
+	      _changeCredential('pushNotifications', action.pushNotifications);
 	      _hideLoading();
 	      store.emitChange();
 	      break;
@@ -27672,6 +27694,20 @@
 	var _constantsAppConstants = __webpack_require__(124);
 
 	exports['default'] = {
+	  initialize: function initialize() {
+	    _dispatchersAppDispatcher2['default'].handleViewAction({
+	      type: _constantsAppConstants.ActionTypes.INIT_PROCESSING
+	    });
+	    _webutilsUserWebutils2['default'].getSettings().spread(function (rememberMe, autoSync, pushNotifications) {
+	      _dispatchersAppDispatcher2['default'].handleServerAction({
+	        type: _constantsAppConstants.ActionTypes.INIT_DONE,
+	        rememberMe: rememberMe,
+	        autoSync: autoSync,
+	        pushNotifications: pushNotifications
+	      });
+	    });
+	  },
+
 	  login: function login(server, _login, password) {
 	    _dispatchersAppDispatcher2['default'].handleViewAction({
 	      type: _constantsAppConstants.ActionTypes.LOGIN_PROCESSING
@@ -27714,6 +27750,7 @@
 	      type: _constantsAppConstants.ActionTypes.REMEMBER_ME_SETTING,
 	      value: value
 	    });
+	    _webutilsUserWebutils2['default'].saveLocalSetting('@flow:rememberMe', value);
 	  },
 
 	  changeAutoSync: function changeAutoSync(value) {
@@ -27721,6 +27758,7 @@
 	      type: _constantsAppConstants.ActionTypes.AUTO_SYNC_SETTING,
 	      value: value
 	    });
+	    _webutilsUserWebutils2['default'].saveLocalSetting('@flow:autoSync', value);
 	  },
 
 	  changePushNotifications: function changePushNotifications(value) {
@@ -27728,6 +27766,7 @@
 	      type: _constantsAppConstants.ActionTypes.PUSH_NOTIFICATIONS_SETTING,
 	      value: value
 	    });
+	    _webutilsUserWebutils2['default'].saveLocalSetting('@flow:pushNotifications', value);
 	  }
 	};
 	module.exports = exports['default'];
@@ -27744,9 +27783,15 @@
 	  value: true
 	});
 
+	var _bluebird = __webpack_require__(134);
+
+	var _bluebird2 = _interopRequireDefault(_bluebird);
+
 	var _commanderClient = __webpack_require__(133);
 
 	var _commanderClient2 = _interopRequireDefault(_commanderClient);
+
+	var _reactNative = __webpack_require__(2);
 
 	exports['default'] = {
 	  login: function login(server, userName, password) {
@@ -27768,6 +27813,22 @@
 	    return _commanderClient2['default'].fetch({
 	      operation: 'logout'
 	    });
+	  },
+
+	  saveLocalSetting: function saveLocalSetting(settingName, value) {
+	    _reactNative.AsyncStorage.setItem(settingName, value.toString());
+	    this.getSettings();
+	  },
+
+	  getSettings: function getSettings() {
+	    var onDone = _bluebird2['default'].pending();
+
+	    _reactNative.AsyncStorage.multiGet(['@flow:rememberMe', '@flow:pushNotifications', '@flow:autoSync']).then(function (result) {
+	      //TODO: for some reason it does not work correct in emulator
+	      onDone.resolve([result[0][1] === 'true', result[1][1] === 'true', result[2][1] === 'true']);
+	    });
+
+	    return onDone.promise;
 	  }
 	};
 	module.exports = exports['default'];
