@@ -29,6 +29,7 @@ function _loginUser (user) {
 
 function _logoutUser (user) {
   settingsState = settingsState.set('user', undefined);
+  settingsState = settingsState.set('password', undefined);
 }
 
 function _changeCredential (field, value) {
