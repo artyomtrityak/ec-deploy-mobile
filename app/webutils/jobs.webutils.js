@@ -11,5 +11,18 @@ export default {
     .then((response) => {
       return response.job;
     });
+  },
+
+  getJobDetails(jobId) {
+    return CommanderClient.fetch({
+      operation: 'getJobDetails',
+      parameters: {
+        jobId: jobId
+      }
+    })
+    .then((response) => {
+      console.log('RESPONSE JOB DETAILS', response);
+      return response.job;
+    });
   }
 };

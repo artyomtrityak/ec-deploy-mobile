@@ -21351,7 +21351,9 @@
 	        LOGOUT_PROCESSING: null,
 	        LOGOUT_DONE: null,
 	        CREDENTIALS_CHANGE: null,
+	        RETRIVING_JOB: null,
 	        RETRIVING_JOBS: null,
+	        RETRIVED_JOB: null,
 	        RETRIVED_JOBS: null,
 	        SERVER_ERROR: null
 	    }),
@@ -21727,6 +21729,10 @@
 
 	var _sharedLoaderComponent2 = _interopRequireDefault(_sharedLoaderComponent);
 
+	var _jobDetailsComponent = __webpack_require__(149);
+
+	var _jobDetailsComponent2 = _interopRequireDefault(_jobDetailsComponent);
+
 	var styles = _reactNative.StyleSheet.create({
 	  tabContent: {
 	    flex: 1,
@@ -21752,6 +21758,10 @@
 
 	exports['default'] = _reactNative2['default'].createClass({
 	  displayName: 'JobsComponent',
+
+	  propTypes: {
+	    navigator: _reactNative2['default'].PropTypes.object
+	  },
 
 	  statics: {
 	    title: 'Jobs',
@@ -21782,6 +21792,18 @@
 	    });
 	  },
 
+	  showJobDetails: function showJobDetails() {
+
+	    // Get Job id
+	    var jobId = '9756006b-2ad3-11e5-8d60-005056330c34';
+
+	    this.props.navigator.push({
+	      component: _jobDetailsComponent2['default'],
+	      title: 'Job Details',
+	      passProps: { jobId: jobId }
+	    });
+	  },
+
 	  render: function render() {
 	    if (this.state.jobs.loading) {
 	      return _reactNative2['default'].createElement(
@@ -21805,7 +21827,7 @@
 	      ),
 	      _reactNative2['default'].createElement(
 	        _reactNative.Text,
-	        { style: styles.tabText },
+	        { style: styles.tabText, onPress: this.showJobDetails },
 	        'Details'
 	      )
 	    );
@@ -21847,6 +21869,19 @@
 	        jobs: data
 	      });
 	    });
+	  },
+
+	  getJobDetails: function getJobDetails(jobId) {
+	    _dispatchersAppDispatcher2['default'].handleViewAction({
+	      type: _constantsAppConstants.ActionTypes.RETRIVING_JOB
+	    });
+
+	    _webutilsJobsWebutils2['default'].getJobDetails(jobId).then(function (data) {
+	      _dispatchersAppDispatcher2['default'].handleServerAction({
+	        type: _constantsAppConstants.ActionTypes.RETRIVED_JOB,
+	        job: data
+	      });
+	    });
 	  }
 	};
 	module.exports = exports['default'];
@@ -21872,6 +21907,18 @@
 	    return _commanderClient2['default'].fetch({
 	      operation: 'getJobs'
 	    }).then(function (response) {
+	      return response.job;
+	    });
+	  },
+
+	  getJobDetails: function getJobDetails(jobId) {
+	    return _commanderClient2['default'].fetch({
+	      operation: 'getJobDetails',
+	      parameters: {
+	        jobId: jobId
+	      }
+	    }).then(function (response) {
+	      console.log('RESPONSE JOB DETAILS', response);
 	      return response.job;
 	    });
 	  }
@@ -27599,6 +27646,209 @@
 /***/ function(module, exports) {
 
 	module.exports = require("image!logo");
+
+/***/ },
+/* 147 */,
+/* 148 */,
+/* 149 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _reactNative2 = _interopRequireDefault(_reactNative);
+
+	var _storesJobDetailsStore = __webpack_require__(150);
+
+	var _storesJobDetailsStore2 = _interopRequireDefault(_storesJobDetailsStore);
+
+	var _sharedLoaderComponent = __webpack_require__(136);
+
+	var _sharedLoaderComponent2 = _interopRequireDefault(_sharedLoaderComponent);
+
+	var _actionsJobsActions = __webpack_require__(130);
+
+	var _actionsJobsActions2 = _interopRequireDefault(_actionsJobsActions);
+
+	var styles = _reactNative.StyleSheet.create({
+	  tabContent: {
+	    flex: 1,
+	    alignItems: 'center'
+	  },
+	  tabText: {
+	    color: 'black',
+	    margin: 50
+	  }
+	});
+
+	function Refresh() {
+	  console.log('Refresh Job Details');
+	}
+
+	exports['default'] = _reactNative2['default'].createClass({
+	  displayName: 'JobDetailsComponent',
+
+	  propTypes: {
+	    jobId: _reactNative2['default'].PropTypes.string.required
+	  },
+
+	  statics: {
+	    title: 'Job Details',
+	    refresh: Refresh
+	  },
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      job: _storesJobDetailsStore2['default'].getState()
+	    };
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    _storesJobDetailsStore2['default'].on('change', this.handleChange);
+	    _actionsJobsActions2['default'].getJobDetails(this.props.jobId);
+	  },
+
+	  componentWillUnmount: function componentWillUnmount() {
+	    _storesJobDetailsStore2['default'].off('change', this.handleChange);
+	  },
+
+	  handleChange: function handleChange() {
+	    this.setState({
+	      job: _storesJobDetailsStore2['default'].getState()
+	    });
+	  },
+
+	  render: function render() {
+	    if (this.state.job.loading) {
+	      return _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: [styles.tabContent, { marginTop: 200 }] },
+	        _reactNative2['default'].createElement(_sharedLoaderComponent2['default'], { loading: true })
+	      );
+	    }
+
+	    return _reactNative2['default'].createElement(
+	      _reactNative.View,
+	      { style: [styles.tabContent, { marginTop: 200 }] },
+	      _reactNative2['default'].createElement(
+	        _reactNative.Text,
+	        null,
+	        'Job Details Loaded'
+	      )
+	    );
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 150 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _inherits = __webpack_require__(109)['default'];
+
+	var _get = __webpack_require__(112)['default'];
+
+	var _createClass = __webpack_require__(115)['default'];
+
+	var _classCallCheck = __webpack_require__(118)['default'];
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _eventemitter2 = __webpack_require__(119);
+
+	var _eventemitter22 = _interopRequireDefault(_eventemitter2);
+
+	var _immutable = __webpack_require__(120);
+
+	var _immutable2 = _interopRequireDefault(_immutable);
+
+	var _dispatchersAppDispatcher = __webpack_require__(121);
+
+	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
+
+	var _constantsAppConstants = __webpack_require__(124);
+
+	// Private data and functions
+	var JobDetailsState = _immutable2['default'].Map({ loading: false });
+
+	function _showLoading() {
+	  JobDetailsState = JobDetailsState.set('loading', true);
+	}
+
+	function _hideLoading() {
+	  JobDetailsState = JobDetailsState.set('loading', false);
+	}
+
+	function _setJob(job) {
+	  JobDetailsState = JobDetailsState.set('job', job);
+	}
+
+	// Store eventemitter
+
+	var JobDetailsStore = (function (_EventEmitter) {
+	  function JobDetailsStore() {
+	    _classCallCheck(this, JobDetailsStore);
+
+	    _get(Object.getPrototypeOf(JobDetailsStore.prototype), 'constructor', this).apply(this, arguments);
+	  }
+
+	  _inherits(JobDetailsStore, _EventEmitter);
+
+	  _createClass(JobDetailsStore, [{
+	    key: 'getState',
+	    value: function getState() {
+	      return JobDetailsState.toJS();
+	    }
+	  }, {
+	    key: 'emitChange',
+	    value: function emitChange() {
+	      this.emit('change');
+	    }
+	  }]);
+
+	  return JobDetailsStore;
+	})(_eventemitter22['default']);
+
+	var store = new JobDetailsStore();
+
+	// Dispatcher
+	store.dispatchToken = _dispatchersAppDispatcher2['default'].register(function (payload) {
+	  var action = payload.action;
+
+	  switch (action.type) {
+	    case _constantsAppConstants.ActionTypes.RETRIVING_JOB:
+	      _showLoading();
+	      store.emitChange();
+	      break;
+
+	    case _constantsAppConstants.ActionTypes.RETRIVED_JOB:
+	      _hideLoading();
+	      _setJob(action.job);
+	      store.emitChange();
+	      break;
+
+	    case _constantsAppConstants.ActionTypes.SERVER_ERROR:
+	      _hideLoading();
+	      store.emitChange();
+	      break;
+	  }
+	});
+
+	exports['default'] = store;
+	module.exports = exports['default'];
 
 /***/ }
 /******/ ])));
