@@ -7,6 +7,9 @@ var TextsStyles = StyleSheet.create({
   main: {
     fontSize: 16
   },
+  small: {
+    fontSize: 12
+  },
   bold: {
     fontWeight: 'bold'
   }
@@ -34,6 +37,13 @@ var FormsStyles = StyleSheet.create({
   },
   firstRow: {
     marginTop: 80
+  },
+  flexRow: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 30,
+    width: 250
   }
 });
 

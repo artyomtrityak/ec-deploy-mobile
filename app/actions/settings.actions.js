@@ -44,5 +44,26 @@ export default {
       field: field,
       value: value
     });
+  },
+
+  changeRememberMe(value) {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.REMEMBER_ME_SETTING,
+      value: value
+    });
+  },
+
+  changeAutoSync(value) {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.AUTO_SYNC_SETTING,
+      value: value
+    });
+  },
+
+  changePushNotifications(value) {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.PUSH_NOTIFICATIONS_SETTING,
+      value: value
+    });
   }
 };

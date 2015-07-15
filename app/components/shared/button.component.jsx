@@ -33,7 +33,7 @@ export default React.createClass({
         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#567b99', width: 250, height: 30, borderRadius: 5}}>
           {icon}
 
-          <Text style={{fontSize: 16, fontWeight: 'bold', color: 'white'}}>
+          <Text style={{fontSize: 16, fontWeight: 'bold', color: 'white', marginLeft: 5}}>
             {this.props.text}
           </Text>
         </View>

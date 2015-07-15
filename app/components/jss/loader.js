@@ -21,7 +21,3 @@ var LoaderStyles = StyleSheet.create({
 });
 
 export default LoaderStyles;
-
-export function LoaderMainOffsetJSS () {
-  return LoaderStyles.position;
-}

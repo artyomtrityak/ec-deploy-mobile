@@ -111,7 +111,7 @@ export default React.createClass({
         </View>
 
         <View style={ FormJSS.forms.row }>
-          <ButtonComponent onPress={this.onConnect} text={'Connect'} icon={'user'} />
+          <ButtonComponent onPress={this.onConnect} text={'Connect'} icon={'sign-in'} />
         </View>
       </View>
     );

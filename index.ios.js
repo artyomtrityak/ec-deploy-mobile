@@ -60,7 +60,7 @@
 
 	var _componentsNavigationComponent2 = _interopRequireDefault(_componentsNavigationComponent);
 
-	var _componentsLoginComponent = __webpack_require__(143);
+	var _componentsLoginComponent = __webpack_require__(146);
 
 	var _componentsLoginComponent2 = _interopRequireDefault(_componentsLoginComponent);
 
@@ -575,7 +575,7 @@
 
 	var _jobsComponent2 = _interopRequireDefault(_jobsComponent);
 
-	var _settingsComponent = __webpack_require__(139);
+	var _settingsComponent = __webpack_require__(141);
 
 	var _settingsComponent2 = _interopRequireDefault(_settingsComponent);
 
@@ -21352,6 +21352,9 @@
 	        LOGOUT_DONE: null,
 	        CREDENTIALS_CHANGE: null,
 	        RETRIVING_JOB: null,
+	        REMEMBER_ME_SETTING: null,
+	        PUSH_NOTIFICATIONS_SETTING: null,
+	        AUTO_SYNC_SETTING: null,
 	        RETRIVING_JOBS: null,
 	        RETRIVED_JOB: null,
 	        RETRIVED_JOBS: null,
@@ -21570,7 +21573,12 @@
 	var _constantsAppConstants = __webpack_require__(124);
 
 	// Private data and functions
-	var settingsState = _immutable2['default'].Map({ loading: false });
+	var settingsState = _immutable2['default'].Map({
+	  loading: false,
+	  pushNotifications: true,
+	  rememberMe: true,
+	  autoSync: false
+	});
 
 	function _showLoading() {
 	  settingsState = settingsState.set('loading', true);
@@ -21649,11 +21657,25 @@
 	      store.emitChange();
 	      break;
 
+	    case _constantsAppConstants.ActionTypes.REMEMBER_ME_SETTING:
+	      _changeCredential('rememberMe', action.value);
+	      store.emitChange();
+	      break;
+
+	    case _constantsAppConstants.ActionTypes.AUTO_SYNC_SETTING:
+	      _changeCredential('autoSync', action.value);
+	      store.emitChange();
+	      break;
+
+	    case _constantsAppConstants.ActionTypes.PUSH_NOTIFICATIONS_SETTING:
+	      _changeCredential('pushNotifications', action.value);
+	      store.emitChange();
+	      break;
+
 	    case _constantsAppConstants.ActionTypes.CREDENTIALS_CHANGE:
 	      _changeCredential(action.field, action.value);
 	      store.emitChange();
 	      break;
-
 	  }
 	});
 
@@ -21729,7 +21751,7 @@
 
 	var _sharedLoaderComponent2 = _interopRequireDefault(_sharedLoaderComponent);
 
-	var _jobDetailsComponent = __webpack_require__(149);
+	var _jobDetailsComponent = __webpack_require__(139);
 
 	var _jobDetailsComponent2 = _interopRequireDefault(_jobDetailsComponent);
 
@@ -27082,7 +27104,6 @@
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
-	exports.LoaderMainOffsetJSS = LoaderMainOffsetJSS;
 
 	var _reactNative = __webpack_require__(2);
 
@@ -27108,10 +27129,7 @@
 	});
 
 	exports['default'] = LoaderStyles;
-
-	function LoaderMainOffsetJSS() {
-	  return LoaderStyles.position;
-	}
+	module.exports = exports['default'];
 
 /***/ },
 /* 138 */
@@ -27152,490 +27170,7 @@
 
 	var _reactNative2 = _interopRequireDefault(_reactNative);
 
-	var _sharedLoaderComponent = __webpack_require__(136);
-
-	var _sharedLoaderComponent2 = _interopRequireDefault(_sharedLoaderComponent);
-
-	var _sharedButtonComponent = __webpack_require__(140);
-
-	var _sharedButtonComponent2 = _interopRequireDefault(_sharedButtonComponent);
-
-	var _actionsSettingsActions = __webpack_require__(141);
-
-	var _actionsSettingsActions2 = _interopRequireDefault(_actionsSettingsActions);
-
-	var _storesSettingsStore = __webpack_require__(127);
-
-	var _storesSettingsStore2 = _interopRequireDefault(_storesSettingsStore);
-
-	var styles = _reactNative.StyleSheet.create({
-	  tabContent: {
-	    flex: 1,
-	    alignItems: 'center',
-	    flexDirection: 'column',
-	    justifyContent: 'flex-start'
-	  },
-	  tabText: {
-	    color: 'black',
-	    margin: 50
-	  }
-	});
-
-	exports['default'] = _reactNative2['default'].createClass({
-	  displayName: 'SettingsComponent',
-
-	  propTypes: {
-	    navigator: _reactNative2['default'].PropTypes.object
-	  },
-
-	  statics: {
-	    title: 'Settings'
-	  },
-
-	  getInitialState: function getInitialState() {
-	    return _storesSettingsStore2['default'].getState();
-	  },
-
-	  componentDidMount: function componentDidMount() {
-	    _storesSettingsStore2['default'].on('change', this.handleChange);
-	  },
-
-	  componentWillUnmount: function componentWillUnmount() {
-	    _storesSettingsStore2['default'].off('change', this.handleChange);
-	  },
-
-	  onLogout: function onLogout() {
-	    _actionsSettingsActions2['default'].logout();
-	  },
-
-	  handleChange: function handleChange() {
-	    console.log('handle change', _storesSettingsStore2['default'].getState());
-	    this.setState(_storesSettingsStore2['default'].getState());
-	  },
-
-	  render: function render() {
-	    if (this.state.loading) {
-	      return _reactNative2['default'].createElement(
-	        _reactNative.View,
-	        { style: [styles.tabContent, { marginTop: 200 }] },
-	        _reactNative2['default'].createElement(_sharedLoaderComponent2['default'], { loading: true })
-	      );
-	    }
-
-	    return _reactNative2['default'].createElement(
-	      _reactNative.View,
-	      { style: [styles.tabContent, { backgroundColor: '#FFF' }] },
-	      _reactNative2['default'].createElement(
-	        _reactNative.View,
-	        { style: { marginTop: 80 } },
-	        _reactNative2['default'].createElement(_sharedButtonComponent2['default'], { onPress: this.onLogout, text: 'Logout', icon: 'user' })
-	      )
-	    );
-	  }
-	});
-	module.exports = exports['default'];
-
-/***/ },
-/* 140 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _reactNative = __webpack_require__(2);
-
-	var _reactNative2 = _interopRequireDefault(_reactNative);
-
-	var _reactNativeVectorIconsFontAwesome = __webpack_require__(57);
-
-	var _reactNativeVectorIconsFontAwesome2 = _interopRequireDefault(_reactNativeVectorIconsFontAwesome);
-
-	var _componentsJssLoader = __webpack_require__(137);
-
-	var _componentsJssLoader2 = _interopRequireDefault(_componentsJssLoader);
-
-	exports['default'] = _reactNative2['default'].createClass({
-	  displayName: 'Button',
-
-	  propTypes: {
-	    onPress: _reactNative2['default'].PropTypes.func.required,
-	    text: _reactNative2['default'].PropTypes.string,
-	    icon: _reactNative2['default'].PropTypes.string
-	  },
-
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      loading: false
-	    };
-	  },
-
-	  render: function render() {
-	    var icon = this.props.icon ? _reactNative2['default'].createElement(_reactNativeVectorIconsFontAwesome2['default'], { name: this.props.icon, size: 20, color: 'white' }) : null;
-	    return _reactNative2['default'].createElement(
-	      _reactNative.TouchableHighlight,
-	      { onPress: this.props.onPress, underlayColor: '#00adee' },
-	      _reactNative2['default'].createElement(
-	        _reactNative.View,
-	        { style: { flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#567b99', width: 250, height: 30, borderRadius: 5 } },
-	        icon,
-	        _reactNative2['default'].createElement(
-	          _reactNative.Text,
-	          { style: { fontSize: 16, fontWeight: 'bold', color: 'white' } },
-	          this.props.text
-	        )
-	      )
-	    );
-	  }
-	});
-	module.exports = exports['default'];
-
-/***/ },
-/* 141 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _dispatchersAppDispatcher = __webpack_require__(121);
-
-	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
-
-	var _webutilsUserWebutils = __webpack_require__(142);
-
-	var _webutilsUserWebutils2 = _interopRequireDefault(_webutilsUserWebutils);
-
-	var _constantsAppConstants = __webpack_require__(124);
-
-	exports['default'] = {
-	  login: function login(server, _login, password) {
-	    _dispatchersAppDispatcher2['default'].handleViewAction({
-	      type: _constantsAppConstants.ActionTypes.LOGIN_PROCESSING
-	    });
-
-	    _webutilsUserWebutils2['default'].login(server, _login, password).then(function (data) {
-	      _dispatchersAppDispatcher2['default'].handleServerAction({
-	        type: _constantsAppConstants.ActionTypes.LOGIN_DONE,
-	        user: data
-	      });
-	    })['catch'](function (error) {
-	      _dispatchersAppDispatcher2['default'].handleServerAction({
-	        type: _constantsAppConstants.ActionTypes.LOGIN_ERROR,
-	        error: error
-	      });
-	    });
-	  },
-
-	  logout: function logout() {
-	    _dispatchersAppDispatcher2['default'].handleViewAction({
-	      type: _constantsAppConstants.ActionTypes.LOGOUT_PROCESSING
-	    });
-	    _webutilsUserWebutils2['default'].logout().then(function () {
-	      _dispatchersAppDispatcher2['default'].handleServerAction({
-	        type: _constantsAppConstants.ActionTypes.LOGOUT_DONE
-	      });
-	    });
-	  },
-
-	  credentialsChange: function credentialsChange(field, value) {
-	    _dispatchersAppDispatcher2['default'].handleViewAction({
-	      type: _constantsAppConstants.ActionTypes.CREDENTIALS_CHANGE,
-	      field: field,
-	      value: value
-	    });
-	  }
-	};
-	module.exports = exports['default'];
-
-/***/ },
-/* 142 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _commanderClient = __webpack_require__(133);
-
-	var _commanderClient2 = _interopRequireDefault(_commanderClient);
-
-	exports['default'] = {
-	  login: function login(server, userName, password) {
-	    _commanderClient2['default'].setServer(server);
-
-	    return _commanderClient2['default'].fetch({
-	      operation: 'login',
-	      parameters: {
-	        userName: userName,
-	        password: password
-	      }
-	    }, false).then(function (response) {
-	      _commanderClient2['default'].setSessionId(response.sessionId);
-	      return response;
-	    });
-	  },
-
-	  logout: function logout() {
-	    return _commanderClient2['default'].fetch({
-	      operation: 'logout'
-	    });
-	  }
-	};
-	module.exports = exports['default'];
-
-/***/ },
-/* 143 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _reactNative = __webpack_require__(2);
-
-	var _reactNative2 = _interopRequireDefault(_reactNative);
-
-	//Components
-
-	var _sharedLoaderComponent = __webpack_require__(136);
-
-	var _sharedLoaderComponent2 = _interopRequireDefault(_sharedLoaderComponent);
-
-	var _sharedButtonComponent = __webpack_require__(140);
-
-	var _sharedButtonComponent2 = _interopRequireDefault(_sharedButtonComponent);
-
-	//Actions
-
-	var _actionsSettingsActions = __webpack_require__(141);
-
-	var _actionsSettingsActions2 = _interopRequireDefault(_actionsSettingsActions);
-
-	//Stores
-
-	var _storesSettingsStore = __webpack_require__(127);
-
-	var _storesSettingsStore2 = _interopRequireDefault(_storesSettingsStore);
-
-	//Styles
-
-	var _jssLoader = __webpack_require__(137);
-
-	var _jssLoader2 = _interopRequireDefault(_jssLoader);
-
-	var _jssForms = __webpack_require__(145);
-
-	var _jssForms2 = _interopRequireDefault(_jssForms);
-
-	exports['default'] = _reactNative2['default'].createClass({
-	  displayName: 'LoginComponent',
-
-	  statics: {
-	    title: 'Login'
-	  },
-
-	  getInitialState: function getInitialState() {
-	    return _storesSettingsStore2['default'].getState();
-	  },
-
-	  componentDidMount: function componentDidMount() {
-	    _storesSettingsStore2['default'].on('change', this.handleChange);
-	  },
-
-	  componentWillUnmount: function componentWillUnmount() {
-	    _storesSettingsStore2['default'].off('change', this.handleChange);
-	  },
-
-	  handleChange: function handleChange() {
-	    this.setState(_storesSettingsStore2['default'].getState());
-	  },
-
-	  onConnect: function onConnect() {
-	    //if (!this.state.server || !this.state.userName || !this.state.password) {
-	    //  return;
-	    //}
-	    _actionsSettingsActions2['default'].login('192.168.7.182', 'admin', 'changeme');
-	    //SettingsActions.login(
-	    //  this.state.server, this.state.userName, this.state.password
-	    //);
-	  },
-
-	  onChangeText: function onChangeText(field, value) {
-	    _actionsSettingsActions2['default'].credentialsChange(field, value);
-	  },
-
-	  render: function render() {
-	    if (this.state.loading) {
-	      return _reactNative2['default'].createElement(
-	        _reactNative.View,
-	        { style: [_jssForms2['default'].forms.main, _jssLoader2['default'].position] },
-	        _reactNative2['default'].createElement(_sharedLoaderComponent2['default'], { loading: true })
-	      );
-	    }
-
-	    return _reactNative2['default'].createElement(
-	      _reactNative.View,
-	      { style: _jssForms2['default'].forms.main },
-	      _reactNative2['default'].createElement(
-	        _reactNative.View,
-	        { style: _jssForms2['default'].forms.firstRow },
-	        _reactNative2['default'].createElement(_reactNative.Image, { source: __webpack_require__(146) }),
-	        _reactNative2['default'].createElement(
-	          _reactNative.Text,
-	          { style: [_jssForms2['default'].texts.main, _jssForms2['default'].texts.bold] },
-	          'Server'
-	        ),
-	        _reactNative2['default'].createElement(_reactNative.TextInput, {
-	          style: _jssForms2['default'].inputs.main,
-	          placeholder: 'Deploy server address',
-	          onChangeText: this.onChangeText.bind(this, 'server'),
-	          value: this.state.server
-	        })
-	      ),
-	      _reactNative2['default'].createElement(
-	        _reactNative.View,
-	        { style: _jssForms2['default'].forms.row },
-	        _reactNative2['default'].createElement(
-	          _reactNative.Text,
-	          { style: [_jssForms2['default'].texts.main, _jssForms2['default'].texts.bold] },
-	          'Login'
-	        ),
-	        _reactNative2['default'].createElement(_reactNative.TextInput, {
-	          style: _jssForms2['default'].inputs.main,
-	          placeholder: 'Your Deploy username',
-	          onChangeText: this.onChangeText.bind(this, 'userName'),
-	          value: this.state.userName
-	        })
-	      ),
-	      _reactNative2['default'].createElement(
-	        _reactNative.View,
-	        { style: _jssForms2['default'].forms.row },
-	        _reactNative2['default'].createElement(
-	          _reactNative.Text,
-	          { style: [_jssForms2['default'].texts.main, _jssForms2['default'].texts.bold] },
-	          'Password'
-	        ),
-	        _reactNative2['default'].createElement(_reactNative.TextInput, {
-	          style: _jssForms2['default'].inputs.main,
-	          password: true,
-	          secureTextEntry: true,
-	          placeholder: 'Your Deploy password',
-	          onChangeText: this.onChangeText.bind(this, 'password'),
-	          value: this.state.password
-	        })
-	      ),
-	      _reactNative2['default'].createElement(
-	        _reactNative.View,
-	        { style: _jssForms2['default'].forms.row },
-	        _reactNative2['default'].createElement(_sharedButtonComponent2['default'], { onPress: this.onConnect, text: 'Connect', icon: 'user' })
-	      )
-	    );
-	  }
-	});
-	module.exports = exports['default'];
-
-/***/ },
-/* 144 */,
-/* 145 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _reactNative = __webpack_require__(2);
-
-	var _colorsScheme = __webpack_require__(138);
-
-	var _colorsScheme2 = _interopRequireDefault(_colorsScheme);
-
-	var TextsStyles = _reactNative.StyleSheet.create({
-	  main: {
-	    fontSize: 16
-	  },
-	  bold: {
-	    fontWeight: 'bold'
-	  }
-	});
-
-	var InputsStyles = _reactNative.StyleSheet.create({
-	  main: {
-	    height: 40,
-	    borderColor: _colorsScheme2['default'].get('gray'),
-	    borderWidth: 1,
-	    width: 250
-	  }
-	});
-
-	var FormsStyles = _reactNative.StyleSheet.create({
-	  main: {
-	    flex: 1,
-	    alignItems: 'center',
-	    flexDirection: 'column',
-	    justifyContent: 'flex-start',
-	    backgroundColor: _colorsScheme2['default'].get('white')
-	  },
-	  row: {
-	    marginTop: 10
-	  },
-	  firstRow: {
-	    marginTop: 80
-	  }
-	});
-
-	exports['default'] = {
-	  texts: TextsStyles,
-	  inputs: InputsStyles,
-	  forms: FormsStyles
-	};
-	module.exports = exports['default'];
-
-/***/ },
-/* 146 */
-/***/ function(module, exports) {
-
-	module.exports = require("image!logo");
-
-/***/ },
-/* 147 */,
-/* 148 */,
-/* 149 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _reactNative = __webpack_require__(2);
-
-	var _reactNative2 = _interopRequireDefault(_reactNative);
-
-	var _storesJobDetailsStore = __webpack_require__(150);
+	var _storesJobDetailsStore = __webpack_require__(140);
 
 	var _storesJobDetailsStore2 = _interopRequireDefault(_storesJobDetailsStore);
 
@@ -27643,7 +27178,7 @@
 
 	var _sharedLoaderComponent2 = _interopRequireDefault(_sharedLoaderComponent);
 
-	var _actionsJobsActions = __webpack_require__(130);
+	var _actionsJobsActions = __webpack_require__(131);
 
 	var _actionsJobsActions2 = _interopRequireDefault(_actionsJobsActions);
 
@@ -27718,7 +27253,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 150 */
+/* 140 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27819,6 +27354,653 @@
 
 	exports['default'] = store;
 	module.exports = exports['default'];
+
+/***/ },
+/* 141 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _reactNative2 = _interopRequireDefault(_reactNative);
+
+	var _reactNativeVectorIconsFontAwesome = __webpack_require__(57);
+
+	var _reactNativeVectorIconsFontAwesome2 = _interopRequireDefault(_reactNativeVectorIconsFontAwesome);
+
+	//Components
+
+	var _sharedLoaderComponent = __webpack_require__(136);
+
+	var _sharedLoaderComponent2 = _interopRequireDefault(_sharedLoaderComponent);
+
+	var _sharedButtonComponent = __webpack_require__(142);
+
+	var _sharedButtonComponent2 = _interopRequireDefault(_sharedButtonComponent);
+
+	//Actions
+
+	var _actionsSettingsActions = __webpack_require__(143);
+
+	var _actionsSettingsActions2 = _interopRequireDefault(_actionsSettingsActions);
+
+	//Stores
+
+	var _storesSettingsStore = __webpack_require__(127);
+
+	var _storesSettingsStore2 = _interopRequireDefault(_storesSettingsStore);
+
+	//Styles
+
+	var _jssLoader = __webpack_require__(137);
+
+	var _jssLoader2 = _interopRequireDefault(_jssLoader);
+
+	var _jssForms = __webpack_require__(145);
+
+	var _jssForms2 = _interopRequireDefault(_jssForms);
+
+	var SettingsStyles = _reactNative.StyleSheet.create({
+	  togglerContainer: {
+	    justifyContent: 'space-between',
+	    height: 50,
+	    width: 250
+	  },
+	  userIcons: {
+	    width: 25
+	  },
+	  userText: {
+	    marginLeft: 5
+	  }
+	});
+
+	exports['default'] = _reactNative2['default'].createClass({
+	  displayName: 'SettingsComponent',
+
+	  propTypes: {
+	    navigator: _reactNative2['default'].PropTypes.object
+	  },
+
+	  statics: {
+	    title: 'Settings'
+	  },
+
+	  getInitialState: function getInitialState() {
+	    return _storesSettingsStore2['default'].getState();
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    _storesSettingsStore2['default'].on('change', this.handleChange);
+	  },
+
+	  componentWillUnmount: function componentWillUnmount() {
+	    _storesSettingsStore2['default'].off('change', this.handleChange);
+	  },
+
+	  onLogout: function onLogout() {
+	    _actionsSettingsActions2['default'].logout();
+	  },
+
+	  onAutoSyncChange: function onAutoSyncChange(newVal) {
+	    _actionsSettingsActions2['default'].changeAutoSync(newVal);
+	  },
+
+	  onRememberMeChange: function onRememberMeChange(newVal) {
+	    _actionsSettingsActions2['default'].changeRememberMe(newVal);
+	  },
+
+	  onPushNotificationsChange: function onPushNotificationsChange(newVal) {
+	    _actionsSettingsActions2['default'].changePushNotifications(newVal);
+	  },
+
+	  handleChange: function handleChange() {
+	    console.log('handle change', _storesSettingsStore2['default'].getState());
+	    this.setState(_storesSettingsStore2['default'].getState());
+	  },
+
+	  render: function render() {
+	    if (this.state.loading) {
+	      return _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: [_jssForms2['default'].forms.main, _jssLoader2['default'].position] },
+	        _reactNative2['default'].createElement(_sharedLoaderComponent2['default'], { loading: true })
+	      );
+	    }
+
+	    return _reactNative2['default'].createElement(
+	      _reactNative.View,
+	      { style: _jssForms2['default'].forms.main },
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: _jssForms2['default'].forms.firstRow },
+	        _reactNative2['default'].createElement(
+	          _reactNative.View,
+	          { style: _jssForms2['default'].forms.flexRow },
+	          _reactNative2['default'].createElement(
+	            _reactNative.View,
+	            { style: SettingsStyles.userIcons },
+	            _reactNative2['default'].createElement(_reactNativeVectorIconsFontAwesome2['default'], { name: 'user', style: { marginLeft: 2 }, size: 20, color: '#00adee' })
+	          ),
+	          _reactNative2['default'].createElement(
+	            _reactNative.Text,
+	            { style: SettingsStyles.userText },
+	            this.state.user.userName
+	          )
+	        ),
+	        _reactNative2['default'].createElement(
+	          _reactNative.View,
+	          { style: _jssForms2['default'].forms.flexRow },
+	          _reactNative2['default'].createElement(
+	            _reactNative.View,
+	            { style: SettingsStyles.userIcons },
+	            _reactNative2['default'].createElement(_reactNativeVectorIconsFontAwesome2['default'], { name: 'laptop', size: 20, color: '#00adee' })
+	          ),
+	          _reactNative2['default'].createElement(
+	            _reactNative.Text,
+	            { style: SettingsStyles.userText },
+	            this.state.server
+	          )
+	        ),
+	        _reactNative2['default'].createElement(_sharedButtonComponent2['default'], { onPress: this.onLogout, text: 'Logout', icon: 'sign-out' })
+	      ),
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: _jssForms2['default'].forms.firstRow },
+	        _reactNative2['default'].createElement(
+	          _reactNative.View,
+	          { style: [_jssForms2['default'].forms.flexRow, SettingsStyles.togglerContainer] },
+	          _reactNative2['default'].createElement(
+	            _reactNative.View,
+	            null,
+	            _reactNative2['default'].createElement(
+	              _reactNative.Text,
+	              { style: [_jssForms2['default'].texts.small] },
+	              'Remember my credentials'
+	            )
+	          ),
+	          _reactNative2['default'].createElement(
+	            _reactNative.View,
+	            null,
+	            _reactNative2['default'].createElement(_reactNative.SwitchIOS, {
+	              onValueChange: this.onRememberMeChange,
+	              value: this.state.rememberMe
+	            })
+	          )
+	        )
+	      ),
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: _jssForms2['default'].forms.row },
+	        _reactNative2['default'].createElement(
+	          _reactNative.View,
+	          { style: [_jssForms2['default'].forms.flexRow, SettingsStyles.togglerContainer] },
+	          _reactNative2['default'].createElement(
+	            _reactNative.View,
+	            null,
+	            _reactNative2['default'].createElement(
+	              _reactNative.Text,
+	              { style: [_jssForms2['default'].texts.small] },
+	              'Auto sync every 30 seconds'
+	            )
+	          ),
+	          _reactNative2['default'].createElement(
+	            _reactNative.View,
+	            null,
+	            _reactNative2['default'].createElement(_reactNative.SwitchIOS, {
+	              onValueChange: this.onAutoSyncChange,
+	              value: this.state.autoSync
+	            })
+	          )
+	        )
+	      ),
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: _jssForms2['default'].forms.row },
+	        _reactNative2['default'].createElement(
+	          _reactNative.View,
+	          { style: [_jssForms2['default'].forms.flexRow, SettingsStyles.togglerContainer] },
+	          _reactNative2['default'].createElement(
+	            _reactNative.View,
+	            null,
+	            _reactNative2['default'].createElement(
+	              _reactNative.Text,
+	              { style: [_jssForms2['default'].texts.small] },
+	              'Push Notifications'
+	            )
+	          ),
+	          _reactNative2['default'].createElement(
+	            _reactNative.View,
+	            null,
+	            _reactNative2['default'].createElement(_reactNative.SwitchIOS, {
+	              onValueChange: this.onPushNotificationsChange,
+	              value: this.state.pushNotifications
+	            })
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 142 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _reactNative2 = _interopRequireDefault(_reactNative);
+
+	var _reactNativeVectorIconsFontAwesome = __webpack_require__(57);
+
+	var _reactNativeVectorIconsFontAwesome2 = _interopRequireDefault(_reactNativeVectorIconsFontAwesome);
+
+	var _componentsJssLoader = __webpack_require__(137);
+
+	var _componentsJssLoader2 = _interopRequireDefault(_componentsJssLoader);
+
+	exports['default'] = _reactNative2['default'].createClass({
+	  displayName: 'Button',
+
+	  propTypes: {
+	    onPress: _reactNative2['default'].PropTypes.func.required,
+	    text: _reactNative2['default'].PropTypes.string,
+	    icon: _reactNative2['default'].PropTypes.string
+	  },
+
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      loading: false
+	    };
+	  },
+
+	  render: function render() {
+	    var icon = this.props.icon ? _reactNative2['default'].createElement(_reactNativeVectorIconsFontAwesome2['default'], { name: this.props.icon, size: 20, color: 'white' }) : null;
+	    return _reactNative2['default'].createElement(
+	      _reactNative.TouchableHighlight,
+	      { onPress: this.props.onPress, underlayColor: '#00adee' },
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: { flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#567b99', width: 250, height: 30, borderRadius: 5 } },
+	        icon,
+	        _reactNative2['default'].createElement(
+	          _reactNative.Text,
+	          { style: { fontSize: 16, fontWeight: 'bold', color: 'white', marginLeft: 5 } },
+	          this.props.text
+	        )
+	      )
+	    );
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 143 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _dispatchersAppDispatcher = __webpack_require__(121);
+
+	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
+
+	var _webutilsUserWebutils = __webpack_require__(144);
+
+	var _webutilsUserWebutils2 = _interopRequireDefault(_webutilsUserWebutils);
+
+	var _constantsAppConstants = __webpack_require__(124);
+
+	exports['default'] = {
+	  login: function login(server, _login, password) {
+	    _dispatchersAppDispatcher2['default'].handleViewAction({
+	      type: _constantsAppConstants.ActionTypes.LOGIN_PROCESSING
+	    });
+
+	    _webutilsUserWebutils2['default'].login(server, _login, password).then(function (data) {
+	      _dispatchersAppDispatcher2['default'].handleServerAction({
+	        type: _constantsAppConstants.ActionTypes.LOGIN_DONE,
+	        user: data
+	      });
+	    })['catch'](function (error) {
+	      _dispatchersAppDispatcher2['default'].handleServerAction({
+	        type: _constantsAppConstants.ActionTypes.LOGIN_ERROR,
+	        error: error
+	      });
+	    });
+	  },
+
+	  logout: function logout() {
+	    _dispatchersAppDispatcher2['default'].handleViewAction({
+	      type: _constantsAppConstants.ActionTypes.LOGOUT_PROCESSING
+	    });
+	    _webutilsUserWebutils2['default'].logout().then(function () {
+	      _dispatchersAppDispatcher2['default'].handleServerAction({
+	        type: _constantsAppConstants.ActionTypes.LOGOUT_DONE
+	      });
+	    });
+	  },
+
+	  credentialsChange: function credentialsChange(field, value) {
+	    _dispatchersAppDispatcher2['default'].handleViewAction({
+	      type: _constantsAppConstants.ActionTypes.CREDENTIALS_CHANGE,
+	      field: field,
+	      value: value
+	    });
+	  },
+
+	  changeRememberMe: function changeRememberMe(value) {
+	    _dispatchersAppDispatcher2['default'].handleViewAction({
+	      type: _constantsAppConstants.ActionTypes.REMEMBER_ME_SETTING,
+	      value: value
+	    });
+	  },
+
+	  changeAutoSync: function changeAutoSync(value) {
+	    _dispatchersAppDispatcher2['default'].handleViewAction({
+	      type: _constantsAppConstants.ActionTypes.AUTO_SYNC_SETTING,
+	      value: value
+	    });
+	  },
+
+	  changePushNotifications: function changePushNotifications(value) {
+	    _dispatchersAppDispatcher2['default'].handleViewAction({
+	      type: _constantsAppConstants.ActionTypes.PUSH_NOTIFICATIONS_SETTING,
+	      value: value
+	    });
+	  }
+	};
+	module.exports = exports['default'];
+
+/***/ },
+/* 144 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _commanderClient = __webpack_require__(133);
+
+	var _commanderClient2 = _interopRequireDefault(_commanderClient);
+
+	exports['default'] = {
+	  login: function login(server, userName, password) {
+	    _commanderClient2['default'].setServer(server);
+
+	    return _commanderClient2['default'].fetch({
+	      operation: 'login',
+	      parameters: {
+	        userName: userName,
+	        password: password
+	      }
+	    }, false).then(function (response) {
+	      _commanderClient2['default'].setSessionId(response.sessionId);
+	      return response;
+	    });
+	  },
+
+	  logout: function logout() {
+	    return _commanderClient2['default'].fetch({
+	      operation: 'logout'
+	    });
+	  }
+	};
+	module.exports = exports['default'];
+
+/***/ },
+/* 145 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _colorsScheme = __webpack_require__(138);
+
+	var _colorsScheme2 = _interopRequireDefault(_colorsScheme);
+
+	var TextsStyles = _reactNative.StyleSheet.create({
+	  main: {
+	    fontSize: 16
+	  },
+	  small: {
+	    fontSize: 12
+	  },
+	  bold: {
+	    fontWeight: 'bold'
+	  }
+	});
+
+	var InputsStyles = _reactNative.StyleSheet.create({
+	  main: {
+	    height: 40,
+	    borderColor: _colorsScheme2['default'].get('gray'),
+	    borderWidth: 1,
+	    width: 250
+	  }
+	});
+
+	var FormsStyles = _reactNative.StyleSheet.create({
+	  main: {
+	    flex: 1,
+	    alignItems: 'center',
+	    flexDirection: 'column',
+	    justifyContent: 'flex-start',
+	    backgroundColor: _colorsScheme2['default'].get('white')
+	  },
+	  row: {
+	    marginTop: 10
+	  },
+	  firstRow: {
+	    marginTop: 80
+	  },
+	  flexRow: {
+	    flex: 1,
+	    flexDirection: 'row',
+	    alignItems: 'center',
+	    height: 30,
+	    width: 250
+	  }
+	});
+
+	exports['default'] = {
+	  texts: TextsStyles,
+	  inputs: InputsStyles,
+	  forms: FormsStyles
+	};
+	module.exports = exports['default'];
+
+/***/ },
+/* 146 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _reactNative2 = _interopRequireDefault(_reactNative);
+
+	//Components
+
+	var _sharedLoaderComponent = __webpack_require__(136);
+
+	var _sharedLoaderComponent2 = _interopRequireDefault(_sharedLoaderComponent);
+
+	var _sharedButtonComponent = __webpack_require__(142);
+
+	var _sharedButtonComponent2 = _interopRequireDefault(_sharedButtonComponent);
+
+	//Actions
+
+	var _actionsSettingsActions = __webpack_require__(143);
+
+	var _actionsSettingsActions2 = _interopRequireDefault(_actionsSettingsActions);
+
+	//Stores
+
+	var _storesSettingsStore = __webpack_require__(127);
+
+	var _storesSettingsStore2 = _interopRequireDefault(_storesSettingsStore);
+
+	//Styles
+
+	var _jssLoader = __webpack_require__(137);
+
+	var _jssLoader2 = _interopRequireDefault(_jssLoader);
+
+	var _jssForms = __webpack_require__(145);
+
+	var _jssForms2 = _interopRequireDefault(_jssForms);
+
+	exports['default'] = _reactNative2['default'].createClass({
+	  displayName: 'LoginComponent',
+
+	  statics: {
+	    title: 'Login'
+	  },
+
+	  getInitialState: function getInitialState() {
+	    return _storesSettingsStore2['default'].getState();
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    _storesSettingsStore2['default'].on('change', this.handleChange);
+	  },
+
+	  componentWillUnmount: function componentWillUnmount() {
+	    _storesSettingsStore2['default'].off('change', this.handleChange);
+	  },
+
+	  handleChange: function handleChange() {
+	    this.setState(_storesSettingsStore2['default'].getState());
+	  },
+
+	  onConnect: function onConnect() {
+	    //if (!this.state.server || !this.state.userName || !this.state.password) {
+	    //  return;
+	    //}
+	    _actionsSettingsActions2['default'].login('192.168.7.182', 'admin', 'changeme');
+	    //SettingsActions.login(
+	    //  this.state.server, this.state.userName, this.state.password
+	    //);
+	  },
+
+	  onChangeText: function onChangeText(field, value) {
+	    _actionsSettingsActions2['default'].credentialsChange(field, value);
+	  },
+
+	  render: function render() {
+	    if (this.state.loading) {
+	      return _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: [_jssForms2['default'].forms.main, _jssLoader2['default'].position] },
+	        _reactNative2['default'].createElement(_sharedLoaderComponent2['default'], { loading: true })
+	      );
+	    }
+
+	    return _reactNative2['default'].createElement(
+	      _reactNative.View,
+	      { style: _jssForms2['default'].forms.main },
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: _jssForms2['default'].forms.firstRow },
+	        _reactNative2['default'].createElement(_reactNative.Image, { source: __webpack_require__(147) }),
+	        _reactNative2['default'].createElement(
+	          _reactNative.Text,
+	          { style: [_jssForms2['default'].texts.main, _jssForms2['default'].texts.bold] },
+	          'Server'
+	        ),
+	        _reactNative2['default'].createElement(_reactNative.TextInput, {
+	          style: _jssForms2['default'].inputs.main,
+	          placeholder: 'Deploy server address',
+	          onChangeText: this.onChangeText.bind(this, 'server'),
+	          value: this.state.server
+	        })
+	      ),
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: _jssForms2['default'].forms.row },
+	        _reactNative2['default'].createElement(
+	          _reactNative.Text,
+	          { style: [_jssForms2['default'].texts.main, _jssForms2['default'].texts.bold] },
+	          'Login'
+	        ),
+	        _reactNative2['default'].createElement(_reactNative.TextInput, {
+	          style: _jssForms2['default'].inputs.main,
+	          placeholder: 'Your Deploy username',
+	          onChangeText: this.onChangeText.bind(this, 'userName'),
+	          value: this.state.userName
+	        })
+	      ),
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: _jssForms2['default'].forms.row },
+	        _reactNative2['default'].createElement(
+	          _reactNative.Text,
+	          { style: [_jssForms2['default'].texts.main, _jssForms2['default'].texts.bold] },
+	          'Password'
+	        ),
+	        _reactNative2['default'].createElement(_reactNative.TextInput, {
+	          style: _jssForms2['default'].inputs.main,
+	          password: true,
+	          secureTextEntry: true,
+	          placeholder: 'Your Deploy password',
+	          onChangeText: this.onChangeText.bind(this, 'password'),
+	          value: this.state.password
+	        })
+	      ),
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: _jssForms2['default'].forms.row },
+	        _reactNative2['default'].createElement(_sharedButtonComponent2['default'], { onPress: this.onConnect, text: 'Connect', icon: 'sign-in' })
+	      )
+	    );
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 147 */
+/***/ function(module, exports) {
+
+	module.exports = require("image!logo");
 
 /***/ }
 /******/ ])));
