@@ -30,7 +30,6 @@ export default {
 
   saveLocalSetting(settingName, value) {
     AsyncStorage.setItem(settingName, value.toString());
-    this.getSettings();
   },
 
   getSettings() {
