@@ -25,3 +25,9 @@ project.xcworkspace
 # node.js
 #
 npm-debug.log
+
+# webStorm
+#
+.idea/
+node_modules
+iOs

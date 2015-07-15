@@ -119,7 +119,7 @@ export default React.createClass({
       <TouchableHighlight
         onPress={
           this.goToNextScreen.bind(rowData.targetComponent, rowData.targetComponentTitle)
-          }
+        }
         //Change this color to darker one
         underlayColor={Colors.gray}
       >
