@@ -8,15 +8,19 @@ import React, {
   Image
 } from 'react-native';
 
+//Components
 import LoaderComponent from './shared/loader.component';
 import ButtonComponent from './shared/button.component';
+
+//Actions
 import SettingsActions from 'actions/settings.actions';
+
+//Stores
 import SettingsStore from 'stores/settings.store';
 
 //Styles
-import { MainJSS } from './jss/layouts';
-import { LoaderMainOffsetJSS } from './jss/loader';
-import { BoldTextJSS, InputJSS, RowJSS, FirstRowJSS } from './jss/forms';
+import LoaderJSS from './jss/loader';
+import FormJSS from './jss/forms';
 
 
 export default React.createClass({
@@ -59,45 +63,45 @@ export default React.createClass({
   render() {
     if (this.state.loading) {
       return (
-        <View style={ [ MainJSS(), LoaderMainOffsetJSS() ] }>
+        <View style={[ FormJSS.forms.main, LoaderJSS.position ]}>
           <LoaderComponent loading={true} />
         </View>
       );
     }
 
     return (
-      <View style={ MainJSS() }>
-        <View style={ FirstRowJSS() }>
+      <View style={ FormJSS.forms.main }>
+        <View style={ FormJSS.forms.firstRow }>
           <Image source={require('image!logo')} />
-          <Text style={ BoldTextJSS() }>
+          <Text style={[ FormJSS.texts.main, FormJSS.texts.bold ]}>
             Server
           </Text>
           <TextInput
-            style={ InputJSS() }
+            style={ FormJSS.inputs.main }
             placeholder={'Deploy server address'}
             onChangeText={this.onChangeText.bind(this, 'server')}
             value={this.state.server}
           />
         </View>
 
-        <View style={ RowJSS() }>
-          <Text style={ BoldTextJSS() }>
+        <View style={ FormJSS.forms.row }>
+          <Text style={[ FormJSS.texts.main, FormJSS.texts.bold ]}>
             Login
           </Text>
           <TextInput
-            style={ InputJSS() }
+            style={ FormJSS.inputs.main }
             placeholder={'Your Deploy username'}
             onChangeText={this.onChangeText.bind(this, 'userName')}
             value={this.state.userName}
           />
         </View>
 
-        <View style={ RowJSS() }>
-          <Text style={ BoldTextJSS() }>
+        <View style={ FormJSS.forms.row }>
+          <Text style={[ FormJSS.texts.main, FormJSS.texts.bold ]}>
             Password
           </Text>
           <TextInput
-            style={ InputJSS() }
+            style={ FormJSS.inputs.main }
             password={true}
             secureTextEntry={true}
             placeholder={'Your Deploy password'}
@@ -106,8 +110,8 @@ export default React.createClass({
           />
         </View>
 
-        <View style={ RowJSS() }>
-          <ButtonComponent onPress={this.onConnect} text={'Connect'} icon={'user'} />
+        <View style={ FormJSS.forms.row }>
+          <ButtonComponent onPress={this.onConnect} text={'Connect'} icon={'sign-in'} />
         </View>
       </View>
     );
