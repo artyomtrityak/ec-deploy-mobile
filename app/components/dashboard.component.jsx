@@ -81,17 +81,7 @@ export default React.createClass({
     });
   },
 
-  _handleBackButtonPress() {
-    console.log('back');
-    this.props.navigator.pop();
-  },
-
-  _handleNextButtonPress(nextRoute) {
-    console.log('next');
-    this.props.navigator.push(nextRoute);
-  },
-
-  _renderRow: function(rowData, sectionID, rowID) {
+  renderRow: function(rowData, sectionID, rowID) {
     return (
       <TouchableHighlight
         onPress={
@@ -123,10 +113,10 @@ export default React.createClass({
     }
 
     return (
-      <View style={[Styles.tabContent, {backgroundColor: '#FFF'}]}>
+      <View style={Styles.tabContent}>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={this._renderRow}
+          renderRow={this.renderRow}
         />
       </View>
     );
