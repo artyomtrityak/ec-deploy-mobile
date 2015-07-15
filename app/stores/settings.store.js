@@ -29,6 +29,7 @@ function _loginUser (user) {
 
 function _logoutUser (user) {
   settingsState = settingsState.set('user', undefined);
+  settingsState = settingsState.set('password', undefined);
 }
 
 function _changeCredential (field, value) {
@@ -54,6 +55,7 @@ store.dispatchToken = AppDispatcher.register((payload) => {
   switch (action.type) {
     case ActionTypes.LOGIN_PROCESSING:
     case ActionTypes.LOGOUT_PROCESSING:
+    case ActionTypes.INIT_PROCESSING:
       _showLoading();
       store.emitChange();
       break;
@@ -75,6 +77,14 @@ store.dispatchToken = AppDispatcher.register((payload) => {
       _hideLoading();
       store.emitChange();
       break;
+
+    case ActionTypes.INIT_DONE:
+      _changeCredential('rememberMe', action.rememberMe);
+      _changeCredential('autoSync', action.autoSync);
+      _changeCredential('pushNotifications', action.pushNotifications);
+      _hideLoading();
+      store.emitChange();
+      break;    
 
     case ActionTypes.REMEMBER_ME_SETTING:
       _changeCredential('rememberMe', action.value);
