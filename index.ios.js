@@ -21709,7 +21709,7 @@
 
 	var _reactNative2 = _interopRequireDefault(_reactNative);
 
-	var _actionsJobsActions = __webpack_require__(130);
+	var _actionsJobsActions = __webpack_require__(131);
 
 	var _actionsJobsActions2 = _interopRequireDefault(_actionsJobsActions);
 
@@ -21717,7 +21717,7 @@
 
 	var _storesSettingsStore2 = _interopRequireDefault(_storesSettingsStore);
 
-	var _storesJobsStore = __webpack_require__(135);
+	var _storesJobsStore = __webpack_require__(130);
 
 	var _storesJobsStore2 = _interopRequireDefault(_storesJobsStore);
 
@@ -21841,6 +21841,109 @@
 
 	'use strict';
 
+	var _inherits = __webpack_require__(109)['default'];
+
+	var _get = __webpack_require__(112)['default'];
+
+	var _createClass = __webpack_require__(115)['default'];
+
+	var _classCallCheck = __webpack_require__(118)['default'];
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _eventemitter2 = __webpack_require__(119);
+
+	var _eventemitter22 = _interopRequireDefault(_eventemitter2);
+
+	var _immutable = __webpack_require__(120);
+
+	var _immutable2 = _interopRequireDefault(_immutable);
+
+	var _dispatchersAppDispatcher = __webpack_require__(121);
+
+	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
+
+	var _constantsAppConstants = __webpack_require__(124);
+
+	// Private data and functions
+	var jobsState = _immutable2['default'].Map({ loading: false });
+
+	function _showLoading() {
+	  jobsState = jobsState.set('loading', true);
+	}
+
+	function _hideLoading() {
+	  jobsState = jobsState.set('loading', false);
+	}
+
+	function _setJobs(jobs) {
+	  jobsState = jobsState.set('jobs', jobs);
+	}
+
+	// Store eventemitter
+
+	var JobsStore = (function (_EventEmitter) {
+	  function JobsStore() {
+	    _classCallCheck(this, JobsStore);
+
+	    _get(Object.getPrototypeOf(JobsStore.prototype), 'constructor', this).apply(this, arguments);
+	  }
+
+	  _inherits(JobsStore, _EventEmitter);
+
+	  _createClass(JobsStore, [{
+	    key: 'getState',
+	    value: function getState() {
+	      return jobsState.toJS();
+	    }
+	  }, {
+	    key: 'emitChange',
+	    value: function emitChange() {
+	      this.emit('change');
+	    }
+	  }]);
+
+	  return JobsStore;
+	})(_eventemitter22['default']);
+
+	var store = new JobsStore();
+
+	// Dispatcher
+	store.dispatchToken = _dispatchersAppDispatcher2['default'].register(function (payload) {
+	  var action = payload.action;
+
+	  switch (action.type) {
+	    case _constantsAppConstants.ActionTypes.RETRIVING_JOBS:
+	      _showLoading();
+	      store.emitChange();
+	      break;
+
+	    case _constantsAppConstants.ActionTypes.RETRIVED_JOBS:
+	      _hideLoading();
+	      _setJobs(action.jobs);
+	      store.emitChange();
+	      break;
+
+	    case _constantsAppConstants.ActionTypes.SERVER_ERROR:
+	      _hideLoading();
+	      store.emitChange();
+	      break;
+	  }
+	});
+
+	exports['default'] = store;
+	module.exports = exports['default'];
+
+/***/ },
+/* 131 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
 	var _interopRequireDefault = __webpack_require__(1)['default'];
 
 	Object.defineProperty(exports, '__esModule', {
@@ -21851,7 +21954,7 @@
 
 	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
 
-	var _webutilsJobsWebutils = __webpack_require__(131);
+	var _webutilsJobsWebutils = __webpack_require__(132);
 
 	var _webutilsJobsWebutils2 = _interopRequireDefault(_webutilsJobsWebutils);
 
@@ -21887,7 +21990,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 131 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21898,7 +22001,7 @@
 	  value: true
 	});
 
-	var _commanderClient = __webpack_require__(132);
+	var _commanderClient = __webpack_require__(133);
 
 	var _commanderClient2 = _interopRequireDefault(_commanderClient);
 
@@ -21926,7 +22029,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 132 */
+/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21937,7 +22040,7 @@
 	  value: true
 	});
 
-	var _bluebird = __webpack_require__(133);
+	var _bluebird = __webpack_require__(134);
 
 	var _bluebird2 = _interopRequireDefault(_bluebird);
 
@@ -22034,7 +22137,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 133 */
+/* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process, global, setImmediate) {/* @preserve
@@ -26841,10 +26944,10 @@
 
 	},{"./es5.js":14}]},{},[4])(4)
 	});                    ;if (typeof window !== 'undefined' && window !== null) {                               window.P = window.Promise;                                                     } else if (typeof self !== 'undefined' && self !== null) {                             self.P = self.Promise;                                                         }
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(60), (function() { return this; }()), __webpack_require__(134).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(60), (function() { return this; }()), __webpack_require__(135).setImmediate))
 
 /***/ },
-/* 134 */
+/* 135 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(60).nextTick;
@@ -26923,110 +27026,7 @@
 	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
 	  delete immediateIds[id];
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(134).setImmediate, __webpack_require__(134).clearImmediate))
-
-/***/ },
-/* 135 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _inherits = __webpack_require__(109)['default'];
-
-	var _get = __webpack_require__(112)['default'];
-
-	var _createClass = __webpack_require__(115)['default'];
-
-	var _classCallCheck = __webpack_require__(118)['default'];
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _eventemitter2 = __webpack_require__(119);
-
-	var _eventemitter22 = _interopRequireDefault(_eventemitter2);
-
-	var _immutable = __webpack_require__(120);
-
-	var _immutable2 = _interopRequireDefault(_immutable);
-
-	var _dispatchersAppDispatcher = __webpack_require__(121);
-
-	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
-
-	var _constantsAppConstants = __webpack_require__(124);
-
-	// Private data and functions
-	var jobsState = _immutable2['default'].Map({ loading: false });
-
-	function _showLoading() {
-	  jobsState = jobsState.set('loading', true);
-	}
-
-	function _hideLoading() {
-	  jobsState = jobsState.set('loading', false);
-	}
-
-	function _setJobs(jobs) {
-	  jobsState = jobsState.set('jobs', jobs);
-	}
-
-	// Store eventemitter
-
-	var JobsStore = (function (_EventEmitter) {
-	  function JobsStore() {
-	    _classCallCheck(this, JobsStore);
-
-	    _get(Object.getPrototypeOf(JobsStore.prototype), 'constructor', this).apply(this, arguments);
-	  }
-
-	  _inherits(JobsStore, _EventEmitter);
-
-	  _createClass(JobsStore, [{
-	    key: 'getState',
-	    value: function getState() {
-	      return jobsState.toJS();
-	    }
-	  }, {
-	    key: 'emitChange',
-	    value: function emitChange() {
-	      this.emit('change');
-	    }
-	  }]);
-
-	  return JobsStore;
-	})(_eventemitter22['default']);
-
-	var store = new JobsStore();
-
-	// Dispatcher
-	store.dispatchToken = _dispatchersAppDispatcher2['default'].register(function (payload) {
-	  var action = payload.action;
-
-	  switch (action.type) {
-	    case _constantsAppConstants.ActionTypes.RETRIVING_JOBS:
-	      _showLoading();
-	      store.emitChange();
-	      break;
-
-	    case _constantsAppConstants.ActionTypes.RETRIVED_JOBS:
-	      _hideLoading();
-	      _setJobs(action.jobs);
-	      store.emitChange();
-	      break;
-
-	    case _constantsAppConstants.ActionTypes.SERVER_ERROR:
-	      _hideLoading();
-	      store.emitChange();
-	      break;
-	  }
-	});
-
-	exports['default'] = store;
-	module.exports = exports['default'];
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(135).setImmediate, __webpack_require__(135).clearImmediate))
 
 /***/ },
 /* 136 */
@@ -27368,7 +27368,7 @@
 	  value: true
 	});
 
-	var _commanderClient = __webpack_require__(132);
+	var _commanderClient = __webpack_require__(133);
 
 	var _commanderClient2 = _interopRequireDefault(_commanderClient);
 
@@ -27412,6 +27412,8 @@
 
 	var _reactNative2 = _interopRequireDefault(_reactNative);
 
+	//Components
+
 	var _sharedLoaderComponent = __webpack_require__(136);
 
 	var _sharedLoaderComponent2 = _interopRequireDefault(_sharedLoaderComponent);
@@ -27420,9 +27422,13 @@
 
 	var _sharedButtonComponent2 = _interopRequireDefault(_sharedButtonComponent);
 
+	//Actions
+
 	var _actionsSettingsActions = __webpack_require__(141);
 
 	var _actionsSettingsActions2 = _interopRequireDefault(_actionsSettingsActions);
+
+	//Stores
 
 	var _storesSettingsStore = __webpack_require__(127);
 
@@ -27430,11 +27436,13 @@
 
 	//Styles
 
-	var _jssLayouts = __webpack_require__(144);
-
 	var _jssLoader = __webpack_require__(137);
 
+	var _jssLoader2 = _interopRequireDefault(_jssLoader);
+
 	var _jssForms = __webpack_require__(145);
+
+	var _jssForms2 = _interopRequireDefault(_jssForms);
 
 	exports['default'] = _reactNative2['default'].createClass({
 	  displayName: 'LoginComponent',
@@ -27477,25 +27485,25 @@
 	    if (this.state.loading) {
 	      return _reactNative2['default'].createElement(
 	        _reactNative.View,
-	        { style: [(0, _jssLayouts.MainJSS)(), (0, _jssLoader.LoaderMainOffsetJSS)()] },
+	        { style: [_jssForms2['default'].forms.main, _jssLoader2['default'].position] },
 	        _reactNative2['default'].createElement(_sharedLoaderComponent2['default'], { loading: true })
 	      );
 	    }
 
 	    return _reactNative2['default'].createElement(
 	      _reactNative.View,
-	      { style: (0, _jssLayouts.MainJSS)() },
+	      { style: _jssForms2['default'].forms.main },
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
-	        { style: (0, _jssForms.FirstRowJSS)() },
+	        { style: _jssForms2['default'].forms.firstRow },
 	        _reactNative2['default'].createElement(_reactNative.Image, { source: __webpack_require__(146) }),
 	        _reactNative2['default'].createElement(
 	          _reactNative.Text,
-	          { style: (0, _jssForms.BoldTextJSS)() },
+	          { style: [_jssForms2['default'].texts.main, _jssForms2['default'].texts.bold] },
 	          'Server'
 	        ),
 	        _reactNative2['default'].createElement(_reactNative.TextInput, {
-	          style: (0, _jssForms.InputJSS)(),
+	          style: _jssForms2['default'].inputs.main,
 	          placeholder: 'Deploy server address',
 	          onChangeText: this.onChangeText.bind(this, 'server'),
 	          value: this.state.server
@@ -27503,14 +27511,14 @@
 	      ),
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
-	        { style: (0, _jssForms.RowJSS)() },
+	        { style: _jssForms2['default'].forms.row },
 	        _reactNative2['default'].createElement(
 	          _reactNative.Text,
-	          { style: (0, _jssForms.BoldTextJSS)() },
+	          { style: [_jssForms2['default'].texts.main, _jssForms2['default'].texts.bold] },
 	          'Login'
 	        ),
 	        _reactNative2['default'].createElement(_reactNative.TextInput, {
-	          style: (0, _jssForms.InputJSS)(),
+	          style: _jssForms2['default'].inputs.main,
 	          placeholder: 'Your Deploy username',
 	          onChangeText: this.onChangeText.bind(this, 'userName'),
 	          value: this.state.userName
@@ -27518,14 +27526,14 @@
 	      ),
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
-	        { style: (0, _jssForms.RowJSS)() },
+	        { style: _jssForms2['default'].forms.row },
 	        _reactNative2['default'].createElement(
 	          _reactNative.Text,
-	          { style: (0, _jssForms.BoldTextJSS)() },
+	          { style: [_jssForms2['default'].texts.main, _jssForms2['default'].texts.bold] },
 	          'Password'
 	        ),
 	        _reactNative2['default'].createElement(_reactNative.TextInput, {
-	          style: (0, _jssForms.InputJSS)(),
+	          style: _jssForms2['default'].inputs.main,
 	          password: true,
 	          secureTextEntry: true,
 	          placeholder: 'Your Deploy password',
@@ -27535,7 +27543,7 @@
 	      ),
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
-	        { style: (0, _jssForms.RowJSS)() },
+	        { style: _jssForms2['default'].forms.row },
 	        _reactNative2['default'].createElement(_sharedButtonComponent2['default'], { onPress: this.onConnect, text: 'Connect', icon: 'user' })
 	      )
 	    );
@@ -27544,39 +27552,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 144 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	exports.MainJSS = MainJSS;
-
-	var _reactNative = __webpack_require__(2);
-
-	var _colorsScheme = __webpack_require__(138);
-
-	var _colorsScheme2 = _interopRequireDefault(_colorsScheme);
-
-	var LayoutStyle = _reactNative.StyleSheet.create({
-	  main: {
-	    flex: 1,
-	    alignItems: 'center',
-	    flexDirection: 'column',
-	    justifyContent: 'flex-start',
-	    backgroundColor: _colorsScheme2['default'].get('white')
-	  }
-	});
-
-	function MainJSS() {
-	  return LayoutStyle.main;
-	}
-
-/***/ },
+/* 144 */,
 /* 145 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -27587,11 +27563,6 @@
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
-	exports.TextJSS = TextJSS;
-	exports.BoldTextJSS = BoldTextJSS;
-	exports.InputJSS = InputJSS;
-	exports.RowJSS = RowJSS;
-	exports.FirstRowJSS = FirstRowJSS;
 
 	var _reactNative = __webpack_require__(2);
 
@@ -27599,47 +27570,46 @@
 
 	var _colorsScheme2 = _interopRequireDefault(_colorsScheme);
 
-	var TextStyle = _reactNative.StyleSheet.create({
+	var TextsStyles = _reactNative.StyleSheet.create({
 	  main: {
 	    fontSize: 16
 	  },
 	  bold: {
 	    fontWeight: 'bold'
-	  },
-	  input: {
+	  }
+	});
+
+	var InputsStyles = _reactNative.StyleSheet.create({
+	  main: {
 	    height: 40,
 	    borderColor: _colorsScheme2['default'].get('gray'),
 	    borderWidth: 1,
 	    width: 250
+	  }
+	});
+
+	var FormsStyles = _reactNative.StyleSheet.create({
+	  main: {
+	    flex: 1,
+	    alignItems: 'center',
+	    flexDirection: 'column',
+	    justifyContent: 'flex-start',
+	    backgroundColor: _colorsScheme2['default'].get('white')
 	  },
 	  row: {
 	    marginTop: 10
 	  },
-
 	  firstRow: {
 	    marginTop: 80
 	  }
 	});
 
-	function TextJSS() {
-	  return TextStyle.main;
-	}
-
-	function BoldTextJSS() {
-	  return [TextJSS(), TextStyle.bold];
-	}
-
-	function InputJSS() {
-	  return TextStyle.input;
-	}
-
-	function RowJSS() {
-	  return TextStyle.row;
-	}
-
-	function FirstRowJSS() {
-	  return TextStyle.firstRow;
-	}
+	exports['default'] = {
+	  texts: TextsStyles,
+	  inputs: InputsStyles,
+	  forms: FormsStyles
+	};
+	module.exports = exports['default'];
 
 /***/ },
 /* 146 */
