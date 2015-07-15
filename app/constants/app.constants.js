@@ -11,7 +11,9 @@ export default {
         LOGOUT_PROCESSING: null,
         LOGOUT_DONE: null,
         CREDENTIALS_CHANGE: null,
+        RETRIVING_JOB: null,
         RETRIVING_JOBS: null,
+        RETRIVED_JOB: null,
         RETRIVED_JOBS: null,
         SERVER_ERROR: null
     }),

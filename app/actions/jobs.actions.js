@@ -18,5 +18,19 @@ export default {
         jobs: data
       });
     });
+  },
+
+  getJobDetails(jobId) {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.RETRIVING_JOB
+    });
+
+    JobsWebUtils.getJobDetails(jobId)
+    .then((data) => {
+      AppDispatcher.handleServerAction({
+        type: ActionTypes.RETRIVED_JOB,
+        job: data
+      });
+    });
   }
 };

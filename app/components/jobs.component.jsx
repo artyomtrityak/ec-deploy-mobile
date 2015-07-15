@@ -11,6 +11,7 @@ import SettingsStore from 'stores/settings.store';
 import JobsStore from 'stores/jobs.store';
 import NotLoggenInComponent from './shared/not-logged-in.component';
 import LoaderComponent from './shared/loader.component';
+import JobDetails from './job-details.component';
 
 
 var styles = StyleSheet.create({
@@ -36,6 +37,10 @@ function Refresh (smartLoad=false) {
 
 export default React.createClass({
   displayName: 'JobsComponent',
+
+  propTypes: {
+    navigator: React.PropTypes.object
+  },
 
   statics: {
     title: 'Jobs',
@@ -66,6 +71,18 @@ export default React.createClass({
     });
   },
 
+  showJobDetails() {
+
+    // Get Job id
+    var jobId = '9756006b-2ad3-11e5-8d60-005056330c34';
+
+    this.props.navigator.push({
+      component: JobDetails,
+      title: 'Job Details',
+      passProps: {jobId: jobId}
+    });
+  },
+
   render() {
     if (this.state.jobs.loading) {
       return (
@@ -82,7 +99,7 @@ export default React.createClass({
     return (
       <View style={[styles.tabContent, {backgroundColor: '#FFF'}]}>
         <Text style={styles.tabText}>{'Jobs'}</Text>
-        <Text style={styles.tabText}>{'Details'}</Text>
+        <Text style={styles.tabText} onPress={this.showJobDetails}>{'Details'}</Text>
       </View>
     );
   }
