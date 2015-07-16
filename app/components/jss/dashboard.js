@@ -6,7 +6,7 @@ import Colors from './colors-scheme';
 export default StyleSheet.create({
   tabContent: {
     flex: 1,
-    backgroundColor: Color.get('white')
+    backgroundColor: Colors.get('white')
   },
   row: {
     flexDirection: 'row',
