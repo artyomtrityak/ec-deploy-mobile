@@ -38,7 +38,7 @@ export default {
     AsyncStorage.multiGet([
       '@flow:rememberMe',
       '@flow:autoSync',
-      '@flow:pushNotifications'
+      '@flow:jobsNotifications'
     ])
     .then((result) => {
       onDone.resolve([
