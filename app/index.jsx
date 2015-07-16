@@ -5,9 +5,16 @@
  */
 
 import React, { AppRegistry, NavigatorIOS } from 'react-native';
+
+//Components
 import NavigationComponent from './components/navigation.component';
 import LoginComponent from './components/login.component';
+
+//Stores
 import SettingsStore from 'stores/settings.store';
+
+//Actions
+import SettingsActions from 'actions/settings.actions';
 
 
 var ECDeploy = React.createClass({
@@ -24,6 +31,7 @@ var ECDeploy = React.createClass({
 
   componentDidMount() {
     SettingsStore.on('change', this.handleChange);
+    SettingsActions.initialize();
   },
 
   componentWillUnmount() {

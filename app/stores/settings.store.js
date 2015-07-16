@@ -8,7 +8,12 @@ import { ActionTypes } from 'constants/app.constants';
 
 
 // Private data and functions
-var settingsState = Immutable.Map({loading: false});
+var settingsState = Immutable.Map({
+  loading: false,
+  pushNotifications: true,
+  rememberMe: true,
+  autoSync: false
+});
 
 function _showLoading () {
   settingsState = settingsState.set('loading', true);
@@ -24,10 +29,11 @@ function _loginUser (user) {
 
 function _logoutUser (user) {
   settingsState = settingsState.set('user', undefined);
+  settingsState = settingsState.set('password', undefined);
 }
 
-function _changeCredential(field, value) {
-  settingsState = settingsState.set(field, value); 
+function _changeCredential (field, value) {
+  settingsState = settingsState.set(field, value);
 }
 
 // Store eventemitter
@@ -49,6 +55,7 @@ store.dispatchToken = AppDispatcher.register((payload) => {
   switch (action.type) {
     case ActionTypes.LOGIN_PROCESSING:
     case ActionTypes.LOGOUT_PROCESSING:
+    case ActionTypes.INIT_PROCESSING:
       _showLoading();
       store.emitChange();
       break;
@@ -71,11 +78,33 @@ store.dispatchToken = AppDispatcher.register((payload) => {
       store.emitChange();
       break;
 
+    case ActionTypes.INIT_DONE:
+      _changeCredential('rememberMe', action.rememberMe);
+      _changeCredential('autoSync', action.autoSync);
+      _changeCredential('pushNotifications', action.pushNotifications);
+      _hideLoading();
+      store.emitChange();
+      break;    
+
+    case ActionTypes.REMEMBER_ME_SETTING:
+      _changeCredential('rememberMe', action.value);
+      store.emitChange();
+      break;
+
+    case ActionTypes.AUTO_SYNC_SETTING:
+      _changeCredential('autoSync', action.value);
+      store.emitChange();
+      break;
+
+    case ActionTypes.PUSH_NOTIFICATIONS_SETTING:
+      _changeCredential('pushNotifications', action.value);
+      store.emitChange();
+      break;
+
     case ActionTypes.CREDENTIALS_CHANGE:
       _changeCredential(action.field, action.value);
       store.emitChange();
       break;
-      
   }
 });
 

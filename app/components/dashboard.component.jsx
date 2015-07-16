@@ -3,29 +3,48 @@
 import React, {
   StyleSheet,
   Text,
-  View
-} from 'react-native';
+  View,
+  ListView,
+  UIExplorerPage,
+  Image,
+  TouchableHighlight
+  } from 'react-native';
 
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Colors from './jss/colors-scheme';
 import SettingsStore from 'stores/settings.store';
-import NotLoggenInComponent from './shared/not-logged-in.component';
+import NotLoggedInComponent from './shared/not-logged-in.component';
+import JobsComponent from './jobs.component';
+import Styles from './jss/dashboard';
+//import ApplicationComponent from './application.component';
+//import EnvironmentComponent from './environment.component';
+//import PipelinesComponent from './pipelines.component';
 
-
-var styles = StyleSheet.create({
-  tabContent: {
-    flex: 1,
-    alignItems: 'center'
+var listItems = [
+  {
+    name: 'Applications',
+    icon: require('image!appIcon'),
+    targetComponent: JobsComponent,
+    targetComponentTitle: 'Jobs list'
   },
-  tabText: {
-    color: 'black',
-    margin: 50
+  {
+    name: 'Environments',
+    icon: require('image!envIcon'),
+    targetComponent: JobsComponent,
+    targetComponentTitle: 'Jobs list'
+  },
+  {
+    name: 'Pipelines',
+    icon: require('image!pipeIcon'),
+    targetComponent: JobsComponent,
+    targetComponentTitle: 'Jobs list'
   }
-});
+];
 
 function Refresh (smartLoad=false) {
   if (!SettingsStore.getState().user) {
     return;
   }
-
 }
 
 export default React.createClass({
@@ -41,14 +60,15 @@ export default React.createClass({
   },
 
   getInitialState() {
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return {
-      settings: SettingsStore.getState()
+      settings: SettingsStore.getState(),
+      dataSource: ds.cloneWithRows(listItems)
     };
   },
 
   componentDidMount() {
     SettingsStore.on('change', this.handleChange);
-    //JobsActions.getJobs();
   },
 
   componentWillUnmount() {
@@ -60,28 +80,44 @@ export default React.createClass({
       settings: SettingsStore.getState()
     });
   },
-  
-  _handleBackButtonPress() {
-    console.log('back');
-    this.props.navigator.pop();
+
+  renderRow: function(rowData, sectionID, rowID) {
+    return (
+      <TouchableHighlight
+        onPress={
+          this.goToNextScreen.bind(this, rowData.targetComponent, rowData.targetComponentTitle)
+        }
+        underlayColor={Colors.get('white')}
+      >
+        <View>
+          <View style={Styles.row}>
+            <Image source={rowData.icon} style={Styles.icon}/>
+            <Text style={Styles.text}>{rowData.name}</Text>
+          </View>
+          <View style={Styles.separator} />
+        </View>
+      </TouchableHighlight>
+    );
   },
 
-  _handleNextButtonPress(nextRoute) {
-    console.log('next');
-    this.props.navigator.push(nextRoute);
+  goToNextScreen: function(targetComponent, targetComponentTitle) {
+    this.props.navigator.push({
+      component: targetComponent,
+      title: targetComponentTitle
+    });
   },
 
   render() {
-    console.log(this.state);
-
     if (!this.state.settings.user) {
-      return (<NotLoggenInComponent />);  
+      return (<NotLoggedInComponent />);
     }
 
     return (
-      <View style={[styles.tabContent, {backgroundColor: '#FFF'}]}>
-        <Text style={styles.tabText}>{'Dashboard'}</Text>
-        <Text style={styles.tabText}>{'Details'}</Text>
+      <View style={Styles.tabContent}>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow}
+        />
       </View>
     );
   }

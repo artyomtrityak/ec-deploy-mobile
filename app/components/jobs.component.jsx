@@ -15,6 +15,7 @@ import JobsStore from 'stores/jobs.store';
 import NotLoggenInComponent from './shared/not-logged-in.component';
 import LoaderComponent from './shared/loader.component';
 import JobListItem from './job.list.item';
+import JobDetails from './job-details.component';
 
 
 var styles = StyleSheet.create({
@@ -41,6 +42,10 @@ function Refresh (smartLoad=false) {
 
 export default React.createClass({
   displayName: 'JobsComponent',
+
+  propTypes: {
+    navigator: React.PropTypes.object
+  },
 
   statics: {
     title: 'Jobs',
@@ -84,8 +89,14 @@ export default React.createClass({
     );
   },
 
-  showJobDetails(job) {
-    console.log('yay!', job.jobId);
+  showJobDetails(jobId) {
+    this.props.navigator.push({
+      component: JobDetails,
+      title: 'Job Details',
+      passProps: {jobId: jobId},
+      rightButtonTitle: 'Refresh',
+      onRightButtonPress: JobDetails.refresh.bind(null, jobId)
+    });
   },
 
   render() {
