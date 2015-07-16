@@ -8,7 +8,7 @@ import React, {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import LoaderStyles from 'components/jss/loader';
+import ButtonsStyles from 'components/jss/buttons';
 
 
 export default React.createClass({
@@ -17,23 +17,22 @@ export default React.createClass({
   propTypes: {
     onPress: React.PropTypes.func.required,
     text: React.PropTypes.string,
-    icon: React.PropTypes.string
-  },
-
-  getDefaultProps() {
-    return {
-      loading: false
-    };
+    icon: React.PropTypes.string,
+    backgroundColor: React.PropTypes.string,
+    color: React.PropTypes.string
   },
 
   render() {
     var icon = this.props.icon ? <Icon name={this.props.icon} size={20} color="white" /> : null;
     return (
-      <TouchableHighlight onPress={this.props.onPress} underlayColor='#00adee'>
-        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#567b99', width: 250, height: 30, borderRadius: 5}}>
+      <TouchableHighlight onPress={this.props.onPress} underlayColor={this.props.color}>
+        <View style={[ ButtonsStyles.buttonWrapper, {
+          backgroundColor: this.props.backgroundColor
+        } ]}>
+          
           {icon}
 
-          <Text style={{fontSize: 16, fontWeight: 'bold', color: 'white', marginLeft: 5}}>
+          <Text style={[ ButtonsStyles.text, {color: this.props.color} ]}>
             {this.props.text}
           </Text>
         </View>

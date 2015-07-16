@@ -6,31 +6,30 @@ import { ActionTypes } from 'constants/app.constants';
 
 
 export default {
-  initialize() {
-    AppDispatcher.handleViewAction({
-      type: ActionTypes.INIT_PROCESSING
-    });
-    UserWebUtils.getSettings()
-    .spread((rememberMe, autoSync, pushNotifications) => {
-      AppDispatcher.handleServerAction({
-        type: ActionTypes.INIT_DONE,
-        rememberMe: rememberMe,
-        autoSync: autoSync,
-        pushNotifications: pushNotifications
-      });
-    });
-  },
-
   login(server, login, password) {
     AppDispatcher.handleViewAction({
       type: ActionTypes.LOGIN_PROCESSING
     });
-
+    
     UserWebUtils.login(server, login, password)
-    .then((data) => {
+    .then((user) => {
+      return [user, UserWebUtils.getSettings()]; 
+    })
+    .spread((user, settings) => {
+      var [ rememberMe, autoSync, jobsNotifications ] = settings;
+
+      if (autoSync) {
+        this.autoSync();
+      } else {
+        this.disableAutoSync();
+      }
+
       AppDispatcher.handleServerAction({
         type: ActionTypes.LOGIN_DONE,
-        user: data
+        user: user,
+        rememberMe: rememberMe,
+        autoSync: autoSync,
+        jobsNotifications: jobsNotifications
       });
     })
     .catch((error) => {
@@ -42,6 +41,7 @@ export default {
   },
 
   logout() {
+    this.disableAutoSync();
     AppDispatcher.handleViewAction({
       type: ActionTypes.LOGOUT_PROCESSING
     });
@@ -75,13 +75,32 @@ export default {
       value: value
     });
     UserWebUtils.saveLocalSetting('@flow:autoSync', value);
+    if (value) {
+      this.autoSync();
+    } else {
+      this.disableAutoSync();
+    }
   },
 
-  changePushNotifications(value) {
+  changeJobsNotifications(value) {
     AppDispatcher.handleViewAction({
       type: ActionTypes.PUSH_NOTIFICATIONS_SETTING,
       value: value
     });
-    UserWebUtils.saveLocalSetting('@flow:pushNotifications', value);
+    UserWebUtils.saveLocalSetting('@flow:jobsNotifications', value);
+  },
+
+  autoSync() {
+    this.autoSyncer = setInterval(() => {
+      AppDispatcher.handleViewAction({
+        type: ActionTypes.AUTO_SYNC
+      });
+    }, 30 * 1000); //every 30 sec
+  },
+
+  disableAutoSync() {
+    if (this.autoSyncer) {
+      clearInterval(this.autoSyncer);  
+    }
   }
 };
