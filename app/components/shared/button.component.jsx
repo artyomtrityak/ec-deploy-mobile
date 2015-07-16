@@ -25,7 +25,7 @@ export default React.createClass({
   render() {
     var icon = this.props.icon ? <Icon name={this.props.icon} size={20} color="white" /> : null;
     return (
-      <TouchableHighlight onPress={this.props.onPress} underlayColor='#00adee'>
+      <TouchableHighlight onPress={this.props.onPress} underlayColor={this.props.color}>
         <View style={[ ButtonsStyles.buttonWrapper, {
           backgroundColor: this.props.backgroundColor
         } ]}>

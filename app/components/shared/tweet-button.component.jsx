@@ -13,7 +13,7 @@ import Colors from '../jss/colors-scheme';
 
 
 export default React.createClass({
-  displayName: 'Button',
+  displayName: 'TwitterButton',
 
   propTypes: {
     onPress: React.PropTypes.func

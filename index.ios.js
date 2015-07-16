@@ -62,7 +62,7 @@
 
 	var _componentsNavigationComponent2 = _interopRequireDefault(_componentsNavigationComponent);
 
-	var _componentsLoginComponent = __webpack_require__(157);
+	var _componentsLoginComponent = __webpack_require__(159);
 
 	var _componentsLoginComponent2 = _interopRequireDefault(_componentsLoginComponent);
 
@@ -27576,7 +27576,7 @@
 
 	//Actions
 
-	var _actionsSettingsActions = __webpack_require__(148);
+	var _actionsSettingsActions = __webpack_require__(149);
 
 	var _actionsSettingsActions2 = _interopRequireDefault(_actionsSettingsActions);
 
@@ -27592,11 +27592,11 @@
 
 	var _jssLoader2 = _interopRequireDefault(_jssLoader);
 
-	var _jssForms = __webpack_require__(156);
+	var _jssForms = __webpack_require__(157);
 
 	var _jssForms2 = _interopRequireDefault(_jssForms);
 
-	var _jssSettings = __webpack_require__(161);
+	var _jssSettings = __webpack_require__(158);
 
 	var _jssSettings2 = _interopRequireDefault(_jssSettings);
 
@@ -27799,7 +27799,7 @@
 
 	var _reactNativeVectorIconsFontAwesome2 = _interopRequireDefault(_reactNativeVectorIconsFontAwesome);
 
-	var _componentsJssButtons = __webpack_require__(160);
+	var _componentsJssButtons = __webpack_require__(148);
 
 	var _componentsJssButtons2 = _interopRequireDefault(_componentsJssButtons);
 
@@ -27818,7 +27818,7 @@
 	    var icon = this.props.icon ? _reactNative2['default'].createElement(_reactNativeVectorIconsFontAwesome2['default'], { name: this.props.icon, size: 20, color: 'white' }) : null;
 	    return _reactNative2['default'].createElement(
 	      _reactNative.TouchableHighlight,
-	      { onPress: this.props.onPress, underlayColor: '#00adee' },
+	      { onPress: this.props.onPress, underlayColor: this.props.color },
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
 	        { style: [_componentsJssButtons2['default'].buttonWrapper, {
@@ -27842,7 +27842,44 @@
 
 	'use strict';
 
-	var _slicedToArray = __webpack_require__(149)['default'];
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _colorsScheme = __webpack_require__(127);
+
+	var _colorsScheme2 = _interopRequireDefault(_colorsScheme);
+
+	exports['default'] = _reactNative.StyleSheet.create({
+	  buttonWrapper: {
+	    flex: 1,
+	    flexDirection: 'row',
+	    justifyContent: 'center',
+	    alignItems: 'center',
+	    width: 250,
+	    height: 30,
+	    borderRadius: 5
+	  },
+
+	  text: {
+	    fontSize: 16,
+	    fontWeight: 'bold',
+	    marginLeft: 5
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 149 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _slicedToArray = __webpack_require__(150)['default'];
 
 	var _interopRequireDefault = __webpack_require__(1)['default'];
 
@@ -27854,7 +27891,7 @@
 
 	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
 
-	var _webutilsUserWebutils = __webpack_require__(155);
+	var _webutilsUserWebutils = __webpack_require__(156);
 
 	var _webutilsUserWebutils2 = _interopRequireDefault(_webutilsUserWebutils);
 
@@ -27964,14 +28001,14 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 149 */
+/* 150 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _getIterator = __webpack_require__(150)["default"];
+	var _getIterator = __webpack_require__(151)["default"];
 
-	var _isIterable = __webpack_require__(153)["default"];
+	var _isIterable = __webpack_require__(154)["default"];
 
 	exports["default"] = (function () {
 	  function sliceIterator(arr, i) {
@@ -28014,22 +28051,22 @@
 	exports.__esModule = true;
 
 /***/ },
-/* 150 */
+/* 151 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(151), __esModule: true };
+	module.exports = { "default": __webpack_require__(152), __esModule: true };
 
 /***/ },
-/* 151 */
+/* 152 */
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(87);
 	__webpack_require__(82);
-	__webpack_require__(152);
+	__webpack_require__(153);
 	module.exports = __webpack_require__(66).core.getIterator;
 
 /***/ },
-/* 152 */
+/* 153 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var core  = __webpack_require__(66).core
@@ -28038,22 +28075,22 @@
 	core.getIterator = $iter.get;
 
 /***/ },
-/* 153 */
+/* 154 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(154), __esModule: true };
+	module.exports = { "default": __webpack_require__(155), __esModule: true };
 
 /***/ },
-/* 154 */
+/* 155 */
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(87);
 	__webpack_require__(82);
-	__webpack_require__(152);
+	__webpack_require__(153);
 	module.exports = __webpack_require__(66).core.isIterable;
 
 /***/ },
-/* 155 */
+/* 156 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28113,7 +28150,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 156 */
+/* 157 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28182,7 +28219,40 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 157 */
+/* 158 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _colorsScheme = __webpack_require__(127);
+
+	var _colorsScheme2 = _interopRequireDefault(_colorsScheme);
+
+	exports['default'] = _reactNative.StyleSheet.create({
+	  togglerContainer: {
+	    justifyContent: 'space-between',
+	    height: 50,
+	    width: 250
+	  },
+	  userIcons: {
+	    width: 25
+	  },
+	  userText: {
+	    marginLeft: 5
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28207,7 +28277,7 @@
 
 	var _sharedButtonComponent2 = _interopRequireDefault(_sharedButtonComponent);
 
-	var _sharedTweetButtonComponent = __webpack_require__(158);
+	var _sharedTweetButtonComponent = __webpack_require__(160);
 
 	var _sharedTweetButtonComponent2 = _interopRequireDefault(_sharedTweetButtonComponent);
 
@@ -28217,7 +28287,7 @@
 
 	//Actions
 
-	var _actionsSettingsActions = __webpack_require__(148);
+	var _actionsSettingsActions = __webpack_require__(149);
 
 	var _actionsSettingsActions2 = _interopRequireDefault(_actionsSettingsActions);
 
@@ -28233,7 +28303,7 @@
 
 	var _jssLoader2 = _interopRequireDefault(_jssLoader);
 
-	var _jssForms = __webpack_require__(156);
+	var _jssForms = __webpack_require__(157);
 
 	var _jssForms2 = _interopRequireDefault(_jssForms);
 
@@ -28289,7 +28359,7 @@
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
 	        { style: _jssForms2['default'].forms.firstRow },
-	        _reactNative2['default'].createElement(_reactNative.Image, { source: __webpack_require__(159) }),
+	        _reactNative2['default'].createElement(_reactNative.Image, { source: __webpack_require__(161) }),
 	        _reactNative2['default'].createElement(
 	          _reactNative.Text,
 	          { style: [_jssForms2['default'].texts.main, _jssForms2['default'].texts.bold] },
@@ -28357,7 +28427,7 @@
 	/* This is just example */
 
 /***/ },
-/* 158 */
+/* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28383,7 +28453,7 @@
 	var _jssColorsScheme2 = _interopRequireDefault(_jssColorsScheme);
 
 	exports['default'] = _reactNative2['default'].createClass({
-	  displayName: 'Button',
+	  displayName: 'TwitterButton',
 
 	  propTypes: {
 	    onPress: _reactNative2['default'].PropTypes.func
@@ -28412,80 +28482,10 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 159 */
+/* 161 */
 /***/ function(module, exports) {
 
 	module.exports = require("image!logo");
-
-/***/ },
-/* 160 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _reactNative = __webpack_require__(2);
-
-	var _colorsScheme = __webpack_require__(127);
-
-	var _colorsScheme2 = _interopRequireDefault(_colorsScheme);
-
-	exports['default'] = _reactNative.StyleSheet.create({
-	  buttonWrapper: {
-	    flex: 1,
-	    flexDirection: 'row',
-	    justifyContent: 'center',
-	    alignItems: 'center',
-	    width: 250,
-	    height: 30,
-	    borderRadius: 5
-	  },
-
-	  text: {
-	    fontSize: 16,
-	    fontWeight: 'bold',
-	    marginLeft: 5
-	  }
-	});
-	module.exports = exports['default'];
-
-/***/ },
-/* 161 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _reactNative = __webpack_require__(2);
-
-	var _colorsScheme = __webpack_require__(127);
-
-	var _colorsScheme2 = _interopRequireDefault(_colorsScheme);
-
-	exports['default'] = _reactNative.StyleSheet.create({
-	  togglerContainer: {
-	    justifyContent: 'space-between',
-	    height: 50,
-	    width: 250
-	  },
-	  userIcons: {
-	    width: 25
-	  },
-	  userText: {
-	    marginLeft: 5
-	  }
-	});
-	module.exports = exports['default'];
 
 /***/ }
 /******/ ])));
