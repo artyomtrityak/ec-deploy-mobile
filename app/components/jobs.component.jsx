@@ -3,7 +3,10 @@
 import React, {
   StyleSheet,
   Text,
-  View
+  View,
+  ListView,
+  TouchableHighlight,
+  ArticleView
 } from 'react-native';
 
 import JobsActions from 'actions/jobs.actions';
@@ -11,11 +14,13 @@ import SettingsStore from 'stores/settings.store';
 import JobsStore from 'stores/jobs.store';
 import NotLoggenInComponent from './shared/not-logged-in.component';
 import LoaderComponent from './shared/loader.component';
+import JobListItem from './job.list.item';
 
 
 var styles = StyleSheet.create({
   tabContent: {
     flex: 1,
+    flexDirection: 'column',
     alignItems: 'center'
   },
   tabText: {
@@ -43,7 +48,9 @@ export default React.createClass({
   },
 
   getInitialState() {
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return {
+      dataSource: ds.cloneWithRows(JobsStore.getState()),
       jobs: JobsStore.getState(),
       settings: SettingsStore.getState()
     };
@@ -60,10 +67,25 @@ export default React.createClass({
   },
 
   handleChange() {
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.setState({
+      dataSource: ds.cloneWithRows(JobsStore.getState().jobs),
       jobs: JobsStore.getState(),
       settings: SettingsStore.getState()
     });
+  },
+
+  renderJob(job) {
+    return (
+      <JobListItem
+        job={job}
+        onSelectJob={this.showJobDetails}
+      />
+    );
+  },
+
+  showJobDetails(job) {
+    console.log('yay!', job.jobId);
   },
 
   render() {
@@ -76,13 +98,15 @@ export default React.createClass({
     }
 
     if (!this.state.settings.user) {
-      return (<NotLoggenInComponent />);  
+      return (<NotLoggenInComponent />);
     }
 
     return (
       <View style={[styles.tabContent, {backgroundColor: '#FFF'}]}>
-        <Text style={styles.tabText}>{'Jobs'}</Text>
-        <Text style={styles.tabText}>{'Details'}</Text>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderJob}
+        />
       </View>
     );
   }
