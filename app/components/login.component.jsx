@@ -15,6 +15,7 @@ var KDSocialShare = require('NativeModules').KDSocialShare;
 import LoaderComponent from './shared/loader.component';
 import ButtonComponent from './shared/button.component';
 import TweetButtonComponent from './shared/tweet-button.component';
+import Colors from './jss/colors-scheme';
 
 //Actions
 import SettingsActions from 'actions/settings.actions';
@@ -115,8 +116,15 @@ export default React.createClass({
         </View>
 
         <View style={ FormJSS.forms.row }>
-          <ButtonComponent onPress={this.onConnect} text={'Connect'} icon={'sign-in'} />
+          <ButtonComponent
+            onPress={this.onConnect}
+            text={'Connect'}
+            icon={'sign-in'}
+            color={Colors.get('white')}
+            backgroundColor={Colors.get('darkBlue')}
+          />
           
+          {/* This is just example */}
           <View style={ FormJSS.forms.row }>
             <TweetButtonComponent />
           </View>

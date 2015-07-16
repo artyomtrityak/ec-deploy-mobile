@@ -21609,6 +21609,10 @@
 	  gray: 'gray',
 	  darkGray: '#676767',
 	  white: '#FFFFFF',
+
+	  lightBlue: '#00aced',
+	  darkBlue: '#567b99',
+
 	  separatorColor: 'rgba(0, 0, 0, 0.1)'
 	});
 	module.exports = exports['default'];
@@ -27592,19 +27596,13 @@
 
 	var _jssForms2 = _interopRequireDefault(_jssForms);
 
-	var SettingsStyles = _reactNative.StyleSheet.create({
-	  togglerContainer: {
-	    justifyContent: 'space-between',
-	    height: 50,
-	    width: 250
-	  },
-	  userIcons: {
-	    width: 25
-	  },
-	  userText: {
-	    marginLeft: 5
-	  }
-	});
+	var _jssSettings = __webpack_require__(161);
+
+	var _jssSettings2 = _interopRequireDefault(_jssSettings);
+
+	var _jssColorsScheme = __webpack_require__(127);
+
+	var _jssColorsScheme2 = _interopRequireDefault(_jssColorsScheme);
 
 	exports['default'] = _reactNative2['default'].createClass({
 	  displayName: 'SettingsComponent',
@@ -27670,12 +27668,12 @@
 	          { style: _jssForms2['default'].forms.flexRow },
 	          _reactNative2['default'].createElement(
 	            _reactNative.View,
-	            { style: SettingsStyles.userIcons },
+	            { style: _jssSettings2['default'].userIcons },
 	            _reactNative2['default'].createElement(_reactNativeVectorIconsFontAwesome2['default'], { name: 'user', style: { marginLeft: 2 }, size: 20, color: '#00adee' })
 	          ),
 	          _reactNative2['default'].createElement(
 	            _reactNative.Text,
-	            { style: SettingsStyles.userText },
+	            { style: _jssSettings2['default'].userText },
 	            this.state.user.userName
 	          )
 	        ),
@@ -27684,23 +27682,29 @@
 	          { style: _jssForms2['default'].forms.flexRow },
 	          _reactNative2['default'].createElement(
 	            _reactNative.View,
-	            { style: SettingsStyles.userIcons },
+	            { style: _jssSettings2['default'].userIcons },
 	            _reactNative2['default'].createElement(_reactNativeVectorIconsFontAwesome2['default'], { name: 'laptop', size: 20, color: '#00adee' })
 	          ),
 	          _reactNative2['default'].createElement(
 	            _reactNative.Text,
-	            { style: SettingsStyles.userText },
+	            { style: _jssSettings2['default'].userText },
 	            this.state.server
 	          )
 	        ),
-	        _reactNative2['default'].createElement(_sharedButtonComponent2['default'], { onPress: this.onLogout, text: 'Logout', icon: 'sign-out' })
+	        _reactNative2['default'].createElement(_sharedButtonComponent2['default'], {
+	          onPress: this.onLogout,
+	          text: 'Logout',
+	          icon: 'sign-out',
+	          color: _jssColorsScheme2['default'].get('white'),
+	          backgroundColor: _jssColorsScheme2['default'].get('darkBlue')
+	        })
 	      ),
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
 	        { style: _jssForms2['default'].forms.firstRow },
 	        _reactNative2['default'].createElement(
 	          _reactNative.View,
-	          { style: [_jssForms2['default'].forms.flexRow, SettingsStyles.togglerContainer] },
+	          { style: [_jssForms2['default'].forms.flexRow, _jssSettings2['default'].togglerContainer] },
 	          _reactNative2['default'].createElement(
 	            _reactNative.View,
 	            null,
@@ -27725,7 +27729,7 @@
 	        { style: _jssForms2['default'].forms.row },
 	        _reactNative2['default'].createElement(
 	          _reactNative.View,
-	          { style: [_jssForms2['default'].forms.flexRow, SettingsStyles.togglerContainer] },
+	          { style: [_jssForms2['default'].forms.flexRow, _jssSettings2['default'].togglerContainer] },
 	          _reactNative2['default'].createElement(
 	            _reactNative.View,
 	            null,
@@ -27750,7 +27754,7 @@
 	        { style: _jssForms2['default'].forms.row },
 	        _reactNative2['default'].createElement(
 	          _reactNative.View,
-	          { style: [_jssForms2['default'].forms.flexRow, SettingsStyles.togglerContainer] },
+	          { style: [_jssForms2['default'].forms.flexRow, _jssSettings2['default'].togglerContainer] },
 	          _reactNative2['default'].createElement(
 	            _reactNative.View,
 	            null,
@@ -27795,9 +27799,9 @@
 
 	var _reactNativeVectorIconsFontAwesome2 = _interopRequireDefault(_reactNativeVectorIconsFontAwesome);
 
-	var _componentsJssLoader = __webpack_require__(138);
+	var _componentsJssButtons = __webpack_require__(160);
 
-	var _componentsJssLoader2 = _interopRequireDefault(_componentsJssLoader);
+	var _componentsJssButtons2 = _interopRequireDefault(_componentsJssButtons);
 
 	exports['default'] = _reactNative2['default'].createClass({
 	  displayName: 'Button',
@@ -27805,13 +27809,9 @@
 	  propTypes: {
 	    onPress: _reactNative2['default'].PropTypes.func.required,
 	    text: _reactNative2['default'].PropTypes.string,
-	    icon: _reactNative2['default'].PropTypes.string
-	  },
-
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      loading: false
-	    };
+	    icon: _reactNative2['default'].PropTypes.string,
+	    backgroundColor: _reactNative2['default'].PropTypes.string,
+	    color: _reactNative2['default'].PropTypes.string
 	  },
 
 	  render: function render() {
@@ -27821,11 +27821,13 @@
 	      { onPress: this.props.onPress, underlayColor: '#00adee' },
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
-	        { style: { flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#567b99', width: 250, height: 30, borderRadius: 5 } },
+	        { style: [_componentsJssButtons2['default'].buttonWrapper, {
+	            backgroundColor: this.props.backgroundColor
+	          }] },
 	        icon,
 	        _reactNative2['default'].createElement(
 	          _reactNative.Text,
-	          { style: { fontSize: 16, fontWeight: 'bold', color: 'white', marginLeft: 5 } },
+	          { style: [_componentsJssButtons2['default'].text, { color: this.props.color }] },
 	          this.props.text
 	        )
 	      )
@@ -28205,9 +28207,13 @@
 
 	var _sharedButtonComponent2 = _interopRequireDefault(_sharedButtonComponent);
 
-	var _sharedTweetButtonComponent = __webpack_require__(159);
+	var _sharedTweetButtonComponent = __webpack_require__(158);
 
 	var _sharedTweetButtonComponent2 = _interopRequireDefault(_sharedTweetButtonComponent);
+
+	var _jssColorsScheme = __webpack_require__(127);
+
+	var _jssColorsScheme2 = _interopRequireDefault(_jssColorsScheme);
 
 	//Actions
 
@@ -28283,7 +28289,7 @@
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
 	        { style: _jssForms2['default'].forms.firstRow },
-	        _reactNative2['default'].createElement(_reactNative.Image, { source: __webpack_require__(158) }),
+	        _reactNative2['default'].createElement(_reactNative.Image, { source: __webpack_require__(159) }),
 	        _reactNative2['default'].createElement(
 	          _reactNative.Text,
 	          { style: [_jssForms2['default'].texts.main, _jssForms2['default'].texts.bold] },
@@ -28331,7 +28337,13 @@
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
 	        { style: _jssForms2['default'].forms.row },
-	        _reactNative2['default'].createElement(_sharedButtonComponent2['default'], { onPress: this.onConnect, text: 'Connect', icon: 'sign-in' }),
+	        _reactNative2['default'].createElement(_sharedButtonComponent2['default'], {
+	          onPress: this.onConnect,
+	          text: 'Connect',
+	          icon: 'sign-in',
+	          color: _jssColorsScheme2['default'].get('white'),
+	          backgroundColor: _jssColorsScheme2['default'].get('darkBlue')
+	        }),
 	        _reactNative2['default'].createElement(
 	          _reactNative.View,
 	          { style: _jssForms2['default'].forms.row },
@@ -28342,15 +28354,10 @@
 	  }
 	});
 	module.exports = exports['default'];
+	/* This is just example */
 
 /***/ },
 /* 158 */
-/***/ function(module, exports) {
-
-	module.exports = require("image!logo");
-
-/***/ },
-/* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28371,6 +28378,10 @@
 
 	var _buttonComponent2 = _interopRequireDefault(_buttonComponent);
 
+	var _jssColorsScheme = __webpack_require__(127);
+
+	var _jssColorsScheme2 = _interopRequireDefault(_jssColorsScheme);
+
 	exports['default'] = _reactNative2['default'].createClass({
 	  displayName: 'Button',
 
@@ -28389,7 +28400,89 @@
 	  },
 
 	  render: function render() {
-	    return _reactNative2['default'].createElement(_buttonComponent2['default'], { onPress: this.onTweet, text: 'Share on Twitter', icon: 'twitter' });
+	    return _reactNative2['default'].createElement(_buttonComponent2['default'], {
+	      onPress: this.onTweet,
+	      text: 'Share on Twitter',
+	      icon: 'twitter',
+	      color: _jssColorsScheme2['default'].get('white'),
+	      backgroundColor: _jssColorsScheme2['default'].get('lightBlue')
+	    });
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 159 */
+/***/ function(module, exports) {
+
+	module.exports = require("image!logo");
+
+/***/ },
+/* 160 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _colorsScheme = __webpack_require__(127);
+
+	var _colorsScheme2 = _interopRequireDefault(_colorsScheme);
+
+	exports['default'] = _reactNative.StyleSheet.create({
+	  buttonWrapper: {
+	    flex: 1,
+	    flexDirection: 'row',
+	    justifyContent: 'center',
+	    alignItems: 'center',
+	    width: 250,
+	    height: 30,
+	    borderRadius: 5
+	  },
+
+	  text: {
+	    fontSize: 16,
+	    fontWeight: 'bold',
+	    marginLeft: 5
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 161 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _colorsScheme = __webpack_require__(127);
+
+	var _colorsScheme2 = _interopRequireDefault(_colorsScheme);
+
+	exports['default'] = _reactNative.StyleSheet.create({
+	  togglerContainer: {
+	    justifyContent: 'space-between',
+	    height: 50,
+	    width: 250
+	  },
+	  userIcons: {
+	    width: 25
+	  },
+	  userText: {
+	    marginLeft: 5
 	  }
 	});
 	module.exports = exports['default'];

@@ -9,6 +9,7 @@ import React, {
 import { KDSocialShare } from 'NativeModules';
 
 import ButtonComponent from './button.component';
+import Colors from '../jss/colors-scheme';
 
 
 export default React.createClass({
@@ -31,7 +32,13 @@ export default React.createClass({
 
   render() {
     return (
-      <ButtonComponent onPress={this.onTweet} text={'Share on Twitter'} icon={'twitter'} />
+      <ButtonComponent
+        onPress={this.onTweet}
+        text={'Share on Twitter'}
+        icon={'twitter'}
+        color={Colors.get('white')}
+        backgroundColor={Colors.get('lightBlue')}
+      />
     );
   }
 });

@@ -22,20 +22,9 @@ import SettingsStore from 'stores/settings.store';
 //Styles
 import LoaderJSS from './jss/loader';
 import FormJSS from './jss/forms';
+import SettingsJSS from './jss/settings';
+import Colors from './jss/colors-scheme';
 
-var SettingsStyles = StyleSheet.create({
-  togglerContainer: {
-    justifyContent: 'space-between',
-    height: 50,
-    width: 250
-  },
-  userIcons: {
-    width: 25
-  },
-  userText: {
-    marginLeft: 5
-  }
-});
 
 export default React.createClass({
   displayName: 'SettingsComponent',
@@ -94,26 +83,34 @@ export default React.createClass({
       <View style={ FormJSS.forms.main }>
         <View style={ FormJSS.forms.firstRow }>
           <View style={ FormJSS.forms.flexRow }>
-            <View style={ SettingsStyles.userIcons }>
+            <View style={ SettingsJSS.userIcons }>
               <Icon name='user' style={{marginLeft: 2}} size={20} color='#00adee' />
             </View>
-            <Text style={ SettingsStyles.userText }>
+            <Text style={ SettingsJSS.userText }>
               {this.state.user.userName}
             </Text>
           </View>
           <View style={ FormJSS.forms.flexRow }>
-            <View style={ SettingsStyles.userIcons }>
+            <View style={ SettingsJSS.userIcons }>
               <Icon name='laptop' size={20} color='#00adee' />
             </View>
-            <Text style={ SettingsStyles.userText }>
+            <Text style={ SettingsJSS.userText }>
               {this.state.server}
             </Text>
           </View>
-          <ButtonComponent onPress={this.onLogout} text={'Logout'} icon={'sign-out'} />
+
+          <ButtonComponent
+            onPress={this.onLogout}
+            text={'Logout'}
+            icon={'sign-out'}
+            color={Colors.get('white')}
+            backgroundColor={Colors.get('darkBlue')}
+          />
+
         </View>
 
         <View style={ FormJSS.forms.firstRow }>
-          <View style={[ FormJSS.forms.flexRow, SettingsStyles.togglerContainer ]}>
+          <View style={[ FormJSS.forms.flexRow, SettingsJSS.togglerContainer ]}>
 
             <View>
               <Text style={[ FormJSS.texts.small ]}>
@@ -130,7 +127,7 @@ export default React.createClass({
         </View>
 
         <View style={ FormJSS.forms.row }>
-          <View style={[ FormJSS.forms.flexRow, SettingsStyles.togglerContainer ]}>
+          <View style={[ FormJSS.forms.flexRow, SettingsJSS.togglerContainer ]}>
             <View>
               <Text style={[ FormJSS.texts.small ]}>
                 Auto sync every 30 seconds
@@ -146,7 +143,7 @@ export default React.createClass({
         </View>
 
         <View style={ FormJSS.forms.row }>
-          <View style={[ FormJSS.forms.flexRow, SettingsStyles.togglerContainer ]}>
+          <View style={[ FormJSS.forms.flexRow, SettingsJSS.togglerContainer ]}>
             <View>
               <Text style={[ FormJSS.texts.small ]}>
                 Jobs Notifications
