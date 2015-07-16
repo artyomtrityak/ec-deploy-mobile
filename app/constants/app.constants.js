@@ -20,7 +20,8 @@ export default {
         RETRIVING_JOBS: null,
         RETRIVED_JOB: null,
         RETRIVED_JOBS: null,
-        SERVER_ERROR: null
+        SERVER_ERROR: null,
+        AUTO_SYNC: null
     }),
 
     PayloadSources: keyMirror({

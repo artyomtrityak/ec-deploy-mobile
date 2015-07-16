@@ -2,6 +2,8 @@
 #
 .DS_Store
 
+index.ios.js
+
 # Xcode
 #
 build/
@@ -29,4 +31,3 @@ npm-debug.log
 # webStorm
 #
 .idea/
-index.ios.js

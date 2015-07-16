@@ -72,12 +72,6 @@
 
 	var _storesSettingsStore2 = _interopRequireDefault(_storesSettingsStore);
 
-	//Actions
-
-	var _actionsSettingsActions = __webpack_require__(113);
-
-	var _actionsSettingsActions2 = _interopRequireDefault(_actionsSettingsActions);
-
 	var ECDeploy = _reactNative2['default'].createClass({
 	  displayName: 'ECDeploy',
 
@@ -94,7 +88,6 @@
 
 	  componentDidMount: function componentDidMount() {
 	    _storesSettingsStore2['default'].on('change', this.handleChange);
-	    _actionsSettingsActions2['default'].initialize();
 	  },
 
 	  componentWillUnmount: function componentWillUnmount() {
@@ -809,7 +802,9 @@
 	exports['default'] = _immutable2['default'].Map({
 	  lightGray: '#CCCCCC',
 	  gray: 'gray',
-	  white: '#FFFFFF'
+	  darkGray: '#676767',
+	  white: '#FFFFFF',
+	  separatorColor: 'rgba(0, 0, 0, 0.1)'
 	});
 	module.exports = exports['default'];
 
@@ -20335,6 +20330,8 @@
 
 	'use strict';
 
+	var _slicedToArray = __webpack_require__(153)['default'];
+
 	var _interopRequireDefault = __webpack_require__(2)['default'];
 
 	Object.defineProperty(exports, '__esModule', {
@@ -20352,29 +20349,34 @@
 	var _constantsAppConstants = __webpack_require__(127);
 
 	exports['default'] = {
-	  initialize: function initialize() {
-	    _dispatchersAppDispatcher2['default'].handleViewAction({
-	      type: _constantsAppConstants.ActionTypes.INIT_PROCESSING
-	    });
-	    _webutilsUserWebutils2['default'].getSettings().spread(function (rememberMe, autoSync, pushNotifications) {
-	      _dispatchersAppDispatcher2['default'].handleServerAction({
-	        type: _constantsAppConstants.ActionTypes.INIT_DONE,
-	        rememberMe: rememberMe,
-	        autoSync: autoSync,
-	        pushNotifications: pushNotifications
-	      });
-	    });
-	  },
-
 	  login: function login(server, _login, password) {
+	    var _this = this;
+
 	    _dispatchersAppDispatcher2['default'].handleViewAction({
 	      type: _constantsAppConstants.ActionTypes.LOGIN_PROCESSING
 	    });
 
-	    _webutilsUserWebutils2['default'].login(server, _login, password).then(function (data) {
+	    _webutilsUserWebutils2['default'].login(server, _login, password).then(function (user) {
+	      return [user, _webutilsUserWebutils2['default'].getSettings()];
+	    }).spread(function (user, settings) {
+	      var _settings = _slicedToArray(settings, 3);
+
+	      var rememberMe = _settings[0];
+	      var autoSync = _settings[1];
+	      var pushNotifications = _settings[2];
+
+	      if (autoSync) {
+	        _this.autoSync();
+	      } else {
+	        _this.disableAutoSync();
+	      }
+
 	      _dispatchersAppDispatcher2['default'].handleServerAction({
 	        type: _constantsAppConstants.ActionTypes.LOGIN_DONE,
-	        user: data
+	        user: user,
+	        rememberMe: rememberMe,
+	        autoSync: autoSync,
+	        pushNotifications: pushNotifications
 	      });
 	    })['catch'](function (error) {
 	      _dispatchersAppDispatcher2['default'].handleServerAction({
@@ -20385,6 +20387,7 @@
 	  },
 
 	  logout: function logout() {
+	    this.disableAutoSync();
 	    _dispatchersAppDispatcher2['default'].handleViewAction({
 	      type: _constantsAppConstants.ActionTypes.LOGOUT_PROCESSING
 	    });
@@ -20417,6 +20420,11 @@
 	      value: value
 	    });
 	    _webutilsUserWebutils2['default'].saveLocalSetting('@flow:autoSync', value);
+	    if (value) {
+	      this.autoSync();
+	    } else {
+	      this.disableAutoSync();
+	    }
 	  },
 
 	  changePushNotifications: function changePushNotifications(value) {
@@ -20425,6 +20433,20 @@
 	      value: value
 	    });
 	    _webutilsUserWebutils2['default'].saveLocalSetting('@flow:pushNotifications', value);
+	  },
+
+	  autoSync: function autoSync() {
+	    this.autoSyncer = setInterval(function () {
+	      _dispatchersAppDispatcher2['default'].handleViewAction({
+	        type: _constantsAppConstants.ActionTypes.AUTO_SYNC
+	      });
+	    }, 30 * 1000); //every 30 sec
+	  },
+
+	  disableAutoSync: function disableAutoSync() {
+	    if (this.autoSyncer) {
+	      clearInterval(this.autoSyncer);
+	    }
 	  }
 	};
 	module.exports = exports['default'];
@@ -20982,7 +21004,8 @@
 	        RETRIVING_JOBS: null,
 	        RETRIVED_JOB: null,
 	        RETRIVED_JOBS: null,
-	        SERVER_ERROR: null
+	        SERVER_ERROR: null,
+	        AUTO_SYNC: null
 	    }),
 
 	    PayloadSources: (0, _keymirror2['default'])({
@@ -26222,20 +26245,15 @@
 
 	    case _constantsAppConstants.ActionTypes.LOGIN_DONE:
 	      _loginUser(action.user);
+	      _changeCredential('rememberMe', action.rememberMe);
+	      _changeCredential('autoSync', action.autoSync);
+	      _changeCredential('pushNotifications', action.pushNotifications);
 	      _hideLoading();
 	      store.emitChange();
 	      break;
 
 	    case _constantsAppConstants.ActionTypes.LOGOUT_DONE:
 	      _logoutUser();
-	      _hideLoading();
-	      store.emitChange();
-	      break;
-
-	    case _constantsAppConstants.ActionTypes.INIT_DONE:
-	      _changeCredential('rememberMe', action.rememberMe);
-	      _changeCredential('autoSync', action.autoSync);
-	      _changeCredential('pushNotifications', action.pushNotifications);
 	      _hideLoading();
 	      store.emitChange();
 	      break;
@@ -26951,7 +26969,7 @@
 
 	var _jobsComponent2 = _interopRequireDefault(_jobsComponent);
 
-	var _settingsComponent = __webpack_require__(147);
+	var _settingsComponent = __webpack_require__(152);
 
 	var _settingsComponent2 = _interopRequireDefault(_settingsComponent);
 
@@ -27163,6 +27181,14 @@
 
 	var _reactNative2 = _interopRequireDefault(_reactNative);
 
+	var _reactNativeVectorIconsFontAwesome = __webpack_require__(62);
+
+	var _reactNativeVectorIconsFontAwesome2 = _interopRequireDefault(_reactNativeVectorIconsFontAwesome);
+
+	var _jssColorsScheme = __webpack_require__(59);
+
+	var _jssColorsScheme2 = _interopRequireDefault(_jssColorsScheme);
+
 	var _storesSettingsStore = __webpack_require__(133);
 
 	var _storesSettingsStore2 = _interopRequireDefault(_storesSettingsStore);
@@ -27171,16 +27197,34 @@
 
 	var _sharedNotLoggedInComponent2 = _interopRequireDefault(_sharedNotLoggedInComponent);
 
-	var styles = _reactNative.StyleSheet.create({
-	  tabContent: {
-	    flex: 1,
-	    alignItems: 'center'
-	  },
-	  tabText: {
-	    color: 'black',
-	    margin: 50
-	  }
-	});
+	var _jobsComponent = __webpack_require__(141);
+
+	var _jobsComponent2 = _interopRequireDefault(_jobsComponent);
+
+	var _jssDashboard = __webpack_require__(148);
+
+	var _jssDashboard2 = _interopRequireDefault(_jssDashboard);
+
+	//import ApplicationComponent from './application.component';
+	//import EnvironmentComponent from './environment.component';
+	//import PipelinesComponent from './pipelines.component';
+
+	var listItems = [{
+	  name: 'Applications',
+	  icon: __webpack_require__(149),
+	  targetComponent: _jobsComponent2['default'],
+	  targetComponentTitle: 'Jobs list'
+	}, {
+	  name: 'Environments',
+	  icon: __webpack_require__(150),
+	  targetComponent: _jobsComponent2['default'],
+	  targetComponentTitle: 'Jobs list'
+	}, {
+	  name: 'Pipelines',
+	  icon: __webpack_require__(151),
+	  targetComponent: _jobsComponent2['default'],
+	  targetComponentTitle: 'Jobs list'
+	}];
 
 	function Refresh() {
 	  var smartLoad = arguments[0] === undefined ? false : arguments[0];
@@ -27203,14 +27247,17 @@
 	  },
 
 	  getInitialState: function getInitialState() {
+	    var ds = new _reactNative.ListView.DataSource({ rowHasChanged: function rowHasChanged(r1, r2) {
+	        return r1 !== r2;
+	      } });
 	    return {
-	      settings: _storesSettingsStore2['default'].getState()
+	      settings: _storesSettingsStore2['default'].getState(),
+	      dataSource: ds.cloneWithRows(listItems)
 	    };
 	  },
 
 	  componentDidMount: function componentDidMount() {
 	    _storesSettingsStore2['default'].on('change', this.handleChange);
-	    //JobsActions.getJobs();
 	  },
 
 	  componentWillUnmount: function componentWillUnmount() {
@@ -27223,36 +27270,50 @@
 	    });
 	  },
 
-	  _handleBackButtonPress: function _handleBackButtonPress() {
-	    console.log('back');
-	    this.props.navigator.pop();
+	  renderRow: function renderRow(rowData, sectionID, rowID) {
+	    return _reactNative2['default'].createElement(
+	      _reactNative.TouchableHighlight,
+	      {
+	        onPress: this.goToNextScreen.bind(this, rowData.targetComponent, rowData.targetComponentTitle),
+	        underlayColor: _jssColorsScheme2['default'].get('white')
+	      },
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        null,
+	        _reactNative2['default'].createElement(
+	          _reactNative.View,
+	          { style: _jssDashboard2['default'].row },
+	          _reactNative2['default'].createElement(_reactNative.Image, { source: rowData.icon, style: _jssDashboard2['default'].icon }),
+	          _reactNative2['default'].createElement(
+	            _reactNative.Text,
+	            { style: _jssDashboard2['default'].text },
+	            rowData.name
+	          )
+	        ),
+	        _reactNative2['default'].createElement(_reactNative.View, { style: _jssDashboard2['default'].separator })
+	      )
+	    );
 	  },
 
-	  _handleNextButtonPress: function _handleNextButtonPress(nextRoute) {
-	    console.log('next');
-	    this.props.navigator.push(nextRoute);
+	  goToNextScreen: function goToNextScreen(targetComponent, targetComponentTitle) {
+	    this.props.navigator.push({
+	      component: targetComponent,
+	      title: targetComponentTitle
+	    });
 	  },
 
 	  render: function render() {
-	    console.log(this.state);
-
 	    if (!this.state.settings.user) {
 	      return _reactNative2['default'].createElement(_sharedNotLoggedInComponent2['default'], null);
 	    }
 
 	    return _reactNative2['default'].createElement(
 	      _reactNative.View,
-	      { style: [styles.tabContent, { backgroundColor: '#FFF' }] },
-	      _reactNative2['default'].createElement(
-	        _reactNative.Text,
-	        { style: styles.tabText },
-	        'Dashboard'
-	      ),
-	      _reactNative2['default'].createElement(
-	        _reactNative.Text,
-	        { style: styles.tabText },
-	        'Details'
-	      )
+	      { style: _jssDashboard2['default'].tabContent },
+	      _reactNative2['default'].createElement(_reactNative.ListView, {
+	        dataSource: this.state.dataSource,
+	        renderRow: this.renderRow
+	      })
 	    );
 	  }
 	});
@@ -27307,7 +27368,7 @@
 
 	var _reactNative2 = _interopRequireDefault(_reactNative);
 
-	var _actionsJobsActions = __webpack_require__(143);
+	var _actionsJobsActions = __webpack_require__(142);
 
 	var _actionsJobsActions2 = _interopRequireDefault(_actionsJobsActions);
 
@@ -27315,7 +27376,7 @@
 
 	var _storesSettingsStore2 = _interopRequireDefault(_storesSettingsStore);
 
-	var _storesJobsStore = __webpack_require__(142);
+	var _storesJobsStore = __webpack_require__(144);
 
 	var _storesJobsStore2 = _interopRequireDefault(_storesJobsStore);
 
@@ -27331,16 +27392,13 @@
 
 	var _jobDetailsComponent2 = _interopRequireDefault(_jobDetailsComponent);
 
-	var styles = _reactNative.StyleSheet.create({
-	  tabContent: {
-	    flex: 1,
-	    alignItems: 'center'
-	  },
-	  tabText: {
-	    color: 'black',
-	    margin: 50
-	  }
-	});
+	var _jssJobsList = __webpack_require__(147);
+
+	var _jssJobsList2 = _interopRequireDefault(_jssJobsList);
+
+	var _jssColorsScheme = __webpack_require__(59);
+
+	var _jssColorsScheme2 = _interopRequireDefault(_jssColorsScheme);
 
 	function Refresh() {
 	  var smartLoad = arguments[0] === undefined ? false : arguments[0];
@@ -27367,7 +27425,11 @@
 	  },
 
 	  getInitialState: function getInitialState() {
+	    var ds = new _reactNative.ListView.DataSource({ rowHasChanged: function rowHasChanged(r1, r2) {
+	        return r1 !== r2;
+	      } });
 	    return {
+	      dataSource: ds.cloneWithRows(_storesJobsStore2['default'].getState()),
 	      jobs: _storesJobsStore2['default'].getState(),
 	      settings: _storesSettingsStore2['default'].getState()
 	    };
@@ -27384,21 +27446,50 @@
 	  },
 
 	  handleChange: function handleChange() {
+	    var ds = new _reactNative.ListView.DataSource({ rowHasChanged: function rowHasChanged(r1, r2) {
+	        return r1 !== r2;
+	      } });
 	    this.setState({
+	      dataSource: ds.cloneWithRows(_storesJobsStore2['default'].getState().jobs),
 	      jobs: _storesJobsStore2['default'].getState(),
 	      settings: _storesSettingsStore2['default'].getState()
 	    });
 	  },
 
-	  showJobDetails: function showJobDetails() {
+	  renderRow: function renderRow(rowData, sectionID, rowID) {
+	    var _index = parseInt(rowID, 10) + 1;
+	    return _reactNative2['default'].createElement(
+	      _reactNative.TouchableHighlight,
+	      {
+	        onPress: this.showJobDetails.bind(this, rowData.jobId),
+	        underlayColor: _jssColorsScheme2['default'].get('lightGray')
+	      },
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        null,
+	        _reactNative2['default'].createElement(
+	          _reactNative.View,
+	          { style: _jssJobsList2['default'].row },
+	          _reactNative2['default'].createElement(
+	            _reactNative.Text,
+	            { style: _jssJobsList2['default'].text },
+	            _index,
+	            '. ',
+	            rowData.jobName
+	          )
+	        ),
+	        _reactNative2['default'].createElement(_reactNative.View, { style: _jssJobsList2['default'].separator })
+	      )
+	    );
+	  },
 
-	    // Get Job id
-	    var jobId = '9756006b-2ad3-11e5-8d60-005056330c34';
-
+	  showJobDetails: function showJobDetails(jobId) {
 	    this.props.navigator.push({
 	      component: _jobDetailsComponent2['default'],
 	      title: 'Job Details',
-	      passProps: { jobId: jobId }
+	      passProps: { jobId: jobId },
+	      rightButtonTitle: 'Refresh',
+	      onRightButtonPress: _jobDetailsComponent2['default'].refresh.bind(null, jobId)
 	    });
 	  },
 
@@ -27406,7 +27497,7 @@
 	    if (this.state.jobs.loading) {
 	      return _reactNative2['default'].createElement(
 	        _reactNative.View,
-	        { style: [styles.tabContent, { marginTop: 200 }] },
+	        { style: _jssJobsList2['default'].loader },
 	        _reactNative2['default'].createElement(_sharedLoaderComponent2['default'], { loading: true })
 	      );
 	    }
@@ -27417,17 +27508,11 @@
 
 	    return _reactNative2['default'].createElement(
 	      _reactNative.View,
-	      { style: [styles.tabContent, { backgroundColor: '#FFF' }] },
-	      _reactNative2['default'].createElement(
-	        _reactNative.Text,
-	        { style: styles.tabText },
-	        'Jobs'
-	      ),
-	      _reactNative2['default'].createElement(
-	        _reactNative.Text,
-	        { style: styles.tabText, onPress: this.showJobDetails },
-	        'Details'
-	      )
+	      { style: _jssJobsList2['default'].tabContent },
+	      _reactNative2['default'].createElement(_reactNative.ListView, {
+	        dataSource: this.state.dataSource,
+	        renderRow: this.renderRow
+	      })
 	    );
 	  }
 	});
@@ -27435,6 +27520,95 @@
 
 /***/ },
 /* 142 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(2)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _dispatchersAppDispatcher = __webpack_require__(114);
+
+	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
+
+	var _webutilsJobsWebutils = __webpack_require__(143);
+
+	var _webutilsJobsWebutils2 = _interopRequireDefault(_webutilsJobsWebutils);
+
+	var _constantsAppConstants = __webpack_require__(127);
+
+	exports['default'] = {
+	  getJobs: function getJobs() {
+	    _dispatchersAppDispatcher2['default'].handleViewAction({
+	      type: _constantsAppConstants.ActionTypes.RETRIVING_JOBS
+	    });
+
+	    _webutilsJobsWebutils2['default'].getJobs().then(function (data) {
+	      _dispatchersAppDispatcher2['default'].handleServerAction({
+	        type: _constantsAppConstants.ActionTypes.RETRIVED_JOBS,
+	        jobs: data
+	      });
+	    });
+	  },
+
+	  getJobDetails: function getJobDetails(jobId) {
+	    _dispatchersAppDispatcher2['default'].handleViewAction({
+	      type: _constantsAppConstants.ActionTypes.RETRIVING_JOB
+	    });
+
+	    _webutilsJobsWebutils2['default'].getJobDetails(jobId).then(function (data) {
+	      _dispatchersAppDispatcher2['default'].handleServerAction({
+	        type: _constantsAppConstants.ActionTypes.RETRIVED_JOB,
+	        job: data
+	      });
+	    });
+	  }
+	};
+	module.exports = exports['default'];
+
+/***/ },
+/* 143 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(2)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _commanderClient = __webpack_require__(132);
+
+	var _commanderClient2 = _interopRequireDefault(_commanderClient);
+
+	exports['default'] = {
+	  getJobs: function getJobs() {
+	    return _commanderClient2['default'].fetch({
+	      operation: 'getJobs'
+	    }).then(function (response) {
+	      return response.job;
+	    });
+	  },
+
+	  getJobDetails: function getJobDetails(jobId) {
+	    return _commanderClient2['default'].fetch({
+	      operation: 'getJobDetails',
+	      parameters: {
+	        jobId: jobId
+	      }
+	    }).then(function (response) {
+	      return response.job;
+	    });
+	  }
+	};
+	module.exports = exports['default'];
+
+/***/ },
+/* 144 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27537,96 +27711,6 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 143 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(2)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _dispatchersAppDispatcher = __webpack_require__(114);
-
-	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
-
-	var _webutilsJobsWebutils = __webpack_require__(144);
-
-	var _webutilsJobsWebutils2 = _interopRequireDefault(_webutilsJobsWebutils);
-
-	var _constantsAppConstants = __webpack_require__(127);
-
-	exports['default'] = {
-	  getJobs: function getJobs() {
-	    _dispatchersAppDispatcher2['default'].handleViewAction({
-	      type: _constantsAppConstants.ActionTypes.RETRIVING_JOBS
-	    });
-
-	    _webutilsJobsWebutils2['default'].getJobs().then(function (data) {
-	      _dispatchersAppDispatcher2['default'].handleServerAction({
-	        type: _constantsAppConstants.ActionTypes.RETRIVED_JOBS,
-	        jobs: data
-	      });
-	    });
-	  },
-
-	  getJobDetails: function getJobDetails(jobId) {
-	    _dispatchersAppDispatcher2['default'].handleViewAction({
-	      type: _constantsAppConstants.ActionTypes.RETRIVING_JOB
-	    });
-
-	    _webutilsJobsWebutils2['default'].getJobDetails(jobId).then(function (data) {
-	      _dispatchersAppDispatcher2['default'].handleServerAction({
-	        type: _constantsAppConstants.ActionTypes.RETRIVED_JOB,
-	        job: data
-	      });
-	    });
-	  }
-	};
-	module.exports = exports['default'];
-
-/***/ },
-/* 144 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireDefault = __webpack_require__(2)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _commanderClient = __webpack_require__(132);
-
-	var _commanderClient2 = _interopRequireDefault(_commanderClient);
-
-	exports['default'] = {
-	  getJobs: function getJobs() {
-	    return _commanderClient2['default'].fetch({
-	      operation: 'getJobs'
-	    }).then(function (response) {
-	      return response.job;
-	    });
-	  },
-
-	  getJobDetails: function getJobDetails(jobId) {
-	    return _commanderClient2['default'].fetch({
-	      operation: 'getJobDetails',
-	      parameters: {
-	        jobId: jobId
-	      }
-	    }).then(function (response) {
-	      console.log('RESPONSE JOB DETAILS', response);
-	      return response.job;
-	    });
-	  }
-	};
-	module.exports = exports['default'];
-
-/***/ },
 /* 145 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -27650,7 +27734,7 @@
 
 	var _sharedLoaderComponent2 = _interopRequireDefault(_sharedLoaderComponent);
 
-	var _actionsJobsActions = __webpack_require__(143);
+	var _actionsJobsActions = __webpack_require__(142);
 
 	var _actionsJobsActions2 = _interopRequireDefault(_actionsJobsActions);
 
@@ -27665,8 +27749,8 @@
 	  }
 	});
 
-	function Refresh() {
-	  console.log('Refresh Job Details');
+	function Refresh(jobId) {
+	  _actionsJobsActions2['default'].getJobDetails(jobId);
 	}
 
 	exports['default'] = _reactNative2['default'].createClass({
@@ -27829,6 +27913,111 @@
 
 /***/ },
 /* 147 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(2)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(3);
+
+	var _colorsScheme = __webpack_require__(59);
+
+	var _colorsScheme2 = _interopRequireDefault(_colorsScheme);
+
+	exports['default'] = _reactNative.StyleSheet.create({
+	  tabContent: {
+	    flex: 1,
+	    backgroundColor: _colorsScheme2['default'].get('white')
+	  },
+	  row: {
+	    flexDirection: 'row',
+	    padding: 10
+	  },
+	  icon: {
+	    marginRight: 10
+	  },
+	  separator: {
+	    height: 1 / _reactNative.PixelRatio.get(),
+	    backgroundColor: _colorsScheme2['default'].get('separatorColor')
+	  },
+	  text: {
+	    flex: 1,
+	    fontSize: 16
+	  },
+	  loader: {
+	    flex: 1,
+	    alignItems: 'center',
+	    marginTop: 200
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 148 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(2)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(3);
+
+	var _colorsScheme = __webpack_require__(59);
+
+	var _colorsScheme2 = _interopRequireDefault(_colorsScheme);
+
+	exports['default'] = _reactNative.StyleSheet.create({
+	  tabContent: {
+	    flex: 1,
+	    backgroundColor: _colorsScheme2['default'].get('white')
+	  },
+	  row: {
+	    flexDirection: 'row',
+	    padding: 10
+	  },
+	  icon: {
+	    marginRight: 10
+	  },
+	  separator: {
+	    height: 1,
+	    backgroundColor: _colorsScheme2['default'].get('gray')
+	  },
+	  text: {
+	    flex: 1,
+	    fontSize: 25
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 149 */
+/***/ function(module, exports) {
+
+	module.exports = require("image!appIcon");
+
+/***/ },
+/* 150 */
+/***/ function(module, exports) {
+
+	module.exports = require("image!envIcon");
+
+/***/ },
+/* 151 */
+/***/ function(module, exports) {
+
+	module.exports = require("image!pipeIcon");
+
+/***/ },
+/* 152 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28061,6 +28250,95 @@
 	  }
 	});
 	module.exports = exports['default'];
+
+/***/ },
+/* 153 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _getIterator = __webpack_require__(154)["default"];
+
+	var _isIterable = __webpack_require__(157)["default"];
+
+	exports["default"] = (function () {
+	  function sliceIterator(arr, i) {
+	    var _arr = [];
+	    var _n = true;
+	    var _d = false;
+	    var _e = undefined;
+
+	    try {
+	      for (var _i = _getIterator(arr), _s; !(_n = (_s = _i.next()).done); _n = true) {
+	        _arr.push(_s.value);
+
+	        if (i && _arr.length === i) break;
+	      }
+	    } catch (err) {
+	      _d = true;
+	      _e = err;
+	    } finally {
+	      try {
+	        if (!_n && _i["return"]) _i["return"]();
+	      } finally {
+	        if (_d) throw _e;
+	      }
+	    }
+
+	    return _arr;
+	  }
+
+	  return function (arr, i) {
+	    if (Array.isArray(arr)) {
+	      return arr;
+	    } else if (_isIterable(Object(arr))) {
+	      return sliceIterator(arr, i);
+	    } else {
+	      throw new TypeError("Invalid attempt to destructure non-iterable instance");
+	    }
+	  };
+	})();
+
+	exports.__esModule = true;
+
+/***/ },
+/* 154 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(155), __esModule: true };
+
+/***/ },
+/* 155 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(92);
+	__webpack_require__(87);
+	__webpack_require__(156);
+	module.exports = __webpack_require__(71).core.getIterator;
+
+/***/ },
+/* 156 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var core  = __webpack_require__(71).core
+	  , $iter = __webpack_require__(89);
+	core.isIterable  = $iter.is;
+	core.getIterator = $iter.get;
+
+/***/ },
+/* 157 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(158), __esModule: true };
+
+/***/ },
+/* 158 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(92);
+	__webpack_require__(87);
+	__webpack_require__(156);
+	module.exports = __webpack_require__(71).core.isIterable;
 
 /***/ }
 /******/ ])));

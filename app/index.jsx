@@ -13,9 +13,6 @@ import LoginComponent from './components/login.component';
 //Stores
 import SettingsStore from 'stores/settings.store';
 
-//Actions
-import SettingsActions from 'actions/settings.actions';
-
 
 var ECDeploy = React.createClass({
   statics: {
@@ -31,7 +28,6 @@ var ECDeploy = React.createClass({
 
   componentDidMount() {
     SettingsStore.on('change', this.handleChange);
-    SettingsActions.initialize();
   },
 
   componentWillUnmount() {
