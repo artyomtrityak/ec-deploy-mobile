@@ -66,7 +66,7 @@ export default React.createClass({
     });
   },
 
-  renderRow: function(rowData, sectionID, rowID) {
+  renderRow(rowData, sectionID, rowID) {
     let _index = parseInt(rowID, 10) + 1;
     return (
       <TouchableHighlight
