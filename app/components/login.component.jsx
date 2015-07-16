@@ -9,8 +9,6 @@ import React, {
   TouchableHighlight
 } from 'react-native';
 
-var KDSocialShare = require('NativeModules').KDSocialShare;
-
 //Components
 import LoaderComponent from './shared/loader.component';
 import ButtonComponent from './shared/button.component';

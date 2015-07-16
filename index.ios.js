@@ -28307,7 +28307,7 @@
 
 	var _jssForms2 = _interopRequireDefault(_jssForms);
 
-	var KDSocialShare = __webpack_require__(43).KDSocialShare;exports['default'] = _reactNative2['default'].createClass({
+	exports['default'] = _reactNative2['default'].createClass({
 	  displayName: 'LoginComponent',
 
 	  statics: {
@@ -28461,9 +28461,9 @@
 
 	  onTweet: function onTweet() {
 	    _NativeModules.KDSocialShare.tweet({
-	      'text': 'Global democratized marketplace for art',
-	      'link': 'https://artboost.com/',
-	      'imagelink': 'https://artboost.com/apple-touch-icon-144x144.png'
+	      'text': 'I have just deployed my app using ElectricFlow',
+	      'link': 'http://electric-cloud.com/products/electricflow/deploy-automation/',
+	      'imagelink': 'https://pbs.twimg.com/profile_images/479063120401297408/o_yW_qQ5_400x400.jpeg'
 	    }, function (results) {
 	      console.log(results);
 	    });
