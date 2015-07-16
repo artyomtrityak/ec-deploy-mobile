@@ -22,8 +22,8 @@ var styles = StyleSheet.create({
   }
 });
 
-function Refresh () {
-  console.log('Refresh Job Details');
+function Refresh (jobId) {
+  JobsActions.getJobDetails(jobId);
 }
 
 

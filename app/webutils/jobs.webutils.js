@@ -21,7 +21,6 @@ export default {
       }
     })
     .then((response) => {
-      console.log('RESPONSE JOB DETAILS', response);
       return response.job;
     });
   }
