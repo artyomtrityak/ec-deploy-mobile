@@ -21096,15 +21096,13 @@
 	  },
 
 	  saveLocalSetting: function saveLocalSetting(settingName, value) {
-	    _reactNative.AsyncStorage.setItem(settingName, value.toString());
-	    this.getSettings();
+	    _reactNative.AsyncStorage.setItem(settingName, value.toString()).then(this.getSettings);
 	  },
 
 	  getSettings: function getSettings() {
 	    var onDone = _bluebird2['default'].pending();
 
-	    _reactNative.AsyncStorage.multiGet(['@flow:rememberMe', '@flow:pushNotifications', '@flow:autoSync']).then(function (result) {
-	      //TODO: for some reason it does not work correct in emulator
+	    _reactNative.AsyncStorage.multiGet(['@flow:rememberMe', '@flow:autoSync', '@flow:pushNotifications']).then(function (result) {
 	      onDone.resolve([result[0][1] === 'true', result[1][1] === 'true', result[2][1] === 'true']);
 	    });
 
