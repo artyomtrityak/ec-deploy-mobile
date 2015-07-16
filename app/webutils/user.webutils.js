@@ -29,8 +29,7 @@ export default {
   },
 
   saveLocalSetting(settingName, value) {
-    AsyncStorage.setItem(settingName, value.toString());
-    this.getSettings();
+    AsyncStorage.setItem(settingName, value.toString()).then(this.getSettings);
   },
 
   getSettings() {
@@ -38,11 +37,10 @@ export default {
 
     AsyncStorage.multiGet([
       '@flow:rememberMe',
-      '@flow:pushNotifications',
-      '@flow:autoSync'
+      '@flow:autoSync',
+      '@flow:pushNotifications'
     ])
     .then((result) => {
-      //TODO: for some reason it does not work correct in emulator
       onDone.resolve([
         result[0][1] === 'true',
         result[1][1] === 'true',
