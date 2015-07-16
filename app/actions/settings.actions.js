@@ -16,7 +16,7 @@ export default {
       return [user, UserWebUtils.getSettings()]; 
     })
     .spread((user, settings) => {
-      var [ rememberMe, autoSync, pushNotifications ] = settings;
+      var [ rememberMe, autoSync, jobsNotifications ] = settings;
 
       if (autoSync) {
         this.autoSync();
@@ -29,7 +29,7 @@ export default {
         user: user,
         rememberMe: rememberMe,
         autoSync: autoSync,
-        pushNotifications: pushNotifications
+        jobsNotifications: jobsNotifications
       });
     })
     .catch((error) => {
@@ -82,12 +82,12 @@ export default {
     }
   },
 
-  changePushNotifications(value) {
+  changeJobsNotifications(value) {
     AppDispatcher.handleViewAction({
       type: ActionTypes.PUSH_NOTIFICATIONS_SETTING,
       value: value
     });
-    UserWebUtils.saveLocalSetting('@flow:pushNotifications', value);
+    UserWebUtils.saveLocalSetting('@flow:jobsNotifications', value);
   },
 
   autoSync() {

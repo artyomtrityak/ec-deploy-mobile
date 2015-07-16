@@ -72,8 +72,8 @@ export default React.createClass({
     SettingsActions.changeRememberMe(newVal);
   },
 
-  onPushNotificationsChange(newVal) {
-    SettingsActions.changePushNotifications(newVal);
+  onJobsNotificationsChange(newVal) {
+    SettingsActions.changeJobsNotifications(newVal);
   },
 
   handleChange() {
@@ -149,13 +149,13 @@ export default React.createClass({
           <View style={[ FormJSS.forms.flexRow, SettingsStyles.togglerContainer ]}>
             <View>
               <Text style={[ FormJSS.texts.small ]}>
-                Push Notifications
+                Jobs Notifications
               </Text>
             </View>
             <View>
               <SwitchIOS
-                onValueChange={this.onPushNotificationsChange}
-                value={this.state.pushNotifications}
+                onValueChange={this.onJobsNotificationsChange}
+                value={this.state.jobsNotifications}
               />
             </View>
           </View>

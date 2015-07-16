@@ -10,7 +10,7 @@ import { ActionTypes } from 'constants/app.constants';
 // Private data and functions
 var settingsState = Immutable.Map({
   loading: false,
-  pushNotifications: true,
+  jobsNotifications: true,
   rememberMe: true,
   autoSync: false
 });
@@ -70,7 +70,7 @@ store.dispatchToken = AppDispatcher.register((payload) => {
       _loginUser(action.user);
       _changeCredential('rememberMe', action.rememberMe);
       _changeCredential('autoSync', action.autoSync);
-      _changeCredential('pushNotifications', action.pushNotifications);
+      _changeCredential('jobsNotifications', action.jobsNotifications);
       _hideLoading();
       store.emitChange();
       break;
@@ -92,7 +92,7 @@ store.dispatchToken = AppDispatcher.register((payload) => {
       break;
 
     case ActionTypes.PUSH_NOTIFICATIONS_SETTING:
-      _changeCredential('pushNotifications', action.value);
+      _changeCredential('jobsNotifications', action.value);
       store.emitChange();
       break;
 
