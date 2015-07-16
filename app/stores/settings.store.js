@@ -68,6 +68,9 @@ store.dispatchToken = AppDispatcher.register((payload) => {
 
     case ActionTypes.LOGIN_DONE:
       _loginUser(action.user);
+      _changeCredential('rememberMe', action.rememberMe);
+      _changeCredential('autoSync', action.autoSync);
+      _changeCredential('pushNotifications', action.pushNotifications);
       _hideLoading();
       store.emitChange();
       break;
@@ -77,14 +80,6 @@ store.dispatchToken = AppDispatcher.register((payload) => {
       _hideLoading();
       store.emitChange();
       break;
-
-    case ActionTypes.INIT_DONE:
-      _changeCredential('rememberMe', action.rememberMe);
-      _changeCredential('autoSync', action.autoSync);
-      _changeCredential('pushNotifications', action.pushNotifications);
-      _hideLoading();
-      store.emitChange();
-      break;    
 
     case ActionTypes.REMEMBER_ME_SETTING:
       _changeCredential('rememberMe', action.value);
