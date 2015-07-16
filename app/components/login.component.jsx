@@ -5,12 +5,16 @@ import React, {
   Text,
   TextInput,
   View,
-  Image
+  Image,
+  TouchableHighlight
 } from 'react-native';
+
+var KDSocialShare = require('NativeModules').KDSocialShare;
 
 //Components
 import LoaderComponent from './shared/loader.component';
 import ButtonComponent from './shared/button.component';
+import TweetButtonComponent from './shared/tweet-button.component';
 
 //Actions
 import SettingsActions from 'actions/settings.actions';
@@ -112,6 +116,11 @@ export default React.createClass({
 
         <View style={ FormJSS.forms.row }>
           <ButtonComponent onPress={this.onConnect} text={'Connect'} icon={'sign-in'} />
+          
+          <View style={ FormJSS.forms.row }>
+            <TweetButtonComponent />
+          </View>
+          
         </View>
       </View>
     );

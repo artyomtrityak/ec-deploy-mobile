@@ -28205,6 +28205,10 @@
 
 	var _sharedButtonComponent2 = _interopRequireDefault(_sharedButtonComponent);
 
+	var _sharedTweetButtonComponent = __webpack_require__(159);
+
+	var _sharedTweetButtonComponent2 = _interopRequireDefault(_sharedTweetButtonComponent);
+
 	//Actions
 
 	var _actionsSettingsActions = __webpack_require__(148);
@@ -28227,7 +28231,7 @@
 
 	var _jssForms2 = _interopRequireDefault(_jssForms);
 
-	exports['default'] = _reactNative2['default'].createClass({
+	var KDSocialShare = __webpack_require__(43).KDSocialShare;exports['default'] = _reactNative2['default'].createClass({
 	  displayName: 'LoginComponent',
 
 	  statics: {
@@ -28327,7 +28331,12 @@
 	      _reactNative2['default'].createElement(
 	        _reactNative.View,
 	        { style: _jssForms2['default'].forms.row },
-	        _reactNative2['default'].createElement(_sharedButtonComponent2['default'], { onPress: this.onConnect, text: 'Connect', icon: 'sign-in' })
+	        _reactNative2['default'].createElement(_sharedButtonComponent2['default'], { onPress: this.onConnect, text: 'Connect', icon: 'sign-in' }),
+	        _reactNative2['default'].createElement(
+	          _reactNative.View,
+	          { style: _jssForms2['default'].forms.row },
+	          _reactNative2['default'].createElement(_sharedTweetButtonComponent2['default'], null)
+	        )
 	      )
 	    );
 	  }
@@ -28339,6 +28348,51 @@
 /***/ function(module, exports) {
 
 	module.exports = require("image!logo");
+
+/***/ },
+/* 159 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _reactNative2 = _interopRequireDefault(_reactNative);
+
+	var _NativeModules = __webpack_require__(43);
+
+	var _buttonComponent = __webpack_require__(147);
+
+	var _buttonComponent2 = _interopRequireDefault(_buttonComponent);
+
+	exports['default'] = _reactNative2['default'].createClass({
+	  displayName: 'Button',
+
+	  propTypes: {
+	    onPress: _reactNative2['default'].PropTypes.func
+	  },
+
+	  onTweet: function onTweet() {
+	    _NativeModules.KDSocialShare.tweet({
+	      'text': 'Global democratized marketplace for art',
+	      'link': 'https://artboost.com/',
+	      'imagelink': 'https://artboost.com/apple-touch-icon-144x144.png'
+	    }, function (results) {
+	      console.log(results);
+	    });
+	  },
+
+	  render: function render() {
+	    return _reactNative2['default'].createElement(_buttonComponent2['default'], { onPress: this.onTweet, text: 'Share on Twitter', icon: 'twitter' });
+	  }
+	});
+	module.exports = exports['default'];
 
 /***/ }
 /******/ ])));
