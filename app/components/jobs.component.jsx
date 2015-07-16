@@ -74,12 +74,14 @@ export default React.createClass({
   showJobDetails() {
 
     // Get Job id
-    var jobId = '9756006b-2ad3-11e5-8d60-005056330c34';
+    var jobId = '64e62659-2b79-11e5-ad26-005056330c34';
 
     this.props.navigator.push({
       component: JobDetails,
       title: 'Job Details',
-      passProps: {jobId: jobId}
+      passProps: {jobId: jobId},
+      rightButtonTitle: 'Refresh',
+      onRightButtonPress: JobDetails.refresh.bind(null, jobId)
     });
   },
 
