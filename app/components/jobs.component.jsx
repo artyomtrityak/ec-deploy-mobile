@@ -1,9 +1,10 @@
 'use strict';
 
 import React, {
-  StyleSheet,
-  Text,
-  View
+  View,
+  ListView,
+  TouchableHighlight,
+  Text
 } from 'react-native';
 
 import JobsActions from 'actions/jobs.actions';
@@ -12,18 +13,9 @@ import JobsStore from 'stores/jobs.store';
 import NotLoggenInComponent from './shared/not-logged-in.component';
 import LoaderComponent from './shared/loader.component';
 import JobDetails from './job-details.component';
+import Styles from './jss/jobs-list';
+import Colors from './jss/colors-scheme';
 
-
-var styles = StyleSheet.create({
-  tabContent: {
-    flex: 1,
-    alignItems: 'center'
-  },
-  tabText: {
-    color: 'black',
-    margin: 50
-  }
-});
 
 function Refresh (smartLoad=false) {
   if (!SettingsStore.getState().user) {
@@ -48,7 +40,9 @@ export default React.createClass({
   },
 
   getInitialState() {
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return {
+      dataSource: ds.cloneWithRows(JobsStore.getState()),
       jobs: JobsStore.getState(),
       settings: SettingsStore.getState()
     };
@@ -65,17 +59,32 @@ export default React.createClass({
   },
 
   handleChange() {
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.setState({
+      dataSource: ds.cloneWithRows(JobsStore.getState().jobs),
       jobs: JobsStore.getState(),
       settings: SettingsStore.getState()
     });
   },
 
-  showJobDetails() {
+  renderRow(rowData, sectionID, rowID) {
+    let _index = parseInt(rowID, 10) + 1;
+    return (
+      <TouchableHighlight
+        onPress={this.showJobDetails.bind(this, rowData.jobId)}
+        underlayColor={Colors.get('lightGray')}
+        >
+        <View>
+          <View style={Styles.row}>
+            <Text style={Styles.text}>{_index}. {rowData.jobName}</Text>
+          </View>
+          <View style={Styles.separator} />
+        </View>
+      </TouchableHighlight>
+    );
+  },
 
-    // Get Job id
-    var jobId = '64e62659-2b79-11e5-ad26-005056330c34';
-
+  showJobDetails(jobId) {
     this.props.navigator.push({
       component: JobDetails,
       title: 'Job Details',
@@ -88,20 +97,22 @@ export default React.createClass({
   render() {
     if (this.state.jobs.loading) {
       return (
-        <View style={[styles.tabContent, {marginTop: 200}]}>
+        <View style={Styles.loader}>
           <LoaderComponent loading={true} />
         </View>
       );
     }
 
     if (!this.state.settings.user) {
-      return (<NotLoggenInComponent />);  
+      return (<NotLoggenInComponent />);
     }
 
     return (
-      <View style={[styles.tabContent, {backgroundColor: '#FFF'}]}>
-        <Text style={styles.tabText}>{'Jobs'}</Text>
-        <Text style={styles.tabText} onPress={this.showJobDetails}>{'Details'}</Text>
+      <View style={Styles.tabContent}>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow}
+        />
       </View>
     );
   }
