@@ -14,6 +14,7 @@ import NotLoggenInComponent from './shared/not-logged-in.component';
 import LoaderComponent from './shared/loader.component';
 import JobDetails from './job-details.component';
 import Styles from './jss/jobs-list';
+import Colors from './jss/colors-scheme';
 
 
 function Refresh (smartLoad=false) {
@@ -71,7 +72,7 @@ export default React.createClass({
     return (
       <TouchableHighlight
         onPress={this.showJobDetails.bind(this, rowData.jobId)}
-        underlayColor="#cccccc"
+        underlayColor={Colors.lightGray}
         >
         <View>
           <View style={Styles.row}>
