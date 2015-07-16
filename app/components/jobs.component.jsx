@@ -72,7 +72,7 @@ export default React.createClass({
     return (
       <TouchableHighlight
         onPress={this.showJobDetails.bind(this, rowData.jobId)}
-        underlayColor={Colors.lightGray}
+        underlayColor={Colors.get('lightGray')}
         >
         <View>
           <View style={Styles.row}>
