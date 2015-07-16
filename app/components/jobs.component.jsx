@@ -1,12 +1,10 @@
 'use strict';
 
 import React, {
-  StyleSheet,
-  Text,
   View,
   ListView,
   TouchableHighlight,
-  ArticleView
+  Text
 } from 'react-native';
 
 import JobsActions from 'actions/jobs.actions';
@@ -14,21 +12,9 @@ import SettingsStore from 'stores/settings.store';
 import JobsStore from 'stores/jobs.store';
 import NotLoggenInComponent from './shared/not-logged-in.component';
 import LoaderComponent from './shared/loader.component';
-import JobListItem from './job.list.item';
 import JobDetails from './job-details.component';
+import Styles from './jss/jobs-list';
 
-
-var styles = StyleSheet.create({
-  tabContent: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  tabText: {
-    color: 'black',
-    margin: 50
-  }
-});
 
 function Refresh (smartLoad=false) {
   if (!SettingsStore.getState().user) {
@@ -80,12 +66,20 @@ export default React.createClass({
     });
   },
 
-  renderJob(job) {
+  renderRow: function(rowData, sectionID, rowID) {
+    let _index = parseInt(rowID, 10) + 1;
     return (
-      <JobListItem
-        job={job}
-        onSelectJob={this.showJobDetails}
-      />
+      <TouchableHighlight
+        onPress={this.showJobDetails.bind(this, rowData.jobId)}
+        underlayColor="#cccccc"
+        >
+        <View>
+          <View style={Styles.row}>
+            <Text style={Styles.text}>{_index}. {rowData.jobName}</Text>
+          </View>
+          <View style={Styles.separator} />
+        </View>
+      </TouchableHighlight>
     );
   },
 
@@ -102,7 +96,7 @@ export default React.createClass({
   render() {
     if (this.state.jobs.loading) {
       return (
-        <View style={[styles.tabContent, {marginTop: 200}]}>
+        <View style={Styles.loader}>
           <LoaderComponent loading={true} />
         </View>
       );
@@ -113,10 +107,10 @@ export default React.createClass({
     }
 
     return (
-      <View style={[styles.tabContent, {backgroundColor: '#FFF'}]}>
+      <View style={Styles.tabContent}>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={this.renderJob}
+          renderRow={this.renderRow}
         />
       </View>
     );
