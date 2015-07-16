@@ -16,12 +16,13 @@ export default React.createClass({
   displayName: 'TwitterButton',
 
   propTypes: {
-    onPress: React.PropTypes.func
+    onPress: React.PropTypes.func,
+    text: React.PropTypes.string
   },
 
   onTweet() {
     KDSocialShare.tweet({
-      'text': 'I have just deployed my app using ElectricFlow',
+      'text': this.props.text || 'I have just deployed my app using ElectricFlow',
       'link': 'http://electric-cloud.com/products/electricflow/deploy-automation/',
       'imagelink': 'https://pbs.twimg.com/profile_images/479063120401297408/o_yW_qQ5_400x400.jpeg'
       }, (results) => {
