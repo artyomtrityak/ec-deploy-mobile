@@ -36,8 +36,6 @@ export default {
 
     requestBody = JSON.stringify(requestBody);
 
-    console.log(requestBody);
-
     fetch('http://' + serverAddr + ':8000', {
       method: 'post',
       headers: {
