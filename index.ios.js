@@ -22105,25 +22105,27 @@
 	    var useSessionId = arguments[1] === undefined ? true : arguments[1];
 
 	    var onDone = _bluebird2['default'].pending(),
-	        requestBody = '';
+	        requestBody;
 
 	    data.requestId = requestId;
 	    requestId += 1;
 
 	    requestBody = {
-	      value: [[data], {}]
+	      version: '2.0',
+	      requests: [data]
 	    };
+
 	    if (userSessionId && useSessionId) {
-	      requestBody.sessionId = 'COMMANDER_SESSION_ID=' + userSessionId;
+	      requestBody.sessionId = userSessionId;
 	    }
 
 	    requestBody = JSON.stringify(requestBody);
 
-	    //TODO: change it to Commander Server IP
-	    fetch('http://localhost:3001/api', {
+	    console.log(requestBody);
+
+	    fetch('http://' + serverAddr + ':8000', {
 	      method: 'post',
 	      headers: {
-	        'Server-IP': serverAddr,
 	        'Accept': 'application/json',
 	        'Content-Type': 'application/json'
 	      },
