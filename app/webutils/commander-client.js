@@ -20,25 +20,25 @@ export default {
 
   fetch(data, useSessionId=true) {
     var onDone = Promise.pending(),
-        requestBody = '';
+        requestBody;
 
     data.requestId = requestId;
     requestId += 1;
 
     requestBody = {
-      value: [[data], {}]
+      version: '2.0',
+      requests: [data]
     };
+
     if (userSessionId && useSessionId) {
-      requestBody.sessionId = 'COMMANDER_SESSION_ID=' + userSessionId;
+      requestBody.sessionId = userSessionId;
     }
 
     requestBody = JSON.stringify(requestBody);
 
-    //TODO: change it to Commander Server IP
-    fetch('http://localhost:3001/api', {
+    fetch('http://' + serverAddr + ':8000', {
       method: 'post',
       headers: {
-        'Server-IP': serverAddr,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
