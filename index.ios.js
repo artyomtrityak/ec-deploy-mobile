@@ -671,10 +671,10 @@
 	        _reactNative2['default'].createElement(_reactNative.NavigatorIOS, {
 	          style: { flex: 1 },
 	          initialRoute: {
-	            component: _settingsComponent2['default'],
+	            component: _gateApprovalComponent2['default'],
 	            title: 'Settings',
 	            passProps: {
-	              flowRuntimeId: '3ade886e-3b6b-11e5-884d-005056330c34'
+	              flowRuntimeId: '5a559e9a-3b6e-11e5-8a41-005056330c34'
 	            }
 	          }
 	        })
@@ -28299,6 +28299,10 @@
 
 	var _sharedButtonComponent2 = _interopRequireDefault(_sharedButtonComponent);
 
+	var _sharedTweetButtonComponent = __webpack_require__(164);
+
+	var _sharedTweetButtonComponent2 = _interopRequireDefault(_sharedTweetButtonComponent);
+
 	//Actions
 
 	var _actionsPipelinesActions = __webpack_require__(160);
@@ -28413,12 +28417,23 @@
 	  renderDone: function renderDone() {
 	    return _reactNative2['default'].createElement(
 	      _reactNative.View,
-	      { style: _jssForms2['default'].forms.row },
+	      null,
 	      _reactNative2['default'].createElement(
-	        _reactNative.Text,
-	        null,
-	        'Task status: ',
-	        this.state.solution
+	        _reactNative.View,
+	        { style: _jssForms2['default'].forms.row },
+	        _reactNative2['default'].createElement(
+	          _reactNative.Text,
+	          null,
+	          'Task status: ',
+	          this.state.solution
+	        )
+	      ),
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: _jssForms2['default'].forms.row },
+	        _reactNative2['default'].createElement(_sharedTweetButtonComponent2['default'], {
+	          text: 'I\'ve just ' + this.state.solution + 'ed pipeline ' + this.state.pipelineName + ' stage ' + this.state.stageName + ' task ' + this.state.taskName
+	        })
 	      )
 	    );
 	  },
