@@ -35,6 +35,10 @@ function _setApproval (details) {
   });
 }
 
+function _setApproved (solution) {
+  approvalState = approvalState.set('solution', solution);
+}
+
 function _changeComment (text) {
   approvalState = approvalState.set('comment', text); 
 }
@@ -74,6 +78,16 @@ store.dispatchToken = AppDispatcher.register((payload) => {
       store.emitChange();
       break;
 
+    case ActionTypes.APPROVING:
+      _showLoading();
+      store.emitChange();
+      break;
+
+    case ActionTypes.APPROVED:
+      _hideLoading();
+      _setApproved(action.solution);
+      store.emitChange();
+      break;
       
   }
 });

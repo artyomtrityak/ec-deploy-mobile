@@ -632,7 +632,7 @@
 	          initialRoute: {
 	            component: _dashboardComponent2['default'],
 	            title: 'Dashboard',
-	            rightButtonTitle: 'Refresh2',
+	            rightButtonTitle: 'Refresh',
 	            onRightButtonPress: _dashboardComponent2['default'].refresh
 	          }
 	        })
@@ -671,22 +671,13 @@
 	        _reactNative2['default'].createElement(_reactNative.NavigatorIOS, {
 	          style: { flex: 1 },
 	          initialRoute: {
-	            component: _gateApprovalComponent2['default'],
-	            title: 'Settings'
-	          }
-	        }),
-	        '/*',
-	        _reactNative2['default'].createElement(_reactNative.NavigatorIOS, {
-	          style: { flex: 1 },
-	          initialRoute: {
-	            component: _gateApprovalComponent2['default'],
-	            title: 'Gate Approval',
+	            component: _settingsComponent2['default'],
+	            title: 'Settings',
 	            passProps: {
-	              flowRuntimeId: '053fd661-3b6a-11e5-aa58-005056330c34'
+	              flowRuntimeId: '3ade886e-3b6b-11e5-884d-005056330c34'
 	            }
 	          }
-	        }),
-	        '*/'
+	        })
 	      )
 	    );
 	  }
@@ -28390,6 +28381,48 @@
 	      } }]);
 	  },
 
+	  renderButtons: function renderButtons() {
+	    return _reactNative2['default'].createElement(
+	      _reactNative.View,
+	      null,
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: _jssForms2['default'].forms.row },
+	        _reactNative2['default'].createElement(_sharedButtonComponent2['default'], {
+	          onPress: this.onApprove,
+	          text: 'Approve',
+	          icon: 'thumbs-up',
+	          color: _jssColorsScheme2['default'].get('white'),
+	          backgroundColor: _jssColorsScheme2['default'].get('green')
+	        })
+	      ),
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: _jssForms2['default'].forms.row },
+	        _reactNative2['default'].createElement(_sharedButtonComponent2['default'], {
+	          onPress: this.onReject,
+	          text: 'Reject',
+	          icon: 'thumbs-down',
+	          color: _jssColorsScheme2['default'].get('white'),
+	          backgroundColor: _jssColorsScheme2['default'].get('red')
+	        })
+	      )
+	    );
+	  },
+
+	  renderDone: function renderDone() {
+	    return _reactNative2['default'].createElement(
+	      _reactNative.View,
+	      { style: _jssForms2['default'].forms.row },
+	      _reactNative2['default'].createElement(
+	        _reactNative.Text,
+	        null,
+	        'Task status: ',
+	        this.state.solution
+	      )
+	    );
+	  },
+
 	  render: function render() {
 	    if (this.state.loading) {
 	      return _reactNative2['default'].createElement(
@@ -28494,28 +28527,7 @@
 	          value: this.state.commentChange
 	        })
 	      ),
-	      _reactNative2['default'].createElement(
-	        _reactNative.View,
-	        { style: _jssForms2['default'].forms.row },
-	        _reactNative2['default'].createElement(_sharedButtonComponent2['default'], {
-	          onPress: this.onApprove,
-	          text: 'Approve',
-	          icon: 'thumbs-up',
-	          color: _jssColorsScheme2['default'].get('white'),
-	          backgroundColor: _jssColorsScheme2['default'].get('green')
-	        })
-	      ),
-	      _reactNative2['default'].createElement(
-	        _reactNative.View,
-	        { style: _jssForms2['default'].forms.row },
-	        _reactNative2['default'].createElement(_sharedButtonComponent2['default'], {
-	          onPress: this.onReject,
-	          text: 'Reject',
-	          icon: 'thumbs-down',
-	          color: _jssColorsScheme2['default'].get('white'),
-	          backgroundColor: _jssColorsScheme2['default'].get('red')
-	        })
-	      )
+	      this.state.solution ? this.renderDone() : this.renderButtons()
 	    );
 	  }
 	});
@@ -28569,10 +28581,9 @@
 	      type: _constantsAppConstants.ActionTypes.APPROVING
 	    });
 	    _webutilsPipelinesWebutils2['default'].approveOrReject(flowRuntimeId, stageName, taskName, gateType, solution, comment).then(function (data) {
-	      console.log('DONE', data);
 	      _dispatchersAppDispatcher2['default'].handleViewAction({
 	        type: _constantsAppConstants.ActionTypes.APPROVED,
-	        data: data
+	        solution: solution
 	      });
 	    });
 	  }
@@ -28716,6 +28727,10 @@
 	  });
 	}
 
+	function _setApproved(solution) {
+	  approvalState = approvalState.set('solution', solution);
+	}
+
 	function _changeComment(text) {
 	  approvalState = approvalState.set('comment', text);
 	}
@@ -28768,6 +28783,17 @@
 
 	    case _constantsAppConstants.ActionTypes.APPROVAL_CHANGE_COMMENT:
 	      _changeComment(action.text);
+	      store.emitChange();
+	      break;
+
+	    case _constantsAppConstants.ActionTypes.APPROVING:
+	      _showLoading();
+	      store.emitChange();
+	      break;
+
+	    case _constantsAppConstants.ActionTypes.APPROVED:
+	      _hideLoading();
+	      _setApproved(action.solution);
 	      store.emitChange();
 	      break;
 

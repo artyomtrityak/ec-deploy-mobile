@@ -33,10 +33,9 @@ export default {
     });
     PipelinesWebUtils.approveOrReject(flowRuntimeId, stageName, taskName, gateType, solution, comment)
     .then((data) => {
-      console.log('DONE', data);
       AppDispatcher.handleViewAction({
         type: ActionTypes.APPROVED,
-        data: data
+        solution: solution
       });
     });
   }
