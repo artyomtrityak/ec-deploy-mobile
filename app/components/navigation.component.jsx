@@ -13,6 +13,7 @@ import AppStore from 'stores/app.store';
 import DashboardComponent from './dashboard.component';
 import JobsComponent from './jobs.component';
 import SettingsComponent from './settings.component';
+import GateApprovalComponent from './gate-approval.component';
 
 export default React.createClass({
   displayName: 'NavigationComponent',
@@ -48,6 +49,9 @@ export default React.createClass({
           }}>
 
           <NavigatorIOS
+            barTintColor={'blue'}
+            tintColor={'red'}
+            titleTextColor={'green'}
             style={{flex: 1}}
             initialRoute={{
               component: DashboardComponent,
@@ -94,7 +98,10 @@ export default React.createClass({
             style={{flex: 1}}
             initialRoute={{
               component: SettingsComponent,
-              title: 'Settings'
+              title: 'Settings',
+              passProps: {
+                flowRuntimeId: '5a559e9a-3b6e-11e5-8a41-005056330c34'
+              }
             }}
           />
 

@@ -11,5 +11,8 @@ export default Immutable.Map({
   lightBlue: '#00aced',
   darkBlue: '#567b99',
 
+  green: '#00FF00',
+  red: '#FF0000',
+
   separatorColor: 'rgba(0, 0, 0, 0.1)'
 });
