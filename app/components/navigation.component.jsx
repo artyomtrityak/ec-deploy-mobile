@@ -97,7 +97,7 @@ export default React.createClass({
           <NavigatorIOS
             style={{flex: 1}}
             initialRoute={{
-              component: GateApprovalComponent,
+              component: Settings,
               title: 'Settings'
             }}
           />
