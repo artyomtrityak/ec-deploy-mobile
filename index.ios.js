@@ -728,6 +728,10 @@
 	//import EnvironmentComponent from './environment.component';
 	//import PipelinesComponent from './pipelines.component';
 
+	var _pipelineDashboardComponent = __webpack_require__(166);
+
+	var _pipelineDashboardComponent2 = _interopRequireDefault(_pipelineDashboardComponent);
+
 	var listItems = [{
 	  name: 'Applications',
 	  icon: __webpack_require__(142),
@@ -741,8 +745,8 @@
 	}, {
 	  name: 'Pipelines',
 	  icon: __webpack_require__(144),
-	  targetComponent: _jobsComponent2['default'],
-	  targetComponentTitle: 'Jobs list'
+	  targetComponent: _pipelineDashboardComponent2['default'],
+	  targetComponentTitle: 'Pipelines'
 	}];
 
 	function Refresh() {
@@ -21604,14 +21608,20 @@
 	        REMEMBER_ME_SETTING: null,
 	        PUSH_NOTIFICATIONS_SETTING: null,
 	        AUTO_SYNC_SETTING: null,
-	        RETRIVING_JOB: null,
-	        RETRIVING_JOBS: null,
-	        RETRIVED_JOB: null,
-	        RETRIVED_JOBS: null,
+	        RETRIEVING_JOB: null,
+	        RETRIEVING_JOBS: null,
+	        RETRIEVED_JOB: null,
+	        RETRIEVED_JOBS: null,
+	        RETRIEVING_PIPELINES: null,
+	        RETRIEVED_PIPELINES: null,
+	        RETRIEVING_PIPELINE_RUNS: null,
+	        RETRIEVED_PIPELINE_RUNS: null,
+	        RETRIEVING_PIPELINE_DASHBOARD_DATA: null,
+	        RETRIEVED_PIPELINE_DASHBOARD_DATA: null,
 	        SERVER_ERROR: null,
 	        AUTO_SYNC: null,
-	        RETRIVING_PIPELINE_DETAILS: null,
-	        RETRIVED_PIPELINE_DETAILS: null,
+	        RETRIEVING_PIPELINE_DETAILS: null,
+	        RETRIEVED_PIPELINE_DETAILS: null,
 	        APPROVAL_CHANGE_COMMENT: null,
 	        APPROVING: null,
 	        APPROVED: null
@@ -21907,12 +21917,12 @@
 	exports['default'] = {
 	  getJobs: function getJobs() {
 	    _dispatchersAppDispatcher2['default'].handleViewAction({
-	      type: _constantsAppConstants.ActionTypes.RETRIVING_JOBS
+	      type: _constantsAppConstants.ActionTypes.RETRIEVING_JOBS
 	    });
 
 	    _webutilsJobsWebutils2['default'].getJobs().then(function (data) {
 	      _dispatchersAppDispatcher2['default'].handleServerAction({
-	        type: _constantsAppConstants.ActionTypes.RETRIVED_JOBS,
+	        type: _constantsAppConstants.ActionTypes.RETRIEVED_JOBS,
 	        jobs: data
 	      });
 	    });
@@ -21920,12 +21930,12 @@
 
 	  getJobDetails: function getJobDetails(jobId) {
 	    _dispatchersAppDispatcher2['default'].handleViewAction({
-	      type: _constantsAppConstants.ActionTypes.RETRIVING_JOB
+	      type: _constantsAppConstants.ActionTypes.RETRIEVING_JOB
 	    });
 
 	    _webutilsJobsWebutils2['default'].getJobDetails(jobId).then(function (data) {
 	      _dispatchersAppDispatcher2['default'].handleServerAction({
-	        type: _constantsAppConstants.ActionTypes.RETRIVED_JOB,
+	        type: _constantsAppConstants.ActionTypes.RETRIEVED_JOB,
 	        job: data
 	      });
 	    });
@@ -27053,12 +27063,12 @@
 	  var action = payload.action;
 
 	  switch (action.type) {
-	    case _constantsAppConstants.ActionTypes.RETRIVING_JOBS:
+	    case _constantsAppConstants.ActionTypes.RETRIEVING_JOBS:
 	      _showLoading();
 	      store.emitChange();
 	      break;
 
-	    case _constantsAppConstants.ActionTypes.RETRIVED_JOBS:
+	    case _constantsAppConstants.ActionTypes.RETRIEVED_JOBS:
 	      _hideLoading();
 	      _setJobs(action.jobs);
 	      store.emitChange();
@@ -27335,12 +27345,12 @@
 	  var action = payload.action;
 
 	  switch (action.type) {
-	    case _constantsAppConstants.ActionTypes.RETRIVING_JOB:
+	    case _constantsAppConstants.ActionTypes.RETRIEVING_JOB:
 	      _showLoading();
 	      store.emitChange();
 	      break;
 
-	    case _constantsAppConstants.ActionTypes.RETRIVED_JOB:
+	    case _constantsAppConstants.ActionTypes.RETRIEVED_JOB:
 	      _hideLoading();
 	      _setJob(action.job);
 	      store.emitChange();
@@ -27439,6 +27449,13 @@
 	  text: {
 	    flex: 1,
 	    fontSize: 25
+	  },
+	  itemNumber: {
+	    height: 20,
+	    marginTop: 10,
+	    marginRight: 5,
+	    marginBottom: 0,
+	    width: 30
 	  }
 	});
 	module.exports = exports['default'];
@@ -28573,12 +28590,12 @@
 	exports['default'] = {
 	  getRuntimeDetails: function getRuntimeDetails(flowRuntimeId) {
 	    _dispatchersAppDispatcher2['default'].handleViewAction({
-	      type: _constantsAppConstants.ActionTypes.RETRIVING_PIPELINE_DETAILS
+	      type: _constantsAppConstants.ActionTypes.RETRIEVING_PIPELINE_DETAILS
 	    });
 
-	    _webutilsPipelinesWebutils2['default'].getRunimeDetails(flowRuntimeId).then(function (data) {
+	    _webutilsPipelinesWebutils2['default'].getRuntimeDetails(flowRuntimeId).then(function (data) {
 	      _dispatchersAppDispatcher2['default'].handleServerAction({
-	        type: _constantsAppConstants.ActionTypes.RETRIVED_PIPELINE_DETAILS,
+	        type: _constantsAppConstants.ActionTypes.RETRIEVED_PIPELINE_DETAILS,
 	        details: data
 	      });
 	    });
@@ -28599,6 +28616,57 @@
 	      _dispatchersAppDispatcher2['default'].handleViewAction({
 	        type: _constantsAppConstants.ActionTypes.APPROVED,
 	        solution: solution
+	      });
+	    });
+	  },
+
+	  getPipelines: function getPipelines() {
+	    _dispatchersAppDispatcher2['default'].handleViewAction({
+	      type: _constantsAppConstants.ActionTypes.RETRIEVING_PIPELINES
+	    });
+
+	    _webutilsPipelinesWebutils2['default'].getPipelines().then(function (data) {
+	      _dispatchersAppDispatcher2['default'].handleServerAction({
+	        type: _constantsAppConstants.ActionTypes.RETRIEVED_PIPELINES,
+	        pipelines: data
+	      });
+	    });
+	  },
+	  //
+	  //getPipelineRuns() {
+	  //  console.log('getPipelines');
+	  //  AppDispatcher.handleViewAction({
+	  //    type: ActionTypes.RETRIEVING_PIPELINE_RUNS
+	  //  });
+	  //
+	  //  PipelinesWebUtils.getPipelineRuns()
+	  //  .then((data) => {
+	  //    AppDispatcher.handleServerAction({
+	  //      type: ActionTypes.RETRIEVED_PIPELINE_RUNS,
+	  //      pipelineRuns: data
+	  //    });
+	  //  });
+	  //},
+	  //
+	  getPipelineDashboardData: function getPipelineDashboardData() {
+	    _dispatchersAppDispatcher2['default'].handleViewAction({
+	      type: _constantsAppConstants.ActionTypes.RETRIEVING_PIPELINE_DASHBOARD_DATA
+	    });
+	    _webutilsPipelinesWebutils2['default'].getPipelines().then(function (pipelines) {
+	      return [pipelines, _webutilsPipelinesWebutils2['default'].getPipelineRuns()];
+	    }).spread(function (pipelines, pipelineRuns) {
+	      var approvals = [];
+	      pipelineRuns.forEach(function (pipelineRun) {
+	        if (pipelineRun.approvers) {
+	          approvals.push(pipelineRun);
+	        }
+	      });
+
+	      _dispatchersAppDispatcher2['default'].handleServerAction({
+	        type: _constantsAppConstants.ActionTypes.RETRIEVED_PIPELINE_DASHBOARD_DATA,
+	        pipelines: pipelines,
+	        pipelineRuns: pipelineRuns,
+	        approvals: approvals
 	      });
 	    });
 	  }
@@ -28628,7 +28696,7 @@
 	var _reactNative = __webpack_require__(2);
 
 	exports['default'] = {
-	  getRunimeDetails: function getRunimeDetails(flowRuntimeId) {
+	  getRuntimeDetails: function getRuntimeDetails(flowRuntimeId) {
 	    return _commanderClient2['default'].fetch({
 	      operation: 'getPipelineRuntimeDetails',
 	      parameters: {
@@ -28675,6 +28743,41 @@
 	    }).then(function (response) {
 	      console.log(response);
 	      return response;
+	    });
+	  },
+
+	  getPipelines: function getPipelines() {
+	    return _commanderClient2['default'].fetch({
+	      operation: 'findObjects',
+	      parameters: {
+	        objectType: 'pipeline',
+	        includeAccess: true,
+	        filter: [{
+	          operator: 'equals',
+	          propertyName: 'projectName',
+	          operand1: 'Default'
+	        }],
+	        sort: [{
+	          propertyName: 'pipelineName',
+	          order: 'ascending'
+	        }]
+	      }
+	    }).then(function (response) {
+	      return response.object;
+	    });
+	  },
+
+	  getPipelineRuns: function getPipelineRuns() {
+	    return _commanderClient2['default'].fetch({
+	      operation: 'getPipelineRuntimes',
+	      parameters: {
+	        'projectName': 'Default',
+	        'sortOrder': 'descending',
+	        'sortKey': 'createTime',
+	        'maxResults': 50
+	      }
+	    }).then(function (response) {
+	      return response.flowRuntime;
 	    });
 	  }
 	};
@@ -28785,12 +28888,12 @@
 	  console.log(action);
 
 	  switch (action.type) {
-	    case _constantsAppConstants.ActionTypes.RETRIVING_PIPELINE_DETAILS:
+	    case _constantsAppConstants.ActionTypes.RETRIEVING_PIPELINE_DETAILS:
 	      _showLoading();
 	      store.emitChange();
 	      break;
 
-	    case _constantsAppConstants.ActionTypes.RETRIVED_PIPELINE_DETAILS:
+	    case _constantsAppConstants.ActionTypes.RETRIEVED_PIPELINE_DETAILS:
 	      _hideLoading();
 	      _setApproval(action.details);
 	      store.emitChange();
@@ -29054,6 +29157,342 @@
 /***/ function(module, exports) {
 
 	module.exports = require("image!logo");
+
+/***/ },
+/* 166 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _reactNative = __webpack_require__(2);
+
+	var _reactNative2 = _interopRequireDefault(_reactNative);
+
+	var _reactNativeVectorIconsFontAwesome = __webpack_require__(58);
+
+	var _reactNativeVectorIconsFontAwesome2 = _interopRequireDefault(_reactNativeVectorIconsFontAwesome);
+
+	var _jssColorsScheme = __webpack_require__(109);
+
+	var _jssColorsScheme2 = _interopRequireDefault(_jssColorsScheme);
+
+	var _actionsPipelinesActions = __webpack_require__(160);
+
+	var _actionsPipelinesActions2 = _interopRequireDefault(_actionsPipelinesActions);
+
+	var _storesPipelineStore = __webpack_require__(167);
+
+	var _storesPipelineStore2 = _interopRequireDefault(_storesPipelineStore);
+
+	//import NotLoggedInComponent from './shared/not-logged-in.component';
+
+	var _sharedLoaderComponent = __webpack_require__(136);
+
+	var _sharedLoaderComponent2 = _interopRequireDefault(_sharedLoaderComponent);
+
+	var _jssDashboard = __webpack_require__(141);
+
+	var _jssDashboard2 = _interopRequireDefault(_jssDashboard);
+
+	var styles = _reactNative.StyleSheet.create({
+	  tabContent: {
+	    flex: 1,
+	    alignItems: 'center',
+	    paddingTop: 70
+	  },
+	  tabText: {
+	    color: 'black'
+	  }
+	});
+
+	// function Refresh (smartLoad=false) {
+	//   console.log('refresh', PipelinesStore.getState());
+	//   if (!PipelinesStore.getState().pipelines) {
+	//     return;
+	//   }
+	//   if (smartLoad === true && PipelinesStore.getState().pipelines) {
+	//     return;
+	//   }
+	//   PipelinesActions.getPipelines();
+	// }
+	var listItems = [{
+	  name: 'Pipelines',
+	  icon: __webpack_require__(144),
+	  //targetComponent: JobsComponent,
+	  targetComponentTitle: 'Pipelines list'
+	}, {
+	  name: 'Pipeline Runs',
+	  icon: __webpack_require__(143),
+	  //targetComponent: JobsComponent,
+	  targetComponentTitle: 'Pipeline Runs'
+	}, {
+	  name: 'Approvals',
+	  icon: __webpack_require__(144),
+	  //targetComponent: PipelineDashboardComponent,
+	  targetComponentTitle: 'Approvals'
+	}];
+
+	exports['default'] = _reactNative2['default'].createClass({
+	  displayName: 'JobsComponent',
+
+	  propTypes: {
+	    navigator: _reactNative2['default'].PropTypes.object
+	  },
+
+	  statics: {
+	    title: 'Pipelines'
+	    // refresh: Refresh
+	  },
+
+	  getInitialState: function getInitialState() {
+	    var ds = new _reactNative.ListView.DataSource({ rowHasChanged: function rowHasChanged(r1, r2) {
+	        return r1 !== r2;
+	      } });
+	    return {
+	      pipelinesData: _storesPipelineStore2['default'].getState(),
+	      dataSource: ds.cloneWithRows(this.getRows())
+	    };
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    _storesPipelineStore2['default'].on('change', this.handleChange);
+	    //PipelinesActions.getPipelines();
+	    _actionsPipelinesActions2['default'].getPipelineDashboardData();
+	  },
+
+	  componentWillUnmount: function componentWillUnmount() {
+	    _storesPipelineStore2['default'].off('change', this.handleChange);
+	  },
+
+	  handleChange: function handleChange() {
+	    this.setState({
+	      pipelinesData: _storesPipelineStore2['default'].getState(),
+	      dataSource: this.state.dataSource.cloneWithRows(this.getRows())
+	    });
+	  },
+
+	  renderRow: function renderRow(rowData, sectionID, rowID) {
+	    //var pipelinesNumber = PipelinesStore.getState().items ?
+	    //  PipelinesStore.getState().items.length : 0;
+	    return _reactNative2['default'].createElement(
+	      _reactNative.TouchableHighlight,
+	      {
+	        onPress: this.goToNextScreen.bind(this, rowData.targetComponent, rowData.targetComponentTitle),
+	        underlayColor: _jssColorsScheme2['default'].get('white')
+	      },
+	      _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        null,
+	        _reactNative2['default'].createElement(
+	          _reactNative.View,
+	          { style: _jssDashboard2['default'].row },
+	          _reactNative2['default'].createElement(_reactNative.Image, { source: rowData.icon, style: _jssDashboard2['default'].icon }),
+	          _reactNative2['default'].createElement(
+	            _reactNative.Text,
+	            { style: _jssDashboard2['default'].text },
+	            rowData.name
+	          ),
+	          _reactNative2['default'].createElement(
+	            _reactNative.View,
+	            { style: _jssDashboard2['default'].itemNumber },
+	            _reactNative2['default'].createElement(
+	              _reactNative.Text,
+	              null,
+	              rowData.itemNumber
+	            )
+	          )
+	        ),
+	        _reactNative2['default'].createElement(_reactNative.View, { style: _jssDashboard2['default'].separator })
+	      )
+	    );
+	  },
+
+	  getRows: function getRows() {
+	    console.log('getRows', _storesPipelineStore2['default'].getState());
+	    return [{
+	      name: 'Pipelines',
+	      icon: __webpack_require__(144),
+	      //targetComponent: JobsComponent,
+	      targetComponentTitle: 'Pipelines list',
+	      itemNumber: _storesPipelineStore2['default'].getState().pipelines ? _storesPipelineStore2['default'].getState().pipelines.length : 0
+	    }, {
+	      name: 'Pipeline Runs',
+	      icon: __webpack_require__(143),
+	      //targetComponent: JobsComponent,
+	      targetComponentTitle: 'Pipeline Runs',
+	      itemNumber: _storesPipelineStore2['default'].getState().pipelineRuns ? _storesPipelineStore2['default'].getState().pipelineRuns.length : 0
+	    }, {
+	      name: 'Approvals',
+	      icon: __webpack_require__(144),
+	      //targetComponent: PipelineDashboardComponent,
+	      targetComponentTitle: 'Approvals',
+	      itemNumber: _storesPipelineStore2['default'].getState().approvals ? _storesPipelineStore2['default'].getState().approvals.length : 0
+	    }];
+	  },
+
+	  goToNextScreen: function goToNextScreen(targetComponent, targetComponentTitle) {
+	    this.props.navigator.push({
+	      component: targetComponent,
+	      title: targetComponentTitle
+	    });
+	  },
+
+	  render: function render() {
+	    if (this.state.pipelinesData.loading) {
+	      return _reactNative2['default'].createElement(
+	        _reactNative.View,
+	        { style: [styles.tabContent, { marginTop: 200 }] },
+	        _reactNative2['default'].createElement(_sharedLoaderComponent2['default'], { loading: true })
+	      );
+	    }
+
+	    //console.log(1234, this.state.pipelines.items);
+	    //var pipelinesNumber = this.state.pipelines.items ? this.state.pipelines.items.length : 0;
+
+	    // if (!this.state.settings.user) {
+	    //   return (<NotLoggenInComponent />); 
+	    // }
+
+	    //console.log('pipelines', this.state);
+	    return _reactNative2['default'].createElement(
+	      _reactNative.View,
+	      { style: _jssDashboard2['default'].tabContent },
+	      _reactNative2['default'].createElement(_reactNative.ListView, {
+	        dataSource: this.state.dataSource,
+	        renderRow: this.renderRow
+	      })
+	    );
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 167 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _inherits = __webpack_require__(112)['default'];
+
+	var _get = __webpack_require__(115)['default'];
+
+	var _createClass = __webpack_require__(118)['default'];
+
+	var _classCallCheck = __webpack_require__(121)['default'];
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _eventemitter2 = __webpack_require__(122);
+
+	var _eventemitter22 = _interopRequireDefault(_eventemitter2);
+
+	var _immutable = __webpack_require__(110);
+
+	var _immutable2 = _interopRequireDefault(_immutable);
+
+	var _dispatchersAppDispatcher = __webpack_require__(123);
+
+	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
+
+	var _constantsAppConstants = __webpack_require__(126);
+
+	// Private data and functions
+	var pipelineState = _immutable2['default'].Map({ loading: false });
+
+	function _showLoading() {
+	  pipelineState = pipelineState.set('loading', true);
+	}
+
+	function _hideLoading() {
+	  pipelineState = pipelineState.set('loading', false);
+	}
+
+	function _setPipelines(pipelines) {
+	  pipelineState = pipelineState.set('pipelines', pipelines);
+	}
+
+	function _setPipelineRuns(pipelineRuns) {
+	  pipelineState = pipelineState.set('pipelineRuns', pipelineRuns);
+	}
+
+	function _setApprovals(approvals) {
+	  pipelineState = pipelineState.set('approvals', approvals);
+	}
+
+	// Store eventemitter
+
+	var PipelineStore = (function (_EventEmitter) {
+	  function PipelineStore() {
+	    _classCallCheck(this, PipelineStore);
+
+	    _get(Object.getPrototypeOf(PipelineStore.prototype), 'constructor', this).apply(this, arguments);
+	  }
+
+	  _inherits(PipelineStore, _EventEmitter);
+
+	  _createClass(PipelineStore, [{
+	    key: 'getState',
+	    value: function getState() {
+	      return pipelineState.toJS();
+	    }
+	  }, {
+	    key: 'emitChange',
+	    value: function emitChange() {
+	      this.emit('change');
+	    }
+	  }]);
+
+	  return PipelineStore;
+	})(_eventemitter22['default']);
+
+	var store = new PipelineStore();
+
+	// Dispatcher
+	store.dispatchToken = _dispatchersAppDispatcher2['default'].register(function (payload) {
+	  var action = payload.action;
+
+	  switch (action.type) {
+	    case _constantsAppConstants.ActionTypes.RETRIEVING_PIPELINES:
+	    case _constantsAppConstants.ActionTypes.RETRIEVING_PIPELINE_DASHBOARD_DATA:
+	      _showLoading();
+	      store.emitChange();
+	      break;
+
+	    //case ActionTypes.RETRIEVED_PIPELINES:
+	    //  _hideLoading();
+	    //  console.log('pipe', action);
+	    //  _setPipelines(action.pipelines);
+	    //  store.emitChange();
+	    //  break;
+
+	    case _constantsAppConstants.ActionTypes.RETRIEVED_PIPELINE_DASHBOARD_DATA:
+	      _hideLoading();
+	      _setPipelines(action.pipelines);
+	      _setPipelineRuns(action.pipelineRuns);
+	      _setApprovals(action.approvals);
+
+	      store.emitChange();
+	      break;
+
+	    case _constantsAppConstants.ActionTypes.SERVER_ERROR:
+	      _hideLoading();
+	      store.emitChange();
+	      break;
+	  }
+	});
+
+	exports['default'] = store;
+	module.exports = exports['default'];
 
 /***/ }
 /******/ ])));

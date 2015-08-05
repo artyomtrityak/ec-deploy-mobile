@@ -22,5 +22,12 @@ export default StyleSheet.create({
   text: {
     flex: 1,
     fontSize: 25
+  },
+  itemNumber: {
+    height: 20,
+    marginTop: 10,
+    marginRight: 5,
+    marginBottom: 0,
+    width: 30
   }
 });

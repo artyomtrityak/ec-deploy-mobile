@@ -39,12 +39,12 @@ store.dispatchToken = AppDispatcher.register((payload) => {
   var action = payload.action;
 
   switch (action.type) {
-    case ActionTypes.RETRIVING_JOBS:
+    case ActionTypes.RETRIEVING_JOBS:
       _showLoading();
       store.emitChange();
       break;
 
-    case ActionTypes.RETRIVED_JOBS:
+    case ActionTypes.RETRIEVED_JOBS:
       _hideLoading();
       _setJobs(action.jobs);
       store.emitChange();

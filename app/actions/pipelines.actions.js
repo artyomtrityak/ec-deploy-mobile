@@ -8,13 +8,13 @@ import { ActionTypes } from 'constants/app.constants';
 export default {
   getRuntimeDetails(flowRuntimeId) {
     AppDispatcher.handleViewAction({
-      type: ActionTypes.RETRIVING_PIPELINE_DETAILS
+      type: ActionTypes.RETRIEVING_PIPELINE_DETAILS
     });
 
-    PipelinesWebUtils.getRunimeDetails(flowRuntimeId)
+    PipelinesWebUtils.getRuntimeDetails(flowRuntimeId)
     .then((data) => {
       AppDispatcher.handleServerAction({
-        type: ActionTypes.RETRIVED_PIPELINE_DETAILS,
+        type: ActionTypes.RETRIEVED_PIPELINE_DETAILS,
         details: data
       });
     });
@@ -37,6 +37,60 @@ export default {
         type: ActionTypes.APPROVED,
         solution: solution
       });
+    });
+  },
+
+  getPipelines() {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.RETRIEVING_PIPELINES
+    });
+
+    PipelinesWebUtils.getPipelines()
+    .then((data) => {
+      AppDispatcher.handleServerAction({
+        type: ActionTypes.RETRIEVED_PIPELINES,
+        pipelines: data
+      });
+    });
+  },
+  //
+  //getPipelineRuns() {
+  //  console.log('getPipelines');
+  //  AppDispatcher.handleViewAction({
+  //    type: ActionTypes.RETRIEVING_PIPELINE_RUNS
+  //  });
+  //
+  //  PipelinesWebUtils.getPipelineRuns()
+  //  .then((data) => {
+  //    AppDispatcher.handleServerAction({
+  //      type: ActionTypes.RETRIEVED_PIPELINE_RUNS,
+  //      pipelineRuns: data
+  //    });
+  //  });
+  //},
+  //
+  getPipelineDashboardData() {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.RETRIEVING_PIPELINE_DASHBOARD_DATA
+    });
+    PipelinesWebUtils.getPipelines()
+    .then((pipelines) => {
+      return [pipelines, PipelinesWebUtils.getPipelineRuns()];
+    })
+    .spread((pipelines, pipelineRuns) => {
+        var approvals = [];
+        pipelineRuns.forEach((pipelineRun) => {
+          if(pipelineRun.approvers) {
+            approvals.push(pipelineRun);
+          }
+        });
+
+        AppDispatcher.handleServerAction({
+          type: ActionTypes.RETRIEVED_PIPELINE_DASHBOARD_DATA,
+          pipelines: pipelines,
+          pipelineRuns: pipelineRuns,
+          approvals: approvals
+        });
     });
   }
 };

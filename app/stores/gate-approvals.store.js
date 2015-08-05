@@ -62,12 +62,12 @@ store.dispatchToken = AppDispatcher.register((payload) => {
   console.log(action);
 
   switch (action.type) {
-    case ActionTypes.RETRIVING_PIPELINE_DETAILS:
+    case ActionTypes.RETRIEVING_PIPELINE_DETAILS:
       _showLoading();
       store.emitChange();
       break;
 
-    case ActionTypes.RETRIVED_PIPELINE_DETAILS:
+    case ActionTypes.RETRIEVED_PIPELINE_DETAILS:
       _hideLoading();
       _setApproval(action.details);
       store.emitChange();
