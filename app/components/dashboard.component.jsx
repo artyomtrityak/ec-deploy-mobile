@@ -19,6 +19,7 @@ import Styles from './jss/dashboard';
 //import ApplicationComponent from './application.component';
 //import EnvironmentComponent from './environment.component';
 //import PipelinesComponent from './pipelines.component';
+import PipelineDashboardComponent from './pipeline-dashboard.component';
 
 var listItems = [
   {
@@ -36,8 +37,8 @@ var listItems = [
   {
     name: 'Pipelines',
     icon: require('image!pipeIcon'),
-    targetComponent: JobsComponent,
-    targetComponentTitle: 'Jobs list'
+    targetComponent: PipelineDashboardComponent,
+    targetComponentTitle: 'Pipelines'
   }
 ];
 

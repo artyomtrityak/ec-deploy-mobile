@@ -8,13 +8,13 @@ import { ActionTypes } from 'constants/app.constants';
 export default {
   getJobs() {
     AppDispatcher.handleViewAction({
-      type: ActionTypes.RETRIVING_JOBS
+      type: ActionTypes.RETRIEVING_JOBS
     });
 
     JobsWebUtils.getJobs()
     .then((data) => {
       AppDispatcher.handleServerAction({
-        type: ActionTypes.RETRIVED_JOBS,
+        type: ActionTypes.RETRIEVED_JOBS,
         jobs: data
       });
     });
@@ -22,13 +22,13 @@ export default {
 
   getJobDetails(jobId) {
     AppDispatcher.handleViewAction({
-      type: ActionTypes.RETRIVING_JOB
+      type: ActionTypes.RETRIEVING_JOB
     });
 
     JobsWebUtils.getJobDetails(jobId)
     .then((data) => {
       AppDispatcher.handleServerAction({
-        type: ActionTypes.RETRIVED_JOB,
+        type: ActionTypes.RETRIEVED_JOB,
         job: data
       });
     });
