@@ -672,12 +672,21 @@
 	          style: { flex: 1 },
 	          initialRoute: {
 	            component: _gateApprovalComponent2['default'],
-	            title: 'Settings',
+	            title: 'Settings'
+	          }
+	        }),
+	        '/*',
+	        _reactNative2['default'].createElement(_reactNative.NavigatorIOS, {
+	          style: { flex: 1 },
+	          initialRoute: {
+	            component: _gateApprovalComponent2['default'],
+	            title: 'Gate Approval',
 	            passProps: {
 	              flowRuntimeId: '053fd661-3b6a-11e5-aa58-005056330c34'
 	            }
 	          }
-	        })
+	        }),
+	        '*/'
 	      )
 	    );
 	  }

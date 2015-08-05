@@ -98,12 +98,21 @@ export default React.createClass({
             style={{flex: 1}}
             initialRoute={{
               component: GateApprovalComponent,
-              title: 'Settings',
+              title: 'Settings'
+            }}
+          />
+
+          /*
+          <NavigatorIOS
+            style={{flex: 1}}
+            initialRoute={{
+              component: GateApprovalComponent,
+              title: 'Gate Approval',
               passProps: {
                 flowRuntimeId: '053fd661-3b6a-11e5-aa58-005056330c34'
               }
             }}
-          />
+          />*/
 
         </Icon.TabBarItem>
 
