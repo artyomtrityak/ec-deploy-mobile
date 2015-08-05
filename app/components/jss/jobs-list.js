@@ -27,5 +27,19 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     marginTop: 200
+  },
+  error: {
+    backgroundColor: 'red'
+  },
+  success: {
+    backgroundColor: 'green'
+  },
+  progressContainer: {
+    flexDirection: 'row',
+    height: 5,
+    backgroundColor: 'lightgray'
+  },
+  progressIncomplete: {
+    backgroundColor: 'lightgray'
   }
 });

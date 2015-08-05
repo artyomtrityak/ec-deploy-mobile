@@ -7,6 +7,7 @@ import React, {
   Text
 } from 'react-native';
 
+import moment from 'moment/moment';
 import JobsActions from 'actions/jobs.actions';
 import SettingsStore from 'stores/settings.store';
 import JobsStore from 'stores/jobs.store';
@@ -68,15 +69,31 @@ export default React.createClass({
   },
 
   renderRow(rowData, sectionID, rowID) {
-    let _index = parseInt(rowID, 10) + 1;
+    let completePerc = parseInt(rowData.progressPercentage, 10),
+        incompletePerc = Math.abs(completePerc - 100),
+        progressColor = rowData.outcome === 'error' ? Styles.error : Styles.success,
+        elapsedTime = moment.utc(parseInt(rowData.elapsedTime, 10)).format('mm:ss'),
+        startTime = moment(rowData.start).format('MMM DD, YYYY h:mm A');
     return (
       <TouchableHighlight
         onPress={this.showJobDetails.bind(this, rowData.jobId)}
         underlayColor={Colors.get('lightGray')}
         >
         <View>
+          <View style={[Styles.progressContainer, progressColor]}>
+            <View style={[{flex: completePerc}]}/>
+            <View style={[Styles.progressIncomplete, {flex: incompletePerc}]}/>
+          </View>
           <View style={Styles.row}>
-            <Text style={Styles.text}>{_index}. {rowData.jobName}</Text>
+            <Text style={Styles.text}>{rowData.jobName}</Text>
+          </View>
+          <View style={Styles.row}>
+            <Text>
+              {rowData.status} {rowData.progressPercentage}% - {rowData.outcome}
+            </Text>
+          </View>
+          <View style={Styles.row}>
+            <Text>Elapsed Time: {elapsedTime} | Start Time: {startTime}</Text>
           </View>
           <View style={Styles.separator} />
         </View>
