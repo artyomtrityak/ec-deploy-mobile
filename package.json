@@ -30,6 +30,7 @@
     "immutable": "^3.7.4",
     "invariant": "^2.1.0",
     "keymirror": "^0.1.1",
+    "moment": "^2.10.6",
     "node-libs-browser": "^0.5.2",
     "react-native": "^0.7.0-rc.2",
     "react-native-social-share": "^0.3.0",

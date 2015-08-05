@@ -13,6 +13,7 @@ import AppStore from 'stores/app.store';
 import DashboardComponent from './dashboard.component';
 import JobsComponent from './jobs.component';
 import SettingsComponent from './settings.component';
+import GateApprovalComponent from './gate-approval.component';
 
 export default React.createClass({
   displayName: 'NavigationComponent',
@@ -48,6 +49,9 @@ export default React.createClass({
           }}>
 
           <NavigatorIOS
+            barTintColor={'blue'}
+            tintColor={'red'}
+            titleTextColor={'green'}
             style={{flex: 1}}
             initialRoute={{
               component: DashboardComponent,
@@ -93,10 +97,22 @@ export default React.createClass({
           <NavigatorIOS
             style={{flex: 1}}
             initialRoute={{
-              component: SettingsComponent,
+              component: Settings,
               title: 'Settings'
             }}
           />
+
+          /*
+          <NavigatorIOS
+            style={{flex: 1}}
+            initialRoute={{
+              component: GateApprovalComponent,
+              title: 'Gate Approval',
+              passProps: {
+                flowRuntimeId: '053fd661-3b6a-11e5-aa58-005056330c34'
+              }
+            }}
+          />*/
 
         </Icon.TabBarItem>
 

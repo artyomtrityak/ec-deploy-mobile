@@ -21,7 +21,12 @@ export default {
         RETRIVED_JOB: null,
         RETRIVED_JOBS: null,
         SERVER_ERROR: null,
-        AUTO_SYNC: null
+        AUTO_SYNC: null,
+        RETRIVING_PIPELINE_DETAILS: null,
+        RETRIVED_PIPELINE_DETAILS: null,
+        APPROVAL_CHANGE_COMMENT: null,
+        APPROVING: null,
+        APPROVED: null
     }),
 
     PayloadSources: keyMirror({
