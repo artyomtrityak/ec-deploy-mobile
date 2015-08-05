@@ -100,7 +100,7 @@ export default React.createClass({
               component: SettingsComponent,
               title: 'Settings',
               passProps: {
-                flowRuntimeId: '3ade886e-3b6b-11e5-884d-005056330c34'
+                flowRuntimeId: '5a559e9a-3b6e-11e5-8a41-005056330c34'
               }
             }}
           />

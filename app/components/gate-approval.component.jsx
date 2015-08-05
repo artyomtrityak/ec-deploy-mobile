@@ -12,6 +12,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 //Components
 import LoaderComponent from './shared/loader.component';
 import ButtonComponent from './shared/button.component';
+import TweetButtonComponent from './shared/tweet-button.component';
 
 //Actions
 import PipelinesActions from 'actions/pipelines.actions';
@@ -128,8 +129,16 @@ export default React.createClass({
 
   renderDone() {
     return (
-        <View style={ FormJSS.forms.row }>
-          <Text>Task status: {this.state.solution}</Text>
+        <View>
+          <View style={ FormJSS.forms.row }>
+            <Text>Task status: {this.state.solution}</Text>
+          </View>
+          <View style={ FormJSS.forms.row }>
+            <TweetButtonComponent
+              text={'I\'ve just ' + this.state.solution + 'ed pipeline ' + this.state.pipelineName +
+              ' stage ' + this.state.stageName + ' task ' + this.state.taskName}
+            />
+          </View>
         </View>
       );
   },
