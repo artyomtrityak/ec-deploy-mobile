@@ -56,7 +56,7 @@ export default React.createClass({
             initialRoute={{
               component: DashboardComponent,
               title: 'Dashboard',
-              rightButtonTitle: 'Refresh2',
+              rightButtonTitle: 'Refresh',
               onRightButtonPress: DashboardComponent.refresh
             }}
           />
