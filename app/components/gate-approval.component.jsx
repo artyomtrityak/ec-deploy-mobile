@@ -101,6 +101,39 @@ export default React.createClass({
     );
   },
 
+  renderButtons() {
+    return (
+      <View>
+        <View style={ FormJSS.forms.row }>
+          <ButtonComponent
+              onPress={this.onApprove}
+              text={'Approve'}
+              icon={'thumbs-up'}
+              color={Colors.get('white')}
+              backgroundColor={Colors.get('green')}
+            />
+        </View>
+        <View style={ FormJSS.forms.row }>
+            <ButtonComponent
+              onPress={this.onReject}
+              text={'Reject'}
+              icon={'thumbs-down'}
+              color={Colors.get('white')}
+              backgroundColor={Colors.get('red')}
+            />
+        </View>
+      </View>
+    );
+  },
+
+  renderDone() {
+    return (
+        <View style={ FormJSS.forms.row }>
+          <Text>Task status: {this.state.solution}</Text>
+        </View>
+      );
+  },
+
   render() {
     if (this.state.loading) {
       return (
@@ -108,7 +141,7 @@ export default React.createClass({
           <LoaderComponent loading={true} />
         </View>
       );
-    }
+    }    
 
     if (!this.state.taskName) {
       return (
@@ -148,24 +181,9 @@ export default React.createClass({
               value={this.state.commentChange}
             />
         </View>
-        <View style={ FormJSS.forms.row }>
-          <ButtonComponent
-              onPress={this.onApprove}
-              text={'Approve'}
-              icon={'thumbs-up'}
-              color={Colors.get('white')}
-              backgroundColor={Colors.get('green')}
-            />
-        </View>
-        <View style={ FormJSS.forms.row }>
-            <ButtonComponent
-              onPress={this.onReject}
-              text={'Reject'}
-              icon={'thumbs-down'}
-              color={Colors.get('white')}
-              backgroundColor={Colors.get('red')}
-            />
-        </View>
+
+        {this.state.solution ? this.renderDone() : this.renderButtons()}
+        
       </View>
     );
   }
