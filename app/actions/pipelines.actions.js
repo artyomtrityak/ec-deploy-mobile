@@ -55,7 +55,6 @@ export default {
   },
 
   getPipelineRuns() {
-    console.log('getPipelines');
     AppDispatcher.handleViewAction({
       type: ActionTypes.RETRIEVING_PIPELINE_RUNS
     });
@@ -69,6 +68,28 @@ export default {
     });
   },
 
+  getApprovals() {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.RETRIEVING_APPROVALS
+    });
+
+    PipelinesWebUtils.getPipelineRuns()
+    .then((pipelineRuns) => {
+      let approvals = [];
+      if(pipelineRuns && pipelineRuns.length) {
+        pipelineRuns.forEach((pipelineRun) => {
+          if(pipelineRun.approvers) {
+            approvals.push(pipelineRun);
+          }
+        });
+      }
+      AppDispatcher.handleServerAction({
+        type: ActionTypes.RETRIEVED_APPROVALS,
+        approvals: approvals
+      });
+    });
+  },
+
   getPipelineDashboardData() {
     AppDispatcher.handleViewAction({
       type: ActionTypes.RETRIEVING_PIPELINE_DASHBOARD_DATA
@@ -78,7 +99,7 @@ export default {
       return [pipelines, PipelinesWebUtils.getPipelineRuns()];
     })
     .spread((pipelines, pipelineRuns) => {
-        var approvals = [];
+        let approvals = [];
         if(pipelineRuns && pipelineRuns.length) {
           pipelineRuns.forEach((pipelineRun) => {
             if(pipelineRun.approvers) {

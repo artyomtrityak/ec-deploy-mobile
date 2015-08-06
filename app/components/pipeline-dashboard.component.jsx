@@ -10,6 +10,7 @@ import PipelinesActions from 'actions/pipelines.actions';
 import PipelinesStore from 'stores/pipeline.store';
 import PipelinesComponent from './pipelines.component';
 import PipelineRunsComponent from './pipeline-runs.component';
+import ApprovalListComponent from './approval-list.component';
 import LoaderComponent from './shared/loader.component';
 import Styles from './jss/dashboard';
 
@@ -114,8 +115,9 @@ export default React.createClass({
       {
         name: 'Approvals',
         icon: require('image!pipeIcon'),
-        //targetComponent: PipelineDashboardComponent,
+        targetComponent: ApprovalListComponent,
         targetComponentTitle: 'Approvals',
+        onRightButtonPress: ApprovalListComponent.refresh,
         itemNumber: PipelinesStore.getState().approvals ? PipelinesStore.getState().approvals.length : 0
       }
     ];

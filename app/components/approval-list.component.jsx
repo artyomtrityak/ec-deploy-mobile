@@ -11,40 +11,41 @@ import PipelinesActions from 'actions/pipelines.actions';
 import PipelinesStore from 'stores/pipeline.store';
 import NotLoggenInComponent from './shared/not-logged-in.component';
 import LoaderComponent from './shared/loader.component';
+import GateApprovalComponent from './gate-approval.component';
 import Styles from './jss/jobs-list';
 import Colors from './jss/colors-scheme';
 
 
 function Refresh (smartLoad=false) {
-  if (smartLoad === true && PipelinesStore.getState().pipelineRuns) {
+  if (smartLoad === true && PipelinesStore.getState().approvals) {
     return;
   }
-  PipelinesActions.getPipelineRuns();
+  PipelinesActions.getApprovals();
 }
 
 export default React.createClass({
-  displayName: 'PipelineRunsComponent',
+  displayName: 'ApprovalComponent',
 
   propTypes: {
     navigator: React.PropTypes.object
   },
 
   statics: {
-    title: 'Pipeline Runs',
+    title: 'Approvals',
     refresh: Refresh
   },
 
   getInitialState() {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return {
-      dataSource: ds.cloneWithRows(PipelinesStore.getState().pipelineRuns),
-      pipelineRuns: PipelinesStore.getState()
+      dataSource: ds.cloneWithRows(PipelinesStore.getState().approvals),
+      approvals: PipelinesStore.getState()
     };
   },
 
   componentDidMount() {
     PipelinesStore.on('change', this.handleChange);
-    PipelinesActions.getPipelineRuns();
+    PipelinesActions.getApprovals();
   },
 
   componentWillUnmount() {
@@ -54,14 +55,15 @@ export default React.createClass({
   handleChange() {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.setState({
-      dataSource: ds.cloneWithRows(PipelinesStore.getState().pipelineRuns),
-      pipelineRuns: PipelinesStore.getState()
+      dataSource: ds.cloneWithRows(PipelinesStore.getState().approvals),
+      approvals: PipelinesStore.getState()
     });
   },
 
   renderRow(rowData, sectionID, rowID) {
     return (
       <TouchableHighlight
+        onPress={this.showApprovalDetails.bind(this, rowData.flowRuntimeId)}
         underlayColor={Colors.get('lightGray')}
         >
         <View>
@@ -75,8 +77,16 @@ export default React.createClass({
     );
   },
 
+  showApprovalDetails(flowRuntimeId) {
+    this.props.navigator.push({
+      component: GateApprovalComponent,
+      title: 'Job Details',
+      passProps: {flowRuntimeId: flowRuntimeId}
+    });
+  },
+
   render() {
-    if (this.state.pipelineRuns.loading) {
+    if (this.state.approvals.loading) {
       return (
         <View style={Styles.loader}>
           <LoaderComponent loading={true} />
