@@ -23,9 +23,15 @@ function _setApproval (details) {
   approvalState = approvalState.set('pipelineName', details.name);
 
   details.stages.stage.forEach((stage) => {
+    if (!stage.gates) {
+      return;
+    }
     stage.gates.gate.forEach((gate) => {
+      if (!gate.tasks) {
+        return;
+      }
       gate.tasks.task.forEach((task) => {
-        if (task.status.toLowerCase() === 'pending') {
+        if (task.status && task.status.toLowerCase() === 'pending') {
           approvalState = approvalState.set('taskName', task.name);
           approvalState = approvalState.set('approvers', task.approvers);
           approvalState = approvalState.set('gateType', gate.gateType);

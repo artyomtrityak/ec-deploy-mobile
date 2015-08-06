@@ -49,6 +49,7 @@ store.dispatchToken = AppDispatcher.register((payload) => {
     case ActionTypes.RETRIEVING_PIPELINES:
     case ActionTypes.RETRIEVING_PIPELINE_RUNS:
     case ActionTypes.RETRIEVING_PIPELINE_DASHBOARD_DATA:
+    case ActionTypes.RETRIEVING_APPROVALS:
       _showLoading();
       store.emitChange();
       break;
@@ -65,6 +66,13 @@ store.dispatchToken = AppDispatcher.register((payload) => {
       _hideLoading();
 
       _setPipelineRuns(action.pipelineRuns);
+      store.emitChange();
+      break;
+
+    case ActionTypes.RETRIEVED_APPROVALS:
+      _hideLoading();
+
+      _setApprovals(action.approvals);
       store.emitChange();
       break;
 
