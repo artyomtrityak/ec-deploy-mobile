@@ -227,7 +227,7 @@ export default React.createClass({
     return (
       <View style={Styles.tabContent}>
         {notification}
-        <View style={Styles.navListContainer}>
+        <View style={Styles.menuListContainer}>
           <ListView
             style={Styles.list}
             automaticallyAdjustContentInsets={false}
@@ -236,6 +236,7 @@ export default React.createClass({
           />
         </View>
         <ButtonComponent
+          style={Styles.toggleButton}
           onPress={
             this.toggleNotificationView.bind(
               this,
@@ -245,6 +246,7 @@ export default React.createClass({
           text={'Toggle Notifications'}
           color={Colors.get('white')}
           backgroundColor={Colors.get('darkBlue')}
+
         />
       </View>
     );

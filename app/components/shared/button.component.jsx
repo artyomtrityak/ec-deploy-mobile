@@ -19,13 +19,18 @@ export default React.createClass({
     text: React.PropTypes.string,
     icon: React.PropTypes.string,
     backgroundColor: React.PropTypes.string,
-    color: React.PropTypes.string
+    color: React.PropTypes.string,
+    style: React.PropTypes.obj
   },
 
   render() {
     var icon = this.props.icon ? <Icon name={this.props.icon} size={20} color="white" /> : null;
     return (
-      <TouchableHighlight onPress={this.props.onPress} underlayColor={this.props.color}>
+      <TouchableHighlight
+        onPress={this.props.onPress}
+        underlayColor={this.props.color}
+        style={this.props.style}
+      >
         <View style={[ ButtonsStyles.buttonWrapper, {
           backgroundColor: this.props.backgroundColor
         } ]}>
