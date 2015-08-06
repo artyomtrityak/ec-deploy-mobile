@@ -79,11 +79,13 @@ export default {
     })
     .spread((pipelines, pipelineRuns) => {
         var approvals = [];
-        pipelineRuns.forEach((pipelineRun) => {
-          if(pipelineRun.approvers) {
-            approvals.push(pipelineRun);
-          }
-        });
+        if(pipelineRuns && pipelineRuns.length) {
+          pipelineRuns.forEach((pipelineRun) => {
+            if(pipelineRun.approvers) {
+              approvals.push(pipelineRun);
+            }
+          });
+        }
 
         AppDispatcher.handleServerAction({
           type: ActionTypes.RETRIEVED_PIPELINE_DASHBOARD_DATA,
