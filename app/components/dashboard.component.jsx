@@ -53,18 +53,17 @@ let listViewDataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 
   }
 ];
 
-function Refresh (smartLoad=false) {
+function Refresh () {
   let settingsState = SettingsStore.getState();
 
   if (!settingsState.user) {
     return;
   }
 
-  if (smartLoad === true && NotificationStore.getState().notifications) {
-    return;
-  }
   if (!settingsState.autoSync) {
     PipelinesActions.manualNotificationsFetch();
+  } else {
+    PipelinesActions.fetchNotifications();
   }
 }
 
