@@ -186,7 +186,9 @@ export default React.createClass({
     if (targetComponent) {
       this.props.navigator.push({
         component: targetComponent,
-        title: targetComponentTitle
+        title: targetComponentTitle,
+        rightButtonTitle: 'Refresh',
+        onRightButtonPress: PipelineDashboardComponent.refresh
       });
     }
   },
