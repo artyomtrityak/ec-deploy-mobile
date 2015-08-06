@@ -53,22 +53,22 @@ export default {
       });
     });
   },
-  //
-  //getPipelineRuns() {
-  //  console.log('getPipelines');
-  //  AppDispatcher.handleViewAction({
-  //    type: ActionTypes.RETRIEVING_PIPELINE_RUNS
-  //  });
-  //
-  //  PipelinesWebUtils.getPipelineRuns()
-  //  .then((data) => {
-  //    AppDispatcher.handleServerAction({
-  //      type: ActionTypes.RETRIEVED_PIPELINE_RUNS,
-  //      pipelineRuns: data
-  //    });
-  //  });
-  //},
-  //
+
+  getPipelineRuns() {
+    console.log('getPipelines');
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.RETRIEVING_PIPELINE_RUNS
+    });
+
+    PipelinesWebUtils.getPipelineRuns()
+    .then((data) => {
+      AppDispatcher.handleServerAction({
+        type: ActionTypes.RETRIEVED_PIPELINE_RUNS,
+        pipelineRuns: data
+      });
+    });
+  },
+
   getPipelineDashboardData() {
     AppDispatcher.handleViewAction({
       type: ActionTypes.RETRIEVING_PIPELINE_DASHBOARD_DATA

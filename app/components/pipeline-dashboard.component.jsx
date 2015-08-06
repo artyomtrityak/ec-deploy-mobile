@@ -9,6 +9,7 @@ import Colors from './jss/colors-scheme';
 import PipelinesActions from 'actions/pipelines.actions';
 import PipelinesStore from 'stores/pipeline.store';
 import PipelinesComponent from './pipelines.component';
+import PipelineRunsComponent from './pipeline-runs.component';
 import LoaderComponent from './shared/loader.component';
 import Styles from './jss/dashboard';
 
@@ -105,8 +106,9 @@ export default React.createClass({
       {
         name: 'Pipeline Runs',
         icon: require('image!envIcon'),
-        //targetComponent: JobsComponent,
+        targetComponent: PipelineRunsComponent,
         targetComponentTitle: 'Pipeline Runs',
+        onRightButtonPress: PipelineRunsComponent.refresh,
         itemNumber: PipelinesStore.getState().pipelineRuns ? PipelinesStore.getState().pipelineRuns.length : 0
       },
       {
