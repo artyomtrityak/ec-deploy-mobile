@@ -53,12 +53,13 @@ store.dispatchToken = AppDispatcher.register((payload) => {
       break;
 
 
-    //case ActionTypes.RETRIEVED_PIPELINES:
-    //  _hideLoading();
-    //  console.log('pipe', action);
-    //  _setPipelines(action.pipelines);
-    //  store.emitChange();
-    //  break;
+    case ActionTypes.RETRIEVED_PIPELINES:
+      _hideLoading();
+      console.log('pipe', action);
+
+      _setPipelines(action.pipelines);
+      store.emitChange();
+      break;
 
     case ActionTypes.RETRIEVED_PIPELINE_DASHBOARD_DATA:
       _hideLoading();

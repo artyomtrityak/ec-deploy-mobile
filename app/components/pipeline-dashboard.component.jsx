@@ -1,13 +1,6 @@
 'use strict';
 
-import React, {
-  StyleSheet,
-  Text,
-  View,
-  ListView,
-  Image,
-  TabBarIOS,
-  TouchableHighlight
+import React, { StyleSheet, Text, View, ListView, Image, TabBarIOS, TouchableHighlight
 } from 'react-native';
 
 
@@ -15,7 +8,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Colors from './jss/colors-scheme';
 import PipelinesActions from 'actions/pipelines.actions';
 import PipelinesStore from 'stores/pipeline.store';
-//import NotLoggedInComponent from './shared/not-logged-in.component';
+import PipelinesComponent from './pipelines.component';
 import LoaderComponent from './shared/loader.component';
 import Styles from './jss/dashboard';
 
@@ -30,37 +23,13 @@ var styles = StyleSheet.create({
   }
 });
 
-// function Refresh (smartLoad=false) {
-//   console.log('refresh', PipelinesStore.getState());
-//   if (!PipelinesStore.getState().pipelines) {
-//     return;
-//   }
-//   if (smartLoad === true && PipelinesStore.getState().pipelines) {
-//     return;
-//   }
-//   PipelinesActions.getPipelines();
-// }
-var listItems = [
-  {
-    name: 'Pipelines',
-    icon: require('image!pipeIcon'),
-    //targetComponent: JobsComponent,
-    targetComponentTitle: 'Pipelines list'
-  },
-  {
-    name: 'Pipeline Runs',
-    icon: require('image!envIcon'),
-    //targetComponent: JobsComponent,
-    targetComponentTitle: 'Pipeline Runs'
-  },
-  {
-    name: 'Approvals',
-    icon: require('image!pipeIcon'),
-    //targetComponent: PipelineDashboardComponent,
-    targetComponentTitle: 'Approvals'
-  }
-];
+ function Refresh (smartLoad=false) {
+   if (smartLoad === true && PipelinesStore.getState().pipelines) {
+     return;
+   }
 
+   PipelinesActions.getPipelineDashboardData();
+ }
 
 export default React.createClass({
   displayName: 'JobsComponent',
@@ -70,8 +39,8 @@ export default React.createClass({
   },
 
   statics: {
-    title: 'Pipelines'
-    // refresh: Refresh
+    title: 'Pipelines',
+    refresh: Refresh
   },
 
   getInitialState() {
@@ -84,7 +53,6 @@ export default React.createClass({
 
   componentDidMount() {
     PipelinesStore.on('change', this.handleChange);
-    //PipelinesActions.getPipelines();
     PipelinesActions.getPipelineDashboardData();
 
   },
@@ -101,12 +69,12 @@ export default React.createClass({
   },
 
   renderRow(rowData, sectionID, rowID) {
-    //var pipelinesNumber = PipelinesStore.getState().items ?
-    //  PipelinesStore.getState().items.length : 0;
     return (
       <TouchableHighlight
         onPress={
-          this.goToNextScreen.bind(this, rowData.targetComponent, rowData.targetComponentTitle)
+          this.goToNextScreen.bind(
+            this, rowData.targetComponent, rowData.targetComponentTitle, rowData.onRightButtonPress
+          )
         }
         underlayColor={Colors.get('white')}
         >
@@ -125,13 +93,13 @@ export default React.createClass({
   },
 
   getRows() {
-    console.log('getRows', PipelinesStore.getState());
     return [
       {
         name: 'Pipelines',
         icon: require('image!pipeIcon'),
-        //targetComponent: JobsComponent,
+        targetComponent: PipelinesComponent,
         targetComponentTitle: 'Pipelines list',
+        onRightButtonPress: PipelinesComponent.refresh,
         itemNumber: PipelinesStore.getState().pipelines ? PipelinesStore.getState().pipelines.length : 0
       },
       {
@@ -152,10 +120,12 @@ export default React.createClass({
 
   },
 
-  goToNextScreen(targetComponent, targetComponentTitle) {
+  goToNextScreen(targetComponent, targetComponentTitle, onRightButtonPress) {
     this.props.navigator.push({
       component: targetComponent,
-      title: targetComponentTitle
+      title: targetComponentTitle,
+      rightButtonTitle: 'Refresh',
+      onRightButtonPress: onRightButtonPress
     });
   },
 
@@ -169,15 +139,6 @@ export default React.createClass({
       );
     }
 
-    //console.log(1234, this.state.pipelines.items);
-    //var pipelinesNumber = this.state.pipelines.items ? this.state.pipelines.items.length : 0;
-
-
-    // if (!this.state.settings.user) {
-    //   return (<NotLoggenInComponent />);  
-    // }
-
-    //console.log('pipelines', this.state);
     return (
       <View style={Styles.tabContent}>
         <ListView
