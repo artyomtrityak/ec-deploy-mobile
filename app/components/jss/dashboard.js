@@ -6,9 +6,11 @@ import Colors from './colors-scheme';
 export default StyleSheet.create({
   tabContent: {
     marginTop: 64,
+    marginBottom: 45,
     flexDirection: 'column',
+    justifyContent: 'flex-start',
     alignItems: 'stretch',
-    height: 456
+    flex: 1
   },
   menuListIcon: {
     marginRight: 10
@@ -21,12 +23,10 @@ export default StyleSheet.create({
     flex: 1,
     fontSize: 25
   },
-  navListContainer: {
-    alignSelf: 'stretch',
+  menuListContainer: {
     flex: 4
   },
   notificationContainer: {
-    alignSelf: 'stretch',
     flex: 6
   },
   notificationIcon: {
@@ -47,5 +47,8 @@ export default StyleSheet.create({
   separator: {
     height: 1,
     backgroundColor: Colors.get('gray')
+  },
+  toggleButton: {
+    flex: 1
   }
 });
