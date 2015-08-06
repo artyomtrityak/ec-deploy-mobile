@@ -4,6 +4,7 @@ import AppDispatcher from 'dispatchers/app.dispatcher';
 import PipelinesWebUtils from 'webutils/pipelines.webutils';
 import { ActionTypes } from 'constants/app.constants';
 
+import Promise from 'bluebird';
 
 export default {
   getRuntimeDetails(flowRuntimeId) {
@@ -94,12 +95,43 @@ export default {
     AppDispatcher.handleViewAction({
       type: ActionTypes.RETRIEVING_PIPELINE_DASHBOARD_DATA
     });
+    let onDone = Promise.pending();
+    this.fetchPipelineData(onDone).then((data) => {
+      AppDispatcher.handleServerAction({
+        type: ActionTypes.RETRIEVED_PIPELINE_DASHBOARD_DATA,
+        pipelines: data.pipelines,
+        pipelineRuns: data.pipelineRuns,
+        approvals: data.approvals
+      });
+    });
+  },
+
+  manualNotificationsFetch() {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.RETRIEVING_NOTIFICATION
+    });
+    this.fetchNotifications();
+  },
+
+  fetchNotifications() {
+    let onDone = Promise.pending();
+    this.fetchPipelineData(onDone).then((data) => {
+      AppDispatcher.handleServerAction({
+        type: ActionTypes.RETRIEVED_NOTIFICATION,
+        pipelines: data.pipelines,
+        pipelineRuns: data.pipelineRuns,
+        approvals: data.approvals
+      });
+    });
+  },
+
+  fetchPipelineData(onDone) {
     PipelinesWebUtils.getPipelines()
-    .then((pipelines) => {
-      return [pipelines, PipelinesWebUtils.getPipelineRuns()];
-    })
-    .spread((pipelines, pipelineRuns) => {
-        let approvals = [];
+      .then((pipelines) => {
+        return [pipelines, PipelinesWebUtils.getPipelineRuns()];
+      })
+      .spread((pipelines, pipelineRuns) => {
+        var approvals = [];
         if(pipelineRuns && pipelineRuns.length) {
           pipelineRuns.forEach((pipelineRun) => {
             if(pipelineRun.approvers) {
@@ -108,12 +140,12 @@ export default {
           });
         }
 
-        AppDispatcher.handleServerAction({
-          type: ActionTypes.RETRIEVED_PIPELINE_DASHBOARD_DATA,
+        onDone.resolve({
           pipelines: pipelines,
           pipelineRuns: pipelineRuns,
           approvals: approvals
         });
-    });
+      });
+    return onDone.promise;
   }
 };

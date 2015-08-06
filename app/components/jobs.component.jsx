@@ -11,7 +11,7 @@ import moment from 'moment/moment';
 import JobsActions from 'actions/jobs.actions';
 import SettingsStore from 'stores/settings.store';
 import JobsStore from 'stores/jobs.store';
-import NotLoggenInComponent from './shared/not-logged-in.component';
+import NotLoggedInComponent from './shared/not-logged-in.component';
 import LoaderComponent from './shared/loader.component';
 import JobDetails from './job-details.component';
 import Styles from './jss/jobs-list';
@@ -121,7 +121,7 @@ export default React.createClass({
     }
 
     if (!this.state.settings.user) {
-      return (<NotLoggenInComponent />);
+      return (<NotLoggedInComponent />);
     }
 
     return (
