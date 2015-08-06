@@ -47,6 +47,7 @@ store.dispatchToken = AppDispatcher.register((payload) => {
 
   switch (action.type) {
     case ActionTypes.RETRIEVING_PIPELINES:
+    case ActionTypes.RETRIEVING_PIPELINE_RUNS:
     case ActionTypes.RETRIEVING_PIPELINE_DASHBOARD_DATA:
       _showLoading();
       store.emitChange();
@@ -55,9 +56,15 @@ store.dispatchToken = AppDispatcher.register((payload) => {
 
     case ActionTypes.RETRIEVED_PIPELINES:
       _hideLoading();
-      console.log('pipe', action);
 
       _setPipelines(action.pipelines);
+      store.emitChange();
+      break;
+
+    case ActionTypes.RETRIEVED_PIPELINE_RUNS:
+      _hideLoading();
+
+      _setPipelineRuns(action.pipelineRuns);
       store.emitChange();
       break;
 

@@ -19,32 +19,32 @@ function Refresh (smartLoad=false) {
   if (smartLoad === true && PipelinesStore.getState().pipelines) {
     return;
   }
-  PipelinesActions.getPipelines();
+  PipelinesActions.getPipelineRuns();
 }
 
 export default React.createClass({
-  displayName: 'PipelinesComponent',
+  displayName: 'PipelineRunsComponent',
 
   propTypes: {
     navigator: React.PropTypes.object
   },
 
   statics: {
-    title: 'Pipelines',
+    title: 'Pipeline Runs',
     refresh: Refresh
   },
 
   getInitialState() {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return {
-      dataSource: ds.cloneWithRows(PipelinesStore.getState().pipelines),
-      pipelines: PipelinesStore.getState()
+      dataSource: ds.cloneWithRows(PipelinesStore.getState().pipelineRuns),
+      pipelineRuns: PipelinesStore.getState()
     };
   },
 
   componentDidMount() {
     PipelinesStore.on('change', this.handleChange);
-    PipelinesActions.getPipelines();
+    PipelinesActions.getPipelineRuns();
   },
 
   componentWillUnmount() {
@@ -54,17 +54,12 @@ export default React.createClass({
   handleChange() {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.setState({
-      dataSource: ds.cloneWithRows(PipelinesStore.getState().pipelines),
-      pipelines: PipelinesStore.getState()
+      dataSource: ds.cloneWithRows(PipelinesStore.getState().pipelineRuns),
+      pipelineRuns: PipelinesStore.getState()
     });
   },
 
   renderRow(rowData, sectionID, rowID) {
-    let pipelineName;
-
-    if(rowData.pipeline) {
-      pipelineName = rowData.pipeline.pipelineName;
-    }
     return (
       <TouchableHighlight
         underlayColor={Colors.get('lightGray')}
@@ -72,7 +67,7 @@ export default React.createClass({
         <View>
           <View style={Styles.row}>
             <Text style={{fontSize: 16}}>{++rowID + '. '}</Text>
-            <Text style={Styles.text}>{pipelineName}</Text>
+            <Text style={Styles.text}>{rowData.flowRuntimeName}</Text>
           </View>
           <View style={Styles.separator} />
         </View>
@@ -81,7 +76,7 @@ export default React.createClass({
   },
 
   render() {
-    if (this.state.pipelines.loading) {
+    if (this.state.pipelineRuns.loading) {
       return (
         <View style={Styles.loader}>
           <LoaderComponent loading={true} />
