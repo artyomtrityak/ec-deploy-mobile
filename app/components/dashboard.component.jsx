@@ -16,6 +16,7 @@ import React, {
 import NotLoggedInComponent from './shared/not-logged-in.component';
 import PipelineDashboardComponent from './pipeline-dashboard.component';
 import JobsComponent from './jobs.component';
+import GateApprovalComponent from './gate-approval.component';
 
 import SettingsStore from 'stores/settings.store';
 import DashboardStore from 'stores/dashboard.store';
@@ -56,6 +57,11 @@ function Refresh () {
   if (!settingsState.user) {
     return;
   }
+
+  console.log('---');
+  console.log('atscDynamicRefresh');
+  console.log('---');
+  console.log();
 
   if (!settingsState.autoSync) {
     PipelinesActions.manualNotificationsFetch();
@@ -137,7 +143,7 @@ export default React.createClass({
     return (
       <TouchableHighlight
         onPress={
-          this.goToNextScreen.bind(this, PipelineDashboardComponent, rowData.targetComponentTitle)
+          this.showApprovalDetails.bind(this, rowData.flowRuntimeId)
           }
         underlayColor={Colors.get('white')}
       >
@@ -165,6 +171,21 @@ export default React.createClass({
         onRightButtonPress: PipelineDashboardComponent.refresh
       });
     }
+  },
+
+  showApprovalDetails(flowRuntimeId) {
+    this.props.navigator.push({
+      component: GateApprovalComponent,
+      title: 'Job Details',
+      passProps: {flowRuntimeId: flowRuntimeId},
+      leftButtonTitle: 'Dashboard',
+      onLeftButtonPress: () => this.goBackFromApprove()
+    });
+  },
+
+  goBackFromApprove () {
+    PipelinesActions.fetchNotifications();
+    this.props.navigator.pop();
   },
 
   render() {
