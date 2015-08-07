@@ -71,6 +71,12 @@ export default React.createClass({
   },
 
   renderRow(rowData, sectionID, rowID) {
+    let badgeCounter = parseInt(rowData.badgeCounter, 10),
+      badge = badgeCounter ? (
+        <View style={Styles.menuListBadge}>
+          <Text style={Styles.menuListBadgeText}>{rowData.badgeCounter}</Text>
+        </View>
+      ) : null;
     return (
       <TouchableHighlight
         onPress={
@@ -81,12 +87,10 @@ export default React.createClass({
         underlayColor={Colors.get('white')}
         >
         <View>
-          <View style={Styles.row}>
-            <Image source={rowData.icon} style={Styles.icon}/>
-            <Text style={Styles.text}>{rowData.name}</Text>
-            <View style={Styles.itemNumber}>
-              <Text>{rowData.itemNumber}</Text>
-            </View>
+          <View style={Styles.menuListRow}>
+            <Image source={rowData.icon} style={Styles.menuListIcon}/>
+            <Text style={Styles.menuListText}>{rowData.name}</Text>
+            {badge}
           </View>
           <View style={Styles.separator} />
         </View>
@@ -101,16 +105,14 @@ export default React.createClass({
         icon: require('image!pipeIcon'),
         targetComponent: PipelinesComponent,
         targetComponentTitle: 'Pipelines list',
-        onRightButtonPress: PipelinesComponent.refresh,
-        itemNumber: PipelinesStore.getState().pipelines ? PipelinesStore.getState().pipelines.length : 0
+        onRightButtonPress: PipelinesComponent.refresh
       },
       {
         name: 'Pipeline Runs',
         icon: require('image!envIcon'),
         targetComponent: PipelineRunsComponent,
         targetComponentTitle: 'Pipeline Runs',
-        onRightButtonPress: PipelineRunsComponent.refresh,
-        itemNumber: PipelinesStore.getState().pipelineRuns ? PipelinesStore.getState().pipelineRuns.length : 0
+        onRightButtonPress: PipelineRunsComponent.refresh
       },
       {
         name: 'Approvals',
@@ -118,7 +120,9 @@ export default React.createClass({
         targetComponent: ApprovalListComponent,
         targetComponentTitle: 'Approvals',
         onRightButtonPress: ApprovalListComponent.refresh,
-        itemNumber: PipelinesStore.getState().approvals ? PipelinesStore.getState().approvals.length : 0
+        badgeCounter: PipelinesStore.getState().approvals ?
+          PipelinesStore.getState().approvals.length :
+          0
       }
     ];
 
