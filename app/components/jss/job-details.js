@@ -93,7 +93,7 @@ export default StyleSheet.create({
   },
 
   headerMessage: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     paddingVertical: 4
   },
 
@@ -123,6 +123,15 @@ export default StyleSheet.create({
   listHeaderColumn2: {
     flex: 35,
     color: '#606060'
+  },
+
+
+  listRow: {
+    height: 34,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#8C8C8C'
   }
 
 });

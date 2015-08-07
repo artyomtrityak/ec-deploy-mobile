@@ -23,12 +23,14 @@ export default React.createClass({
     var
       color = this.props.status === 'error' ? Styles.error : Styles.success,
       complete = parseInt(this.props.percentage, 10),
-      incomplete = Math.abs(complete - 100);
+      incomplete = Math.abs(100 - complete);
+
+    console.log(complete, incomplete);
 
     return (
-      <View style={[Styles.container, color, {height: this.props.height}]}>
-        <View style={{flex: complete}} />
-        <View style={[Styles.incomplete, {flex: incomplete}]} />
+      <View style={[Styles.container, {height: this.props.height}]}>
+        <View style={[{flex: 80, backgroundColor: 'red'}]}/>
+        <View />
       </View>
     );
   }
