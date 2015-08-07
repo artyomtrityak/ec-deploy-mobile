@@ -80,7 +80,7 @@ export default React.createClass({
   showApprovalDetails(flowRuntimeId) {
     this.props.navigator.push({
       component: GateApprovalComponent,
-      title: 'Job Details',
+      title: 'Gate Approval',
       passProps: {flowRuntimeId: flowRuntimeId}
     });
   },

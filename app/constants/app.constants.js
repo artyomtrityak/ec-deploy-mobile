@@ -30,6 +30,8 @@ export default {
         RETRIEVED_PIPELINE_DASHBOARD_DATA: null,
         RETRIEVING_APPROVALS: null,
         RETRIEVED_APPROVALS: null,
+        RUNNING_PIPELINE: null,
+        RUN_PIPELINE: null,
         SERVER_ERROR: null,
         AUTO_SYNC: null,
         RETRIEVING_PIPELINE_DETAILS: null,

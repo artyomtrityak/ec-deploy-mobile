@@ -67,6 +67,20 @@ export default {
     });
   },
 
+  runPipeline(pipelineName) {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.RUNNING_PIPELINE
+    });
+
+    PipelinesWebUtils.runPipeline(pipelineName)
+    .then((data) => {
+      AppDispatcher.handleServerAction({
+        type: ActionTypes.RUN_PIPELINE,
+        pipelineRuns: data
+      });
+    });
+  },
+
   getApprovals() {
     AppDispatcher.handleViewAction({
       type: ActionTypes.RETRIEVING_APPROVALS
