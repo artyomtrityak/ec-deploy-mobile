@@ -19,6 +19,7 @@ function _hideLoading () {
 }
 
 function _setApproval (details) {
+  approvalState = approvalState.set('solution', null);
   approvalState = approvalState.set('stageName', details.activeStage);
   approvalState = approvalState.set('pipelineName', details.name);
 
