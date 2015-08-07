@@ -12,6 +12,15 @@ export default StyleSheet.create({
     alignItems: 'stretch',
     flex: 1
   },
+  menuListBadge: {
+    borderRadius: 10,
+    width: 30,
+    height: 30
+  },
+  menuListBadgeText: {
+    color: Colors.get('white'),
+    backgroundColor: Colors.get('lightBlue')
+  },
   menuListIcon: {
     marginRight: 10
   },
