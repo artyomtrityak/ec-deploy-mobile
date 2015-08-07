@@ -24,10 +24,10 @@ export default StyleSheet.create({
     fontSize: 25
   },
   menuListContainer: {
-    flex: 4
+    flex: 3
   },
   notificationContainer: {
-    flex: 6
+    flex: 7
   },
   notificationIcon: {
     flex: 1,
@@ -47,8 +47,5 @@ export default StyleSheet.create({
   separator: {
     height: 1,
     backgroundColor: Colors.get('gray')
-  },
-  toggleButton: {
-    flex: 1
   }
 });

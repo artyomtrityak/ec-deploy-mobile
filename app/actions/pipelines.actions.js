@@ -4,7 +4,6 @@ import AppDispatcher from 'dispatchers/app.dispatcher';
 import PipelinesWebUtils from 'webutils/pipelines.webutils';
 import { ActionTypes } from 'constants/app.constants';
 
-
 export default {
   getRuntimeDetails(flowRuntimeId) {
     AppDispatcher.handleViewAction({
@@ -94,26 +93,42 @@ export default {
     AppDispatcher.handleViewAction({
       type: ActionTypes.RETRIEVING_PIPELINE_DASHBOARD_DATA
     });
-    PipelinesWebUtils.getPipelines()
-    .then((pipelines) => {
-      return [pipelines, PipelinesWebUtils.getPipelineRuns()];
-    })
-    .spread((pipelines, pipelineRuns) => {
-        let approvals = [];
-        if(pipelineRuns && pipelineRuns.length) {
-          pipelineRuns.forEach((pipelineRun) => {
-            if(pipelineRun.approvers) {
-              approvals.push(pipelineRun);
-            }
-          });
-        }
-
-        AppDispatcher.handleServerAction({
-          type: ActionTypes.RETRIEVED_PIPELINE_DASHBOARD_DATA,
-          pipelines: pipelines,
-          pipelineRuns: pipelineRuns,
-          approvals: approvals
-        });
+    this.fetchPipelineData().then((data) => {
+      AppDispatcher.handleServerAction({
+        type: ActionTypes.RETRIEVED_PIPELINE_DASHBOARD_DATA,
+        pipelines: data.pipelines,
+        pipelineRuns: data.pipelineRuns
+      });
     });
+  },
+
+  manualNotificationsFetch() {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.RETRIEVING_NOTIFICATION
+    });
+    this.fetchNotifications();
+  },
+
+  fetchNotifications() {
+    this.fetchPipelineData().then((data) => {
+      AppDispatcher.handleServerAction({
+        type: ActionTypes.RETRIEVED_NOTIFICATION,
+        pipelines: data.pipelines,
+        pipelineRuns: data.pipelineRuns
+      });
+    });
+  },
+
+  fetchPipelineData() {
+    return PipelinesWebUtils.getPipelines()
+      .then((pipelines) => {
+        return [pipelines, PipelinesWebUtils.getPipelineRuns()];
+      })
+      .spread((pipelines, pipelineRuns) => {
+        return {
+          pipelines: pipelines,
+          pipelineRuns: pipelineRuns
+        };
+      });
   }
 };

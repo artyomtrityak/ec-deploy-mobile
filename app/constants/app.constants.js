@@ -20,6 +20,8 @@ export default {
         RETRIEVING_JOBS: null,
         RETRIEVED_JOB: null,
         RETRIEVED_JOBS: null,
+        RETRIEVED_NOTIFICATION: null,
+        RETRIEVING_NOTIFICATION: null,
         RETRIEVING_PIPELINES: null,
         RETRIEVED_PIPELINES: null,
         RETRIEVING_PIPELINE_RUNS: null,
