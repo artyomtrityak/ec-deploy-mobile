@@ -65,7 +65,8 @@ export default React.createClass({
 
   redirectToRuns() {
     this.props.navigator.push({
-      component: PipelineRunsComponent
+      component: PipelineRunsComponent,
+      title: 'Pipeline Runs'
     });
   },
 
