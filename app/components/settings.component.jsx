@@ -120,7 +120,7 @@ export default React.createClass({
 
         <View style={[SettingsJSS.field]}>
           <View style={ FormJSS.forms.row }>
-            <View style={[ FormJSS.forms.flexRow, SettingsJSS.togglerContainer ]}>
+            <View style={[SettingsJSS.togglerContainer ]}>
 
               <View style={SettingsJSS.togglerTxtWrapper}>
                 <Text style={SettingsJSS.togglerTxt}>
@@ -139,7 +139,7 @@ export default React.createClass({
           <View style={FormJSS.login.line}/>
 
           <View style={ FormJSS.forms.row }>
-            <View style={[ FormJSS.forms.flexRow, SettingsJSS.togglerContainer ]}>
+            <View style={[SettingsJSS.togglerContainer ]}>
               <View style={SettingsJSS.togglerTxtWrapper}>
                 <Text style={SettingsJSS.togglerTxt}>
                 Auto sync every 30 seconds
@@ -157,7 +157,7 @@ export default React.createClass({
           <View style={FormJSS.login.line}/>
 
           <View style={ FormJSS.forms.row }>
-            <View style={[ FormJSS.forms.flexRow, SettingsJSS.togglerContainer ]}>
+            <View style={[SettingsJSS.togglerContainer ]}>
               <View style={SettingsJSS.togglerTxtWrapper}>
                 <Text style={SettingsJSS.togglerTxt}>
                 Jobs Notifications
@@ -173,7 +173,6 @@ export default React.createClass({
           </View>
         </View>
         <View style={FormJSS.login.line}/>
-
 
       </View>
     );

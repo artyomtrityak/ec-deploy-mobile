@@ -9,7 +9,7 @@ export default StyleSheet.create({
     flex: 1
   },
   firstRow: {
-    marginTop: 105
+    marginTop: 90
   },
   field: {
     backgroundColor: Colors.get('white'),
@@ -26,9 +26,14 @@ export default StyleSheet.create({
   },
   togglerContainer: {
     justifyContent: 'space-between',
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
     height: 50,
-    width: 290,
-    alignSelf: 'center'
+    paddingRight: 15
+    //width: 290,
+    //alignSelf: 'center'
+
   },
 
   userText: {
