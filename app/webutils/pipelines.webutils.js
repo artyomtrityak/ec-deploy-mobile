@@ -113,16 +113,6 @@ export default {
         'operand1': '1'
       };
     }
-    console.log({
-      operation: 'getPipelineRuntimes',
-      parameters: {
-        'projectName': 'Default',
-        'sortOrder': 'descending',
-        'sortKey': 'createTime',
-        'maxResults': 50,
-        'filter': sort
-      }
-    });
     return CommanderClient.fetch({
       operation: 'getPipelineRuntimes',
       parameters: {
