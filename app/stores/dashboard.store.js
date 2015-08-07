@@ -42,8 +42,8 @@ function _parseNotifications (pipelineRuns) {
     let approvers = approval.approvers.approverName;
     if (approvers.indexOf(user) !== -1) {
       formatted.push({
-        text: `Pipeline Name: ${approval.pipelineName}  \n
-Current Stage: ${approval.currentStage}. \n
+        text: `Pipeline Name: ${approval.pipelineName}  \t
+Current Stage: ${approval.currentStage}. \t
 Last modify time: ${moment(approval.modifyTime).format('MMM DD, YYYY h:mm A')}`,
         flowRuntimeId: approval.flowRuntimeId
       });

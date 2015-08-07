@@ -149,6 +149,8 @@ export default React.createClass({
       >
         <View>
           <View style={Styles.notificationRow}>
+            <Image source={require('image!pipeIcon')} style={Styles.notificationTypeIcon}
+                   resizeMode={Image.resizeMode.contain} />
             <Text style={Styles.notificationText}>{rowData.text}</Text>
             <Icon
               name="angle-double-right"
@@ -207,7 +209,7 @@ export default React.createClass({
       notificationView = notifications.length ?
         (<View style={Styles.notificationContainer}>
           <View style={Styles.notigicationLabel}>
-            <Text>Some stuff for your approve</Text>
+            <Text>APPROVE NOTIFICATIONS</Text>
           </View>
           <View style={Styles.notificationSeparator} />
           <ListView
@@ -222,7 +224,6 @@ export default React.createClass({
 
     return (
       <View style={Styles.tabContent}>
-        {notificationView}
         <View style={Styles.menuListContainer}>
           <ListView
             style={Styles.list}
@@ -231,6 +232,8 @@ export default React.createClass({
             renderRow={this.renderMenuRow}
           />
         </View>
+        <View style={Styles.notificationSeparator} />
+        {notificationView}
       </View>
     );
   }
