@@ -29,6 +29,19 @@ function _setApprovals (approvals) {
   pipelineState = pipelineState.set('approvals', approvals);
 }
 
+function _parseApprovals (pipelineRuns) {
+  var approvals = [];
+  if(pipelineRuns && pipelineRuns.length) {
+    pipelineRuns.forEach((pipelineRun) => {
+      if(pipelineRun.approvers) {
+        approvals.push(pipelineRun);
+      }
+    });
+  }
+
+  return approvals;
+}
+
 // Store eventemitter
 class PipelineStore extends EventEmitter {
   getState() {
@@ -80,7 +93,7 @@ store.dispatchToken = AppDispatcher.register((payload) => {
       _hideLoading();
       _setPipelines(action.pipelines);
       _setPipelineRuns(action.pipelineRuns);
-      _setApprovals(action.approvals);
+      _setApprovals(_parseApprovals(action.pipelineRuns));
 
       store.emitChange();
       break;

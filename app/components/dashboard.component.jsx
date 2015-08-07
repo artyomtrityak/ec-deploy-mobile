@@ -11,25 +11,22 @@ import React, {
   ScrollView
   } from 'react-native';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Colors from './jss/colors-scheme';
-import Styles from './jss/dashboard';
-import LoaderJSS from './jss/loader';
-import FormJSS from './jss/forms';
+//TODO: this component is cause of React packager errors.
+//import LoaderComponent from './shared/loader.component';
+import NotLoggedInComponent from './shared/not-logged-in.component';
+import PipelineDashboardComponent from './pipeline-dashboard.component';
+import JobsComponent from './jobs.component';
 
 import SettingsStore from 'stores/settings.store';
 import NotificationStore from 'stores/notification.store';
 
 import PipelinesActions from 'actions/pipelines.actions';
 
-import LoaderComponent from './shared/loader.component';
-import NotLoggedInComponent from './shared/not-logged-in.component';
-import ButtonComponent from './shared/button.component';
-import PipelineDashboardComponent from './pipeline-dashboard.component';
-import JobsComponent from './jobs.component';
-//import ApplicationComponent from './application.component';
-//import EnvironmentComponent from './environment.component';
-//import PipelinesComponent from './pipelines.component';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Colors from './jss/colors-scheme';
+import Styles from './jss/dashboard';
+import LoaderJSS from './jss/loader';
+import FormJSS from './jss/forms';
 
 let listViewDataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
   menuListItems = [
@@ -82,18 +79,14 @@ export default React.createClass({
   getInitialState() {
     return {
       settings: SettingsStore.getState(),
-      menuDataSource: listViewDataSource.cloneWithRows(menuListItems),
-      notifications: NotificationStore.getState(),
-      notificationShowed: false
+      notifications: NotificationStore.getState()
     };
   },
 
   componentDidMount() {
     NotificationStore.on('change', this.handleChange);
     SettingsStore.on('change', this.handleChange);
-    if (SettingsStore.getState().autoSync) {
-      PipelinesActions.fetchNotifications();
-    }
+    PipelinesActions.fetchNotifications();
   },
 
   componentWillUnmount() {
@@ -102,22 +95,10 @@ export default React.createClass({
   },
 
   handleChange() {
-    let notificationState = NotificationStore.getState(),
-      notifications = notificationState.notifications || [],
-      state = {
-        settings: SettingsStore.getState(),
-        notifications: notificationState
-      };
-
-    if (notifications.length) {
-      state.notificationDataSource = listViewDataSource.cloneWithRows(notifications);
-      state.notificationShowed = true;
-    } else {
-      state.notificationDataSource = null;
-      state.notificationShowed = false;
-    }
-
-    this.setState(state);
+    this.setState({
+      settings: SettingsStore.getState(),
+      notifications: NotificationStore.getState()
+    });
   },
 
   renderMenuRow (rowData, sectionID, rowID) {
@@ -179,32 +160,35 @@ export default React.createClass({
     }
 
     if (this.state.notifications.loading) {
-      return (
-        <View style={[ FormJSS.forms.main, LoaderJSS.position ]}>
-          <LoaderComponent loading={true} />
-        </View>
-      );
+      //return (<LoaderComponent loading={true} />);
+      //return (
+        //<View style={[ FormJSS.forms.main, LoaderJSS.position ]}>
+        //  <LoaderComponent loading={true} />
+        //</View>
+      //);
     }
 
-    let notification = this.state.notificationShowed ?
-      (<View style={Styles.notificationContainer}>
-        <ListView
-          style={Styles.list}
-          automaticallyAdjustContentInsets={false}
-          dataSource={this.state.notificationDataSource}
-          renderRow={this.renderNotificationRow}
-        />
-      </View>) :
-      null;
+    let notificationState = NotificationStore.getState(),
+      notifications = notificationState.notifications || [],
+      notificationView = notifications.length ?
+        (<View style={Styles.notificationContainer}>
+          <ListView
+            style={Styles.list}
+            automaticallyAdjustContentInsets={false}
+            dataSource={listViewDataSource.cloneWithRows(notifications)}
+            renderRow={this.renderNotificationRow}
+          />
+        </View>) :
+        null;
 
     return (
       <View style={Styles.tabContent}>
-        {notification}
+        {notificationView}
         <View style={Styles.menuListContainer}>
           <ListView
             style={Styles.list}
             automaticallyAdjustContentInsets={false}
-            dataSource={this.state.menuDataSource}
+            dataSource={listViewDataSource.cloneWithRows(menuListItems)}
             renderRow={this.renderMenuRow}
           />
         </View>

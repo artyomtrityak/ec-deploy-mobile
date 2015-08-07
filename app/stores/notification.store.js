@@ -26,16 +26,26 @@ function _setNotifications (notifications) {
   notificationState = notificationState.set('notifications', notifications);
 }
 
-function _parseNotifications (notifications) {
+function _parseNotifications (pipelineRuns) {
+
+  var approvals = [];
+  if(pipelineRuns && pipelineRuns.length) {
+    pipelineRuns.forEach((pipelineRun) => {
+      if(pipelineRun.approvers) {
+        approvals.push(pipelineRun);
+      }
+    });
+  }
+
   let formatted = [],
     user = SettingsStore.getState().user.userName;
-  notifications.forEach((notification) => {
-    let approvers = notification.approvers.approverName;
+  approvals.forEach((approval) => {
+    let approvers = approval.approvers.approverName;
     if (approvers.indexOf(user) !== -1) {
       formatted.push({
-        text: `There are need Your approval in ${notification.pipelineName} Pipeline.
-Current stage is ${notification.currentStage}.
-Last modify time is ${moment(notification.modifyTime).format('MMM DD, YYYY h:mm A')}`
+        text: `There are need Your approval in ${approval.pipelineName} Pipeline.
+Current stage is ${approval.currentStage}.
+Last modify time is ${moment(approval.modifyTime).format('MMM DD, YYYY h:mm A')}`
       });
     }
   });
@@ -69,7 +79,7 @@ store.dispatchToken = AppDispatcher.register((payload) => {
 
     case ActionTypes.RETRIEVED_NOTIFICATION:
       _hideLoading();
-      _setNotifications(_parseNotifications(action.approvals));
+      _setNotifications(_parseNotifications(action.pipelineRuns));
       store.emitChange();
       break;
 
