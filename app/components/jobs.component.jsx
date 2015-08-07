@@ -11,11 +11,14 @@ import moment from 'moment/moment';
 import JobsActions from 'actions/jobs.actions';
 import SettingsStore from 'stores/settings.store';
 import JobsStore from 'stores/jobs.store';
+import ProgressBar from './shared/progress-bar.component';
 import NotLoggedInComponent from './shared/not-logged-in.component';
 import LoaderComponent from './shared/loader.component';
 import JobDetails from './job-details.component';
 import Styles from './jss/jobs-list';
+import StylesJob from './jss/job-details';
 import Colors from './jss/colors-scheme';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 function Refresh (smartLoad=false) {
@@ -74,27 +77,75 @@ export default React.createClass({
         progressColor = rowData.outcome === 'error' ? Styles.error : Styles.success,
         elapsedTime = moment.utc(parseInt(rowData.elapsedTime, 10)).format('mm:ss'),
         startTime = moment(rowData.start).format('MMM DD, YYYY h:mm A');
+    var statusImage,
+        mainColor,
+        error = '#C50C1E',
+        success = '#3AC50A',
+        warning = '#ff6d26',
+        // startTime = moment(this.state.job.job.start).format('MMM DD, YYYY h:mm A'),
+        // elapsedTime = moment.utc(parseInt(this.state.job.job.elapsedTime, 10)).format('mm:ss'),
+        percentageText = rowData.progressPercentage + '%';
+    switch (rowData.combinedStatus.status) {
+      case 'running_error':
+        statusImage = 'repeat';
+        mainColor = error;
+        break;
+      case 'running_success':
+        statusImage = 'repeat';
+        mainColor = success;
+        break;
+      case 'running_warning':
+        statusImage = 'repeat';
+        mainColor = warning;
+        break;
+      case 'completed_error':
+        statusImage = 'times-circle';
+        mainColor = error;
+        break;
+      case 'completed_success':
+        statusImage = 'check-circle';
+        mainColor = success;
+        break;
+      case 'completed_warning':
+        statusImage = 'exclamation-circle';
+        mainColor = warning;
+        break;
+      default:
+        statusImage = '';
+        mainColor = '';
+    }
     return (
       <TouchableHighlight
         onPress={this.showJobDetails.bind(this, rowData.jobId)}
         underlayColor={Colors.get('lightGray')}
         >
         <View>
-          <View style={[Styles.progressContainer, progressColor]}>
-            <View style={[{flex: completePerc}]}/>
-            <View style={[Styles.progressIncomplete, {flex: incompletePerc}]}/>
+          <View style={StylesJob.headerTitle}>
+            <Text style={StylesJob.headerTitleText} numberOfLines={3}>{rowData.jobName}</Text>
+            <Icon name={statusImage} style={StylesJob.headerTitleImage} color={mainColor}/>
           </View>
-          <View style={Styles.row}>
-            <Text style={Styles.text}>{rowData.jobName}</Text>
+
+          <View style={StylesJob.headerStatus}>
+            <View style={StylesJob.headerStatusProgress}>
+              <ProgressBar
+                percentage={rowData.progressPercentage}
+                status={rowData.outcome}
+                mainColor={mainColor}/>
+              <Text numberOfLines={1} style={StylesJob.headerStatusProgressText}>{percentageText}</Text>
+            </View>
+
+            <View style={StylesJob.headerStatusTime}>
+              <View style={StylesJob.headerStatusTimeRow}>
+                <Icon name='clock-o' style={StylesJob.headerStatusTimeIcon} />
+                <Text numberOfLines={1} style={StylesJob.headerStatusTimeText}>{startTime}</Text>
+              </View>
+              <View style={StylesJob.headerStatusTimeRow}>
+                <Icon name='flag' style={StylesJob.headerStatusTimeIcon} />
+                <Text numberOfLines={1} style={StylesJob.headerStatusTimeText}>{elapsedTime}</Text>
+              </View>
+            </View>
           </View>
-          <View style={Styles.row}>
-            <Text>
-              {rowData.status} {rowData.progressPercentage}% - {rowData.outcome}
-            </Text>
-          </View>
-          <View style={Styles.row}>
-            <Text>Elapsed Time: {elapsedTime} | Start Time: {startTime}</Text>
-          </View>
+
           <View style={Styles.separator} />
         </View>
       </TouchableHighlight>

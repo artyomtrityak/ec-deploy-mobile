@@ -86,12 +86,12 @@ export default {
       type: ActionTypes.RETRIEVING_APPROVALS
     });
 
-    PipelinesWebUtils.getPipelineRuns()
+    PipelinesWebUtils.getPipelineRuns(true)
     .then((pipelineRuns) => {
       let approvals = [];
       if(pipelineRuns && pipelineRuns.length) {
         pipelineRuns.forEach((pipelineRun) => {
-          if(pipelineRun.approvers) {
+          if (pipelineRun.approvers) {
             approvals.push(pipelineRun);
           }
         });
@@ -107,7 +107,7 @@ export default {
     AppDispatcher.handleViewAction({
       type: ActionTypes.RETRIEVING_PIPELINE_DASHBOARD_DATA
     });
-    this.fetchPipelineData().then((data) => {
+    this.fetchPipelineData(true).then((data) => {
       AppDispatcher.handleServerAction({
         type: ActionTypes.RETRIEVED_PIPELINE_DASHBOARD_DATA,
         pipelines: data.pipelines,
@@ -124,7 +124,7 @@ export default {
   },
 
   fetchNotifications() {
-    this.fetchPipelineData().then((data) => {
+    this.fetchPipelineData(true).then((data) => {
       AppDispatcher.handleServerAction({
         type: ActionTypes.RETRIEVED_NOTIFICATION,
         pipelines: data.pipelines,
@@ -133,10 +133,10 @@ export default {
     });
   },
 
-  fetchPipelineData() {
+  fetchPipelineData(onlyApprovers) {
     return PipelinesWebUtils.getPipelines()
       .then((pipelines) => {
-        return [pipelines, PipelinesWebUtils.getPipelineRuns()];
+        return [pipelines, PipelinesWebUtils.getPipelineRuns(onlyApprovers)];
       })
       .spread((pipelines, pipelineRuns) => {
         return {

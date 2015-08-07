@@ -104,14 +104,23 @@ export default {
     });
   },
 
-  getPipelineRuns() {
+  getPipelineRuns(onlyApprovals=false) {
+    var sort;
+    if (onlyApprovals) {
+      sort = {
+        'operator': 'equals',
+        'propertyName': 'hasManualApproval',
+        'operand1': '1'
+      };
+    }
     return CommanderClient.fetch({
       operation: 'getPipelineRuntimes',
       parameters: {
         'projectName': 'Default',
         'sortOrder': 'descending',
         'sortKey': 'createTime',
-        'maxResults': 50
+        'maxResults': 50,
+        'filter': sort
       }
     })
     .then((response) => {

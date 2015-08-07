@@ -1,9 +1,17 @@
 'use strict';
 
-import { StyleSheet } from 'react-native';
+import { StyleSheet, PixelRatio } from 'react-native';
 import Colors from './colors-scheme';
 
 export default StyleSheet.create({
+  dashboardList: {
+    marginTop: 0,
+    marginBottom: 0,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'stretch',
+    flex: 1
+  },
   tabContent: {
     marginTop: 64,
     marginBottom: 45,
@@ -13,30 +21,48 @@ export default StyleSheet.create({
     flex: 1
   },
   menuListBadge: {
-    borderRadius: 10,
+    padding: 5,
+    backgroundColor: Colors.get('lightBlue'),
+    borderRadius: 15,
     width: 30,
     height: 30
   },
   menuListBadgeText: {
-    color: Colors.get('white'),
-    backgroundColor: Colors.get('lightBlue')
+    textAlign: 'center',
+    color: Colors.get('white')
+    // color: Colors.get('white'),
+    // backgroundColor: Colors.get('lightBlue'),
+    // borderRadius: 10,
+    // width: 30,
+    // height: 30
   },
   menuListIcon: {
-    marginRight: 10
+    width: 80
   },
   menuListRow: {
     flexDirection: 'row',
-    padding: 10
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingRight: 10
+  },
+  menuRowIcon: {
+    width: 20,
+    marginLeft: 10
   },
   menuListText: {
     flex: 1,
-    fontSize: 25
+    fontSize: 24
   },
   menuListContainer: {
-    flex: 3
+    flex: 1,
+    flexDirection: 'column'
+  },
+  menuListItem: {
+    flex: 3,
+    flexDirection: 'row'
   },
   notificationContainer: {
-    flex: 7
+    height: 346
   },
   notificationIcon: {
     flex: 1,
@@ -50,11 +76,31 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   notificationText: {
-    fontSize: 15,
+    fontSize: 12,
+    lineHeight: 14,
     flex: 9
   },
   separator: {
-    height: 1,
-    backgroundColor: Colors.get('gray')
+    height: 1 / PixelRatio.get(),
+    marginLeft: 80,
+    backgroundColor: '#c8c7cc'
+  },
+  notificationSeparator: {
+    height: 1 / PixelRatio.get(),
+    backgroundColor: '#c8c7cc'
+  },
+  notificationsSeparator: {
+    height: 1 / PixelRatio.get(),
+    backgroundColor: '#c8c7cc',
+    marginBottom: 10
+  },
+  notigicationLabel: {
+    backgroundColor: '#f6f6f8',
+    alignItems: 'center',
+    padding: 10
+  },
+  notificationTypeIcon: {
+    width: 20,
+    marginRight: 10
   }
 });

@@ -16,6 +16,7 @@ import React, {
 import NotLoggedInComponent from './shared/not-logged-in.component';
 import PipelineDashboardComponent from './pipeline-dashboard.component';
 import JobsComponent from './jobs.component';
+import GateApprovalComponent from './gate-approval.component';
 
 import SettingsStore from 'stores/settings.store';
 import DashboardStore from 'stores/dashboard.store';
@@ -117,9 +118,15 @@ export default React.createClass({
       >
         <View>
           <View style={Styles.menuListRow}>
-            <Image source={rowData.icon} style={Styles.menuListIcon}/>
+            <Image source={rowData.icon} style={Styles.menuListIcon}
+                   resizeMode={Image.resizeMode.contain} />
             <Text style={Styles.menuListText}>{rowData.name}</Text>
             {badge}
+            <Icon
+              name="chevron-right"
+              style={Styles.menuRowIcon}
+              size={26} color="#5d5d5d"
+            />
           </View>
           <View style={Styles.separator} />
         </View>
@@ -131,12 +138,14 @@ export default React.createClass({
     return (
       <TouchableHighlight
         onPress={
-          this.goToNextScreen.bind(this, PipelineDashboardComponent, rowData.targetComponentTitle)
+          this.showApprovalDetails.bind(this, rowData.flowRuntimeId)
           }
         underlayColor={Colors.get('white')}
       >
         <View>
           <View style={Styles.notificationRow}>
+            <Image source={require('image!pipeIcon')} style={Styles.notificationTypeIcon}
+                   resizeMode={Image.resizeMode.contain} />
             <Text style={Styles.notificationText}>{rowData.text}</Text>
             <Icon
               name="angle-double-right"
@@ -144,7 +153,7 @@ export default React.createClass({
               size={26} color="black"
             />
           </View>
-          <View style={Styles.separator} />
+          <View style={Styles.notificationSeparator} />
         </View>
       </TouchableHighlight>
     );
@@ -159,6 +168,21 @@ export default React.createClass({
         onRightButtonPress: PipelineDashboardComponent.refresh
       });
     }
+  },
+
+  showApprovalDetails(flowRuntimeId) {
+    this.props.navigator.push({
+      component: GateApprovalComponent,
+      title: 'Job Details',
+      passProps: {flowRuntimeId: flowRuntimeId},
+      leftButtonTitle: 'Dashboard',
+      onLeftButtonPress: () => this.goBackFromApprove()
+    });
+  },
+
+  goBackFromApprove () {
+    PipelinesActions.fetchNotifications();
+    this.props.navigator.pop();
   },
 
   render() {
@@ -179,18 +203,22 @@ export default React.createClass({
       notifications = notificationState.notifications || [],
       notificationView = notifications.length ?
         (<View style={Styles.notificationContainer}>
+          <View style={Styles.notigicationLabel}>
+            <Text>APPROVE NOTIFICATIONS</Text>
+          </View>
+          <View style={Styles.notificationSeparator} />
           <ListView
             style={Styles.list}
             automaticallyAdjustContentInsets={false}
             dataSource={listViewDataSource.cloneWithRows(notifications)}
             renderRow={this.renderNotificationRow}
           />
+          <View style={Styles.notificationSeparator} />
         </View>) :
         null;
 
     return (
       <View style={Styles.tabContent}>
-        {notificationView}
         <View style={Styles.menuListContainer}>
           <ListView
             style={Styles.list}
@@ -199,6 +227,8 @@ export default React.createClass({
             renderRow={this.renderMenuRow}
           />
         </View>
+        <View style={Styles.notificationSeparator} />
+        {notificationView}
       </View>
     );
   }
