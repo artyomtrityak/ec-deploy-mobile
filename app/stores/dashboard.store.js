@@ -36,16 +36,16 @@ function _parseNotifications (pipelineRuns) {
       }
     });
   }
+
   let formatted = [],
     user = SettingsStore.getState().user.userName;
   approvals.forEach((approval) => {
     let approvers = approval.approvers.approverName;
     if (approvers.indexOf(user) !== -1) {
       formatted.push({
-        text: `Pipeline Name: ${approval.pipelineName}  \n
-Current Stage: ${approval.currentStage}. \n
-Last modify time: ${moment(approval.modifyTime).format('MMM DD, YYYY h:mm A')}`,
-        flowRuntimeId: approval.flowRuntimeId
+        text: `There are need Your approval in ${approval.pipelineName} Pipeline.
+Current stage is ${approval.currentStage}.
+Last modify time is ${moment(approval.modifyTime).format('MMM DD, YYYY h:mm A')}`
       });
     }
   });

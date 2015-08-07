@@ -16,7 +16,6 @@ import React, {
 import NotLoggedInComponent from './shared/not-logged-in.component';
 import PipelineDashboardComponent from './pipeline-dashboard.component';
 import JobsComponent from './jobs.component';
-import GateApprovalComponent from './gate-approval.component';
 
 import SettingsStore from 'stores/settings.store';
 import DashboardStore from 'stores/dashboard.store';
@@ -57,11 +56,6 @@ function Refresh () {
   if (!settingsState.user) {
     return;
   }
-
-  console.log('---');
-  console.log('atscDynamicRefresh');
-  console.log('---');
-  console.log();
 
   if (!settingsState.autoSync) {
     PipelinesActions.manualNotificationsFetch();
@@ -123,15 +117,9 @@ export default React.createClass({
       >
         <View>
           <View style={Styles.menuListRow}>
-            <Image source={rowData.icon} style={Styles.menuListIcon}
-                   resizeMode={Image.resizeMode.contain} />
+            <Image source={rowData.icon} style={Styles.menuListIcon}/>
             <Text style={Styles.menuListText}>{rowData.name}</Text>
             {badge}
-            <Icon
-              name="chevron-right"
-              style={Styles.menuRowIcon}
-              size={26} color="#5d5d5d"
-            />
           </View>
           <View style={Styles.separator} />
         </View>
@@ -143,7 +131,7 @@ export default React.createClass({
     return (
       <TouchableHighlight
         onPress={
-          this.showApprovalDetails.bind(this, rowData.flowRuntimeId)
+          this.goToNextScreen.bind(this, PipelineDashboardComponent, rowData.targetComponentTitle)
           }
         underlayColor={Colors.get('white')}
       >
@@ -156,7 +144,7 @@ export default React.createClass({
               size={26} color="black"
             />
           </View>
-          <View style={Styles.notificationSeparator} />
+          <View style={Styles.separator} />
         </View>
       </TouchableHighlight>
     );
@@ -171,21 +159,6 @@ export default React.createClass({
         onRightButtonPress: PipelineDashboardComponent.refresh
       });
     }
-  },
-
-  showApprovalDetails(flowRuntimeId) {
-    this.props.navigator.push({
-      component: GateApprovalComponent,
-      title: 'Job Details',
-      passProps: {flowRuntimeId: flowRuntimeId},
-      leftButtonTitle: 'Dashboard',
-      onLeftButtonPress: () => this.goBackFromApprove()
-    });
-  },
-
-  goBackFromApprove () {
-    PipelinesActions.fetchNotifications();
-    this.props.navigator.pop();
   },
 
   render() {
@@ -206,17 +179,12 @@ export default React.createClass({
       notifications = notificationState.notifications || [],
       notificationView = notifications.length ?
         (<View style={Styles.notificationContainer}>
-          <View style={Styles.notigicationLabel}>
-            <Text>Some stuff for your approve</Text>
-          </View>
-          <View style={Styles.notificationSeparator} />
           <ListView
             style={Styles.list}
             automaticallyAdjustContentInsets={false}
             dataSource={listViewDataSource.cloneWithRows(notifications)}
             renderRow={this.renderNotificationRow}
           />
-          <View style={Styles.notificationSeparator} />
         </View>) :
         null;
 
