@@ -1,10 +1,13 @@
 'use strict';
 
+import moment from 'moment/moment';
 import React, {ListView, View, Image, Text} from 'react-native';
 import JobDetailsStore from 'stores/job-details.store';
 import LoaderComponent from './shared/loader.component';
+import ProgressBar from './shared/progress-bar.component';
 import JobsActions from 'actions/jobs.actions';
 import Styles from './jss/job-details';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 function Refresh (jobId) {
@@ -55,68 +58,106 @@ export default React.createClass({
       return null;
     }
 
-    var image;
+    console.log('ololo');
+    console.log('this.state.job.job', this.state.job.job);
+
+    var
+      statusImage,
+      mainColor,
+      error = '#C50C1E',
+      success = '#3AC50A',
+      warning = '#ff6d26',
+      startTime = moment(this.state.job.job.start).format('MMM DD, YYYY h:mm A'),
+      elapsedTime = moment.utc(parseInt(this.state.job.job.elapsedTime, 10)).format('mm:ss'),
+      percentageText = this.state.job.job.progressPercentage + '%';
 
     switch (this.state.job.job.combinedStatus.status) {
       case 'running_error':
-        image = require('image!running_error');
+        statusImage = 'repeat';
+        mainColor = error;
         break;
       case 'running_success':
-        image = require('image!running_success');
+        statusImage = 'repeat';
+        mainColor = success;
+        break;
+      case 'running_warning':
+        statusImage = 'repeat';
+        mainColor = warning;
         break;
       case 'completed_error':
-        image = require('image!completed_error');
+        statusImage = 'times-circle';
+        mainColor = error;
         break;
       case 'completed_success': 
-        image = require('image!completed_success');
+        statusImage = 'check-circle';
+        mainColor = success;
         break;
       case 'completed_warning':
-        image = require('image!completed_warning');
+        statusImage = 'exclamation-circle';
+        mainColor = warning;
         break;
       default:
-        image = require('image!completed_warning');
+        statusImage = '';
+        mainColor = '';
     }
-    
+
     return (
       <View style={Styles.header}>
-        <View style={Styles.headerTitle}>
-          <Text style={Styles.headerTitleText} numberOfLines={2}>{this.state.job.job.jobName}</Text>
-        </View>
 
-        <View style={Styles.headerSeparator}>{}</View>
+        <View style={Styles.headerTitle}>
+            <Text style={Styles.headerTitleText} numberOfLines={3}>{this.state.job.job.jobName}</Text>
+            <Icon name={statusImage} style={Styles.headerTitleImage} color={mainColor}/>
+        </View>
 
         <View style={Styles.headerStatus}>
-          <Image style={Styles.headerStatusImage} source={image} />
-          <View style={Styles.headerStatusTimeWrapper}>
-            <View style={Styles.headerStatusTime}>
-              <Text style={Styles.headerStatusTimeTitle}>Start Time:</Text>
-              <Text style={Styles.headerStatusTimeText}>{this.state.job.job.start}</Text>
+          <View style={Styles.headerStatusProgress}>
+            <ProgressBar
+              percentage={this.state.job.job.progressPercentage}
+              status={this.state.job.job.outcome}
+              mainColor={mainColor}/>
+            <Text numberOfLines={1} style={Styles.headerStatusProgressText}>{percentageText}</Text>
+          </View>
+
+          <View style={Styles.headerStatusTime}>
+            <View style={Styles.headerStatusTimeRow}>
+              <Icon name='clock-o' style={Styles.headerStatusTimeIcon} />
+              <Text numberOfLines={1} style={Styles.headerStatusTimeText}>{startTime}</Text>
             </View>
-            <View style={Styles.headerStatusTime}>
-              <Text style={Styles.headerStatusTimeTitle}>Elapsed Time:</Text>
-              <Text style={Styles.headerStatusTimeText}>{this.state.job.job.elapsedTime}</Text>
+            <View style={Styles.headerStatusTimeRow}>
+              <Icon name='flag' style={Styles.headerStatusTimeIcon} />
+              <Text numberOfLines={1} style={Styles.headerStatusTimeText}>{elapsedTime}</Text>
             </View>
           </View>
         </View>
 
-        <View style={Styles.headerSeparator}>{}</View>
+        <View style={Styles.headerInfo}>
+          <View style={Styles.headerInfoRow}>
+            <Text style={Styles.headerInfoRowTitle}>Project:</Text>
+            <Text numberOfLines={1} style={Styles.headerInfoRowText}>{this.state.job.job.projectName}</Text>
+          </View>
+          <View style={Styles.headerInfoRow}>
+            <Text style={Styles.headerInfoRowTitle}>Application:</Text>
+            <Text numberOfLines={1} style={Styles.headerInfoRowText}>{this.state.job.job.applicationName}</Text>
+          </View>
+          <View style={Styles.headerInfoRow}>
+            <Text style={Styles.headerInfoRowTitle}>Launched by:</Text>
+            <Text numberOfLines={1} style={Styles.headerInfoRowText}>{this.state.job.job.launchedByUser}</Text>
+          </View>
+          <View style={Styles.headerInfoRow}>
+            <Text style={Styles.headerInfoRowTitle}>Priority:</Text>
+            <Text numberOfLines={1} style={Styles.headerInfoRowText}>{this.state.job.job.priority}</Text>
+          </View>
+        </View>
 
-        <View style={Styles.headerInformation}>
-          <View style={Styles.headerInformationRow}>
-            <Text style={Styles.headerStatusTimeTitle}>Project:</Text>
-            <Text style={Styles.headerStatusTimeText}>{this.state.job.job.projectName}</Text>
-          </View>
-          <View style={Styles.headerInformationRow}>
-            <Text style={Styles.headerStatusTimeTitle}>Procedure:</Text>
-            <Text style={Styles.headerStatusTimeText}>{'External'}</Text>
-          </View>
-          <View style={Styles.headerInformationRow}>
-            <Text style={Styles.headerStatusTimeTitle}>Launched by:</Text>
-            <Text style={Styles.headerStatusTimeText}>{this.state.job.job.launchedByUser}</Text></View>
-          <View style={Styles.headerInformationRow}>
-            <Text style={Styles.headerStatusTimeTitle}>Priority:</Text>
-            <Text style={Styles.headerStatusTimeText}>{this.state.job.job.priority}</Text>
-          </View>
+        <View style={[Styles.headerMessage, {backgroundColor: mainColor}]}>
+          <Text style={Styles.headerMessageText}>
+            {this.state.job.job.combinedStatus.message + ': ' + this.state.job.job.combinedStatus.status}
+          </Text>
+        </View>
+
+        <View style={Styles.listHeader}>
+          <Text style={Styles.listHeaderColumn1}>Step name</Text>
+          <Text style={Styles.listHeaderColumn2}>Elapsed</Text>
         </View>
 
       </View>
@@ -124,14 +165,7 @@ export default React.createClass({
   },
 
   renderRow(data) {
-    return (
-      <View style={Styles.list}>
-        <View style={Styles.row}>
-          <Text style={Styles.text}>{data.stepName}</Text>
-          <Text style={Styles.text}>{' : '}</Text>
-          <Text style={Styles.text}>{data.status}</Text>
-        </View>
-      </View>
+    return (null
     );
   },
 

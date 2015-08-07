@@ -4,88 +4,125 @@ import {StyleSheet, PixelRatio} from 'react-native';
 import Colors from './colors-scheme';
 
 export default StyleSheet.create({
-	loader: {
+  loader: {
     flex: 1,
     alignItems: 'center',
     marginTop: 200
   },
 
-   header: {
-    padding: 4,
-    backgroundColor: '#909090',
+  header: {
     flexDirection: 'column'
   },
 
-  headerSeparator: {
-    height: 1,
-    backgroundColor: '#d0d0d0'
-  },
 
   headerTitle: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginVertical: 10
-  },
-
-  headerTitleText: {
-    fontSize: 20,
-    color: '#ffffff'
-  },
-
-  headerStatus: {
-    marginVertical: 10,
-    flexDirection: 'row'
-  },
-
-  headerStatusImage: {
-    width: 50,
-    height: 50,
-    marginRight: 10
-  },
-
-  headerStatusTimeWrapper: {
-    flex: 1,
-    flexDirection: 'column'
-  },
-
-  headerStatusTime: {
-    height: 25,
+    height: 70,
+    paddingHorizontal: 10,
     flexDirection: 'row',
     alignItems: 'center'
   },
 
-  headerStatusTimeTitle: {
-    color: '#e0e0e0',
+  headerTitleText: {
+    flex: 1,
+    fontSize: 16
+  },
+
+  headerTitleImage: {
+    fontSize: 52,
+    marginLeft: 10
+  },
+
+
+  headerStatus: {
+    paddingHorizontal: 5,
+    paddingVertical: 5,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+
+  headerStatusProgress: {
+    paddingHorizontal: 5,
+    flex: 1,
+    flexDirection: 'row'
+  },
+
+  headerStatusProgressText: {
+    marginLeft: 5
+  },
+
+  headerStatusTime: {
+    paddingHorizontal: 5,
+    flex: 1,
+    flexDirection: 'column'
+  },
+
+  headerStatusTimeRow: {
+    flexDirection: 'row'
+  },
+
+  headerStatusTimeIcon: {
+    fontSize: 20,
     marginRight: 10
   },
 
   headerStatusTimeText: {
-    color: '#ffffff',
-    fontWeight: '700'
+    fontSize: 12
   },
 
-  headerInformation: {
-    marginVertical: 10,
+
+  headerInfo: {
+    backgroundColor: '#F6F6F6',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
     flexDirection: 'column',
-    paddingHorizontal: 10
+    borderTopWidth: 1,
+    borderTopColor: '#8C8C8C',
+    borderBottomWidth: 1,
+    borderBottomColor: '#8C8C8C'
   },
 
-  headerInformationRow: {
-    height: 20,
-    flexDirection: 'row'
-  },
-
-
-
-  list: {
-    flexDirection: 'column'
-  },
-
-  row: {
+  headerInfoRow: {
     height: 20,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center'
+  },
+
+  headerInfoRowTitle: {
+    color: '#606060',
+    marginRight: 5
+  },
+
+  headerMessage: {
     paddingHorizontal: 10,
-    backgroundColor: '#f0ffff'
+    paddingVertical: 4
+  },
+
+  headerMessageText: {
+    color: '#ffffff'
+  },
+
+
+  listHeader: {
+    height: 34,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F6F6F6',
+    borderTopWidth: 1,
+    borderTopColor: '#8C8C8C',
+    borderBottomWidth: 1,
+    borderBottomColor: '#8C8C8C'
+  }, 
+
+  listHeaderColumn1: {
+    flex: 65,
+    color: '#606060'
+  },
+
+  listHeaderColumn2: {
+    flex: 35,
+    color: '#606060'
   }
+
 });
