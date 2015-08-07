@@ -150,18 +150,8 @@ export default React.createClass({
       >
         <View>
           <View style={Styles.menuListRow}>
-            <Image source={rowData.icon} style={Styles.menuListIcon}
-                   resizeMode={Image.resizeMode.contain} />
+            <Image source={rowData.icon} style={Styles.menuListIcon}/>
             <Text style={Styles.menuListText}>{rowData.name}</Text>
-<<<<<<< HEAD
-=======
-            {badge}
-            <Icon
-              name="chevron-right"
-              style={Styles.menuRowIcon}
-              size={26} color="#5d5d5d"
-            />
->>>>>>> master
           </View>
           <View style={Styles.separator} />
         </View>
@@ -186,7 +176,7 @@ export default React.createClass({
               size={26} color="black"
             />
           </View>
-          <View style={Styles.notificationSeparator} />
+          <View style={Styles.separator} />
         </View>
       </TouchableHighlight>
     );
@@ -225,7 +215,6 @@ export default React.createClass({
       return (<NotLoggedInComponent />);
     }
 
-<<<<<<< HEAD
     let notification = this.state.notificationShowed ?
       (<View style={Styles.notificationContainer}>
         <ListView
@@ -236,34 +225,6 @@ export default React.createClass({
         />
       </View>) :
       null;
-=======
-    if (this.state.notifications.loading) {
-      //return (<LoaderComponent loading={true} />);
-      //return (
-        //<View style={[ FormJSS.forms.main, LoaderJSS.position ]}>
-        //  <LoaderComponent loading={true} />
-        //</View>
-      //);
-    }
-
-    let notificationState = DashboardStore.getState(),
-      notifications = notificationState.notifications || [],
-      notificationView = notifications.length ?
-        (<View style={Styles.notificationContainer}>
-          <View style={Styles.notigicationLabel}>
-            <Text>Some stuff for your approve</Text>
-          </View>
-          <View style={Styles.notificationSeparator} />
-          <ListView
-            style={Styles.list}
-            automaticallyAdjustContentInsets={false}
-            dataSource={listViewDataSource.cloneWithRows(notifications)}
-            renderRow={this.renderNotificationRow}
-          />
-          <View style={Styles.notificationSeparator} />
-        </View>) :
-        null;
->>>>>>> master
 
     return (
       <View style={Styles.tabContent}>

@@ -165,13 +165,7 @@ export default React.createClass({
   },
 
   renderRow(data) {
-    console.log('DATA', data);
-
-    return (
-      <View style={Styles.listRow}>
-        <Text numberOfLines={1} style={Styles.listRowColumn1}>{data.jobName}</Text>
-        <Text numberOfLines={1} style={Styles.listRowColumn2}>00:23</Text>
-      </View>
+    return (null
     );
   },
 
