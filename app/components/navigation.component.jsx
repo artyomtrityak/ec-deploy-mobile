@@ -49,9 +49,9 @@ export default React.createClass({
           }}>
 
           <NavigatorIOS
-            barTintColor={'blue'}
-            tintColor={'red'}
-            titleTextColor={'green'}
+            barTintColor={'#98dfff'}
+            tintColor={'#0471a2'}
+            titleTextColor={'#000000'}
             style={{flex: 1}}
             initialRoute={{
               component: DashboardComponent,
