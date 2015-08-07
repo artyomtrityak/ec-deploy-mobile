@@ -53,25 +53,15 @@ export default React.createClass({
     this.setState({job, dataSource});
   },
 
-  renderHeader() {
-    if (!this.state.job.job) {
-      return null;
-    }
-
-    console.log('ololo');
-    console.log('this.state.job.job', this.state.job.job);
-
+  getIconAndColor(status) {
     var
       statusImage,
       mainColor,
       error = '#C50C1E',
       success = '#3AC50A',
-      warning = '#ff6d26',
-      startTime = moment(this.state.job.job.start).format('MMM DD, YYYY h:mm A'),
-      elapsedTime = moment.utc(parseInt(this.state.job.job.elapsedTime, 10)).format('mm:ss'),
-      percentageText = this.state.job.job.progressPercentage + '%';
+      warning = '#ff6d26';
 
-    switch (this.state.job.job.combinedStatus.status) {
+    switch (status) {
       case 'running_error':
         statusImage = 'repeat';
         mainColor = error;
@@ -100,6 +90,23 @@ export default React.createClass({
         statusImage = '';
         mainColor = '';
     }
+
+    return {statusImage: statusImage, mainColor: mainColor};
+  },
+
+  renderHeader() {
+    if (!this.state.job.job) {
+      return null;
+    }
+
+    console.log('ololo');
+    console.log('this.state.job.job', this.state.job.job);
+
+    var
+      {statusImage, mainColor} = this.getIconAndColor(this.state.job.job.combinedStatus.status),
+      startTime = moment(this.state.job.job.start).format('MMM DD, YYYY h:mm A'),
+      elapsedTime = moment.utc(parseInt(this.state.job.job.elapsedTime, 10)).format('mm:ss'),
+      percentageText = this.state.job.job.progressPercentage + '%';
 
     return (
       <View style={Styles.header}>
@@ -158,6 +165,7 @@ export default React.createClass({
         <View style={Styles.listHeader}>
           <Text style={Styles.listHeaderColumn1}>Step name</Text>
           <Text style={Styles.listHeaderColumn2}>Elapsed</Text>
+          <View style={Styles.listHeaderColumn3}/>
         </View>
 
       </View>
@@ -165,7 +173,16 @@ export default React.createClass({
   },
 
   renderRow(data) {
-    return (null
+    var
+      {statusImage, mainColor} = this.getIconAndColor(data.combinedStatus.status),
+      elapsedTime = moment.utc(parseInt(data.elapsedTime, 10)).format('mm:ss');
+
+    return (
+      <View style={Styles.listRow}>
+        <Text numberOfLines={1} style={Styles.listRowColumn1}>{data.jobName}</Text>
+        <Text numberOfLines={1} style={Styles.listRowColumn2}>{elapsedTime}</Text>
+        <Icon name={statusImage} style={Styles.listRowColumn3} color={mainColor}/>
+      </View>
     );
   },
 
