@@ -51,6 +51,11 @@ class PipelineStore extends EventEmitter {
   emitChange() {
     this.emit('change');
   }
+
+  emitRedirect () {
+
+    this.emit('redirect');
+  }
 }
 var store = new PipelineStore();
 
@@ -59,6 +64,7 @@ store.dispatchToken = AppDispatcher.register((payload) => {
   var action = payload.action;
 
   switch (action.type) {
+    case ActionTypes.RUNNING_PIPELINE:
     case ActionTypes.RETRIEVING_PIPELINES:
     case ActionTypes.RETRIEVING_PIPELINE_RUNS:
     case ActionTypes.RETRIEVING_PIPELINE_DASHBOARD_DATA:
@@ -73,6 +79,12 @@ store.dispatchToken = AppDispatcher.register((payload) => {
 
       _setPipelines(action.pipelines);
       store.emitChange();
+      break;
+
+    case ActionTypes.RUN_PIPELINE:
+      _hideLoading();
+
+      store.emitRedirect();
       break;
 
     case ActionTypes.RETRIEVED_PIPELINE_RUNS:

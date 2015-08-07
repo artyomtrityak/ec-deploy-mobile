@@ -22,8 +22,12 @@ module.exports = {
             {
                 test: /create-icon-set\.js$/,
                 loaders: ['babel-loader?optional=runtime']
+            },
+            {
+                test: /react-native-swipeout\/[a-z]*\.js$/,
+                loaders: ['babel-loader?optional=runtime']
             }
-        ],
+        ]
     },
     output: {
         path: path.join(__dirname, '/'),

@@ -34,7 +34,7 @@ var styles = StyleSheet.create({
  }
 
 export default React.createClass({
-  displayName: 'JobsComponent',
+  displayName: 'PipelineDashboardComponent',
 
   propTypes: {
     navigator: React.PropTypes.object
