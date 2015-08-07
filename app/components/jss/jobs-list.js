@@ -17,7 +17,7 @@ export default StyleSheet.create({
   },
   separator: {
     height: 1 / PixelRatio.get(),
-    backgroundColor: Colors.get('separatorColor')
+    backgroundColor: '#111'
   },
   text: {
     flex: 1,
