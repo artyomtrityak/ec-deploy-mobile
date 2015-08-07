@@ -4,6 +4,14 @@ import { StyleSheet, PixelRatio } from 'react-native';
 import Colors from './colors-scheme';
 
 export default StyleSheet.create({
+  dashboardList: {
+    marginTop: 0,
+    marginBottom: 0,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'stretch',
+    flex: 1
+  },
   tabContent: {
     marginTop: 64,
     marginBottom: 45,
@@ -54,7 +62,7 @@ export default StyleSheet.create({
     flexDirection: 'row'
   },
   notificationContainer: {
-    height: 190
+    height: 346
   },
   notificationIcon: {
     flex: 1,
@@ -62,14 +70,15 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   notificationRow: {
-    backgroundColor: '#f6f6f8',
+    // backgroundColor: '#f6f6f8',
     flexDirection: 'row',
     padding: 10,
     justifyContent: 'space-around',
     alignItems: 'center'
   },
   notificationText: {
-    fontSize: 14,
+    fontSize: 12,
+    lineHeight: 14,
     flex: 9
   },
   separator: {
@@ -87,8 +96,13 @@ export default StyleSheet.create({
     marginBottom: 10
   },
   notigicationLabel: {
-    backgroundColor: '#fd9527',
+    backgroundColor: '#f6f6f8',
+    alignItems: 'center',
     fontSize: 28,
     padding: 10
+  },
+  notificationTypeIcon: {
+    width: 20,
+    marginRight: 10
   }
 });
