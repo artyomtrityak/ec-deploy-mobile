@@ -116,13 +116,40 @@ export default StyleSheet.create({
   }, 
 
   listHeaderColumn1: {
-    flex: 65,
+    marginLeft: 6,
+    flex: 80,
     color: '#606060'
   },
 
   listHeaderColumn2: {
-    flex: 35,
+    flex: 20,
     color: '#606060'
+  },
+
+  listHeaderColumn3: {
+    width: 28
+  },
+
+  listRow: {
+    height: 42,
+    paddingHorizontal: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#cccccc'
+  },
+
+  listRowColumn1: {
+    flex: 80
+  },
+
+  listRowColumn2: {
+    marginLeft: 6,
+    flex: 20
+  },
+
+  listRowColumn3: {
+    fontSize: 28
   }
 
 });
