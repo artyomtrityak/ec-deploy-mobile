@@ -4,6 +4,7 @@ import React, {
   View,
   ListView,
   TouchableHighlight,
+  Image,
   Text
   } from 'react-native';
 
@@ -13,6 +14,8 @@ import LoaderComponent from './shared/loader.component';
 import GateApprovalComponent from './gate-approval.component';
 import Styles from './jss/jobs-list';
 import Colors from './jss/colors-scheme';
+import ListStyles from './jss/dashboard';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 function Refresh (smartLoad=false) {
@@ -66,11 +69,18 @@ export default React.createClass({
         underlayColor={Colors.get('lightGray')}
         >
         <View>
-          <View style={Styles.row}>
-            <Text style={{fontSize: 16}}>{++rowID + '. '}</Text>
+          <View style={ListStyles.notificationRow}>
+            <Text style={{fontSize: 16, width: 30, textAlign: 'center'}}>{++rowID + '.'}</Text>
+            <Image source={require('image!pipeIcon')} style={ListStyles.notificationTypeIcon}
+                   resizeMode={Image.resizeMode.contain} />
             <Text style={Styles.text}>{rowData.flowRuntimeName}</Text>
+            <Icon
+              name="chevron-right"
+              style={ListStyles.menuRowIcon}
+              size={16} color="#5d5d5d"
+            />
           </View>
-          <View style={Styles.separator} />
+          <View style={ListStyles.notificationSeparator} />
         </View>
       </TouchableHighlight>
     );
