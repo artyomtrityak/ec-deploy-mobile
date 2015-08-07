@@ -5,7 +5,8 @@ import React, {
   Text,
   TextInput,
   View,
-  Image
+  Image,
+  TouchableHighlight
 } from 'react-native';
 
 //Components
@@ -71,41 +72,39 @@ export default React.createClass({
       );
     }
 
-
     return (
-      <View style={ FormJSS.login.bg }>
-        <View style={[ FormJSS.login.formRow, FormJSS.login.imageRow ]}>
-          <Image source={require('image!flow_logo')}
-                 style={{width: '275', height: '113'}}
-                 resizeMode={Image.resizeMode.contain}
-          />
-        </View>
-        <View style={FormJSS.login.formRow }>
-          <Text style={FormJSS.login.flowLabel}>Electric Flow Mobile</Text>
-        </View>
-        <View style={FormJSS.login.line}/>
-        <View style={FormJSS.login.formRow }>
+      <View style={ FormJSS.forms.main }>
+        <View style={ FormJSS.forms.firstRow }>
+          <Image source={require('image!logo')} />
+          <Text style={[ FormJSS.texts.main, FormJSS.texts.bold ]}>
+            Server
+          </Text>
           <TextInput
-            style={ FormJSS.login.input }
+            style={ FormJSS.inputs.main }
             placeholder={'Deploy server address'}
             onChangeText={this.onChangeText.bind(this, 'server')}
             value={this.state.server}
           />
         </View>
-        <View style={FormJSS.login.line}/>
-        <View style={FormJSS.login.formRow }>
+
+        <View style={ FormJSS.forms.row }>
+          <Text style={[ FormJSS.texts.main, FormJSS.texts.bold ]}>
+            Login
+          </Text>
           <TextInput
-            style={ FormJSS.login.input }
+            style={ FormJSS.inputs.main }
             placeholder={'Your Deploy username'}
             onChangeText={this.onChangeText.bind(this, 'userName')}
             value={this.state.userName}
           />
         </View>
-        <View style={FormJSS.login.line}/>
 
-        <View style={FormJSS.login.formRow }>
+        <View style={ FormJSS.forms.row }>
+          <Text style={[ FormJSS.texts.main, FormJSS.texts.bold ]}>
+            Password
+          </Text>
           <TextInput
-            style={ FormJSS.login.input }
+            style={ FormJSS.inputs.main }
             password={true}
             secureTextEntry={true}
             placeholder={'Your Deploy password'}
@@ -113,17 +112,21 @@ export default React.createClass({
             value={this.state.password}
           />
         </View>
-        <View style={FormJSS.login.line}/>
 
-        <View style={[FormJSS.login.formRow, FormJSS.login.btnRow]}>
+        <View style={ FormJSS.forms.row }>
           <ButtonComponent
             onPress={this.onConnect}
-            style={ FormJSS.login.btn }
-            text={'Log in'}
+            text={'Connect'}
+            icon={'sign-in'}
             color={Colors.get('white')}
             backgroundColor={Colors.get('darkBlue')}
           />
-
+          
+          {/* This is just example */}
+          <View style={ FormJSS.forms.row }>
+            <TweetButtonComponent />
+          </View>
+          
         </View>
       </View>
     );

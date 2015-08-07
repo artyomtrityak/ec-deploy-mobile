@@ -4,6 +4,7 @@ import AppDispatcher from 'dispatchers/app.dispatcher';
 import PipelinesWebUtils from 'webutils/pipelines.webutils';
 import { ActionTypes } from 'constants/app.constants';
 
+
 export default {
   getRuntimeDetails(flowRuntimeId) {
     AppDispatcher.handleViewAction({
@@ -67,20 +68,6 @@ export default {
     });
   },
 
-  runPipeline(pipelineName) {
-    AppDispatcher.handleViewAction({
-      type: ActionTypes.RUNNING_PIPELINE
-    });
-
-    PipelinesWebUtils.runPipeline(pipelineName)
-    .then((data) => {
-      AppDispatcher.handleServerAction({
-        type: ActionTypes.RUN_PIPELINE,
-        pipelineRuns: data
-      });
-    });
-  },
-
   getApprovals() {
     AppDispatcher.handleViewAction({
       type: ActionTypes.RETRIEVING_APPROVALS
@@ -107,42 +94,26 @@ export default {
     AppDispatcher.handleViewAction({
       type: ActionTypes.RETRIEVING_PIPELINE_DASHBOARD_DATA
     });
-    this.fetchPipelineData().then((data) => {
-      AppDispatcher.handleServerAction({
-        type: ActionTypes.RETRIEVED_PIPELINE_DASHBOARD_DATA,
-        pipelines: data.pipelines,
-        pipelineRuns: data.pipelineRuns
-      });
-    });
-  },
+    PipelinesWebUtils.getPipelines()
+    .then((pipelines) => {
+      return [pipelines, PipelinesWebUtils.getPipelineRuns()];
+    })
+    .spread((pipelines, pipelineRuns) => {
+        let approvals = [];
+        if(pipelineRuns && pipelineRuns.length) {
+          pipelineRuns.forEach((pipelineRun) => {
+            if(pipelineRun.approvers) {
+              approvals.push(pipelineRun);
+            }
+          });
+        }
 
-  manualNotificationsFetch() {
-    AppDispatcher.handleViewAction({
-      type: ActionTypes.RETRIEVING_NOTIFICATION
-    });
-    this.fetchNotifications();
-  },
-
-  fetchNotifications() {
-    this.fetchPipelineData().then((data) => {
-      AppDispatcher.handleServerAction({
-        type: ActionTypes.RETRIEVED_NOTIFICATION,
-        pipelines: data.pipelines,
-        pipelineRuns: data.pipelineRuns
-      });
-    });
-  },
-
-  fetchPipelineData() {
-    return PipelinesWebUtils.getPipelines()
-      .then((pipelines) => {
-        return [pipelines, PipelinesWebUtils.getPipelineRuns()];
-      })
-      .spread((pipelines, pipelineRuns) => {
-        return {
+        AppDispatcher.handleServerAction({
+          type: ActionTypes.RETRIEVED_PIPELINE_DASHBOARD_DATA,
           pipelines: pipelines,
-          pipelineRuns: pipelineRuns
-        };
-      });
+          pipelineRuns: pipelineRuns,
+          approvals: approvals
+        });
+    });
   }
 };

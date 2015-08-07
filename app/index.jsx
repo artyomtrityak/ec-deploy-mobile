@@ -45,7 +45,6 @@ var ECDeploy = React.createClass({
       return (
         <NavigatorIOS
           style={{flex: 1}}
-          navigationBarHidden={true}
           initialRoute={{
             component: LoginComponent,
             title: 'Login'

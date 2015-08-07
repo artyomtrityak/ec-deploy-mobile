@@ -20,8 +20,7 @@ export default React.createClass({
     icon: React.PropTypes.string,
     backgroundColor: React.PropTypes.string,
     color: React.PropTypes.string,
-    btnWrapperStyle: React.PropTypes.obj,
-    btnStyle: React.PropTypes.obj
+    style: React.PropTypes.obj
   },
 
   render() {
@@ -30,14 +29,11 @@ export default React.createClass({
       <TouchableHighlight
         onPress={this.props.onPress}
         underlayColor={this.props.color}
-        style={this.props.btnWrapperStyle}
+        style={this.props.style}
       >
-        <View style={[
-          ButtonsStyles.buttonWrapper,
-          {backgroundColor: this.props.backgroundColor},
-          this.props.btnStyle
-        ]}
-        >
+        <View style={[ ButtonsStyles.buttonWrapper, {
+          backgroundColor: this.props.backgroundColor
+        } ]}>
           
           {icon}
 

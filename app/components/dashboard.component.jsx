@@ -11,23 +11,20 @@ import React, {
   ScrollView
   } from 'react-native';
 
-//TODO: this component is cause of React packager errors.
-//import LoaderComponent from './shared/loader.component';
-import NotLoggedInComponent from './shared/not-logged-in.component';
-import PipelineDashboardComponent from './pipeline-dashboard.component';
-import JobsComponent from './jobs.component';
-import GateApprovalComponent from './gate-approval.component';
-
-import SettingsStore from 'stores/settings.store';
-import DashboardStore from 'stores/dashboard.store';
-
-import PipelinesActions from 'actions/pipelines.actions';
-
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Colors from './jss/colors-scheme';
 import Styles from './jss/dashboard';
-import LoaderJSS from './jss/loader';
-import FormJSS from './jss/forms';
+
+import SettingsStore from 'stores/settings.store';
+
+import ButtonComponent from './shared/button.component';
+import NotLoggedInComponent from './shared/not-logged-in.component';
+import JobsComponent from './jobs.component';
+
+//import ApplicationComponent from './application.component';
+//import EnvironmentComponent from './environment.component';
+//import PipelinesComponent from './pipelines.component';
+import PipelineDashboardComponent from './pipeline-dashboard.component';
 
 let listViewDataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
   menuListItems = [
@@ -49,24 +46,63 @@ let listViewDataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 
     targetComponent: PipelineDashboardComponent,
     targetComponentTitle: 'Pipelines'
   }
-];
+],
+  notificationsListItems = [
+    {
+      text: 'Notification Text may be very various',
+      targetComponent: JobsComponent,
+      targetComponentTitle: 'Jobs list'
+    },
+    {
+      text: 'Notification Text may be very various',
+      targetComponent: JobsComponent,
+      targetComponentTitle: 'Jobs list'
+    },
+    {
+      text: 'Notification Text may be very various. Also it can have very various length',
+      targetComponent: JobsComponent,
+      targetComponentTitle: 'Jobs list'
+    },
+    {
+      text: 'Notification Text may be very various',
+      targetComponent: JobsComponent,
+      targetComponentTitle: 'Jobs list'
+    },
+    {
+      text: 'Notification Text may be very various',
+      targetComponent: JobsComponent,
+      targetComponentTitle: 'Jobs list'
+    },
+    {
+      text: 'Notification Text may be very various',
+      targetComponent: JobsComponent,
+      targetComponentTitle: 'Jobs list'
+    },
+    {
+      text: 'Notification Text may be very various',
+      targetComponent: JobsComponent,
+      targetComponentTitle: 'Jobs list'
+    },
+    {
+      text: 'Notification Text may be very various',
+      targetComponent: JobsComponent,
+      targetComponentTitle: 'Jobs list'
+    },
+    {
+      text: 'Notification Text may be very various',
+      targetComponent: JobsComponent,
+      targetComponentTitle: 'Jobs list'
+    },
+    {
+      text: 'Notification Text may be very various',
+      targetComponent: JobsComponent,
+      targetComponentTitle: 'Jobs list'
+    }
+  ];
 
-function Refresh () {
-  let settingsState = SettingsStore.getState();
-
-  if (!settingsState.user) {
+function Refresh (smartLoad=false) {
+  if (!SettingsStore.getState().user) {
     return;
-  }
-
-  console.log('---');
-  console.log('atscDynamicRefresh');
-  console.log('---');
-  console.log();
-
-  if (!settingsState.autoSync) {
-    PipelinesActions.manualNotificationsFetch();
-  } else {
-    PipelinesActions.fetchNotifications();
   }
 }
 
@@ -85,35 +121,26 @@ export default React.createClass({
   getInitialState() {
     return {
       settings: SettingsStore.getState(),
-      notifications: DashboardStore.getState()
+      menuDataSource: listViewDataSource.cloneWithRows(menuListItems),
+      notificationShowed: false
     };
   },
 
   componentDidMount() {
-    DashboardStore.on('change', this.handleChange);
     SettingsStore.on('change', this.handleChange);
-    PipelinesActions.fetchNotifications();
   },
 
   componentWillUnmount() {
-    DashboardStore.off('change', this.handleChange);
     SettingsStore.off('change', this.handleChange);
   },
 
   handleChange() {
     this.setState({
-      settings: SettingsStore.getState(),
-      notifications: DashboardStore.getState()
+      settings: SettingsStore.getState()
     });
   },
 
   renderMenuRow (rowData, sectionID, rowID) {
-    let notifications = DashboardStore.getState().notifications || [],
-      badge = notifications.length && rowData.targetComponent === PipelineDashboardComponent ? (
-      <View style={Styles.menuListBadge}>
-        <Text style={Styles.menuListBadgeText}>{notifications.length}</Text>
-      </View>
-    ) : null;
     return (
       <TouchableHighlight
         onPress={
@@ -125,7 +152,6 @@ export default React.createClass({
           <View style={Styles.menuListRow}>
             <Image source={rowData.icon} style={Styles.menuListIcon}/>
             <Text style={Styles.menuListText}>{rowData.name}</Text>
-            {badge}
           </View>
           <View style={Styles.separator} />
         </View>
@@ -137,7 +163,7 @@ export default React.createClass({
     return (
       <TouchableHighlight
         onPress={
-          this.showApprovalDetails.bind(this, rowData.flowRuntimeId)
+          this.goToNextScreen.bind(this, rowData.targetComponent, rowData.targetComponentTitle)
           }
         underlayColor={Colors.get('white')}
       >
@@ -167,19 +193,21 @@ export default React.createClass({
     }
   },
 
-  showApprovalDetails(flowRuntimeId) {
-    this.props.navigator.push({
-      component: GateApprovalComponent,
-      title: 'Job Details',
-      passProps: {flowRuntimeId: flowRuntimeId},
-      leftButtonTitle: 'Dashboard',
-      onLeftButtonPress: () => this.goBackFromApprove()
-    });
-  },
-
-  goBackFromApprove () {
-    PipelinesActions.fetchNotifications();
-    this.props.navigator.pop();
+  toggleNotificationView (notifications) {
+    let state;
+    if (notifications.length) {
+      listViewDataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+      state = {
+        notificationDataSource: listViewDataSource.cloneWithRows(notifications),
+        notificationShowed: true
+      };
+    } else {
+      state = {
+        notificationDataSource: null,
+        notificationShowed: false
+      };
+    }
+    this.setState(state);
   },
 
   render() {
@@ -187,39 +215,41 @@ export default React.createClass({
       return (<NotLoggedInComponent />);
     }
 
-    if (this.state.notifications.loading) {
-      //return (<LoaderComponent loading={true} />);
-      //return (
-        //<View style={[ FormJSS.forms.main, LoaderJSS.position ]}>
-        //  <LoaderComponent loading={true} />
-        //</View>
-      //);
-    }
-
-    let notificationState = DashboardStore.getState(),
-      notifications = notificationState.notifications || [],
-      notificationView = notifications.length ?
-        (<View style={Styles.notificationContainer}>
-          <ListView
-            style={Styles.list}
-            automaticallyAdjustContentInsets={false}
-            dataSource={listViewDataSource.cloneWithRows(notifications)}
-            renderRow={this.renderNotificationRow}
-          />
-        </View>) :
-        null;
+    let notification = this.state.notificationShowed ?
+      (<View style={Styles.notificationContainer}>
+        <ListView
+          style={Styles.list}
+          automaticallyAdjustContentInsets={false}
+          dataSource={this.state.notificationDataSource}
+          renderRow={this.renderNotificationRow}
+        />
+      </View>) :
+      null;
 
     return (
       <View style={Styles.tabContent}>
-        {notificationView}
+        {notification}
         <View style={Styles.menuListContainer}>
           <ListView
             style={Styles.list}
             automaticallyAdjustContentInsets={false}
-            dataSource={listViewDataSource.cloneWithRows(menuListItems)}
+            dataSource={this.state.menuDataSource}
             renderRow={this.renderMenuRow}
           />
         </View>
+        <ButtonComponent
+          style={Styles.toggleButton}
+          onPress={
+            this.toggleNotificationView.bind(
+              this,
+              this.state.notificationShowed ? [] : notificationsListItems
+            )
+            }
+          text={'Toggle Notifications'}
+          color={Colors.get('white')}
+          backgroundColor={Colors.get('darkBlue')}
+
+        />
       </View>
     );
   }

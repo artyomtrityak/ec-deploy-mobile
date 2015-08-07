@@ -34,7 +34,6 @@
     "node-libs-browser": "^0.5.2",
     "react-native": "^0.7.0-rc.2",
     "react-native-social-share": "^0.3.0",
-    "react-native-swipeout": "^2.0.5",
     "react-native-vector-icons": "^0.6.3",
     "webpack": "^1.9.10"
   }

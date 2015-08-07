@@ -9,13 +9,14 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 350,
-    height: 40,
-    borderRadius: 2
+    width: 250,
+    height: 30,
+    borderRadius: 5
   },
 
   text: {
-    fontSize: 20,
-    fontWeight: '200'
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginLeft: 5
   }
 });

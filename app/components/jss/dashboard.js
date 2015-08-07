@@ -12,15 +12,6 @@ export default StyleSheet.create({
     alignItems: 'stretch',
     flex: 1
   },
-  menuListBadge: {
-    borderRadius: 10,
-    width: 30,
-    height: 30
-  },
-  menuListBadgeText: {
-    color: Colors.get('white'),
-    backgroundColor: Colors.get('lightBlue')
-  },
   menuListIcon: {
     marginRight: 10
   },
@@ -33,10 +24,10 @@ export default StyleSheet.create({
     fontSize: 25
   },
   menuListContainer: {
-    flex: 3
+    flex: 4
   },
   notificationContainer: {
-    flex: 7
+    flex: 6
   },
   notificationIcon: {
     flex: 1,
@@ -56,5 +47,8 @@ export default StyleSheet.create({
   separator: {
     height: 1,
     backgroundColor: Colors.get('gray')
+  },
+  toggleButton: {
+    flex: 1
   }
 });
