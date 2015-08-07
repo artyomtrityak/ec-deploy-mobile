@@ -18,7 +18,7 @@ import PipelineDashboardComponent from './pipeline-dashboard.component';
 import JobsComponent from './jobs.component';
 
 import SettingsStore from 'stores/settings.store';
-import NotificationStore from 'stores/notification.store';
+import DashboardStore from 'stores/dashboard.store';
 
 import PipelinesActions from 'actions/pipelines.actions';
 
@@ -79,29 +79,35 @@ export default React.createClass({
   getInitialState() {
     return {
       settings: SettingsStore.getState(),
-      notifications: NotificationStore.getState()
+      notifications: DashboardStore.getState()
     };
   },
 
   componentDidMount() {
-    NotificationStore.on('change', this.handleChange);
+    DashboardStore.on('change', this.handleChange);
     SettingsStore.on('change', this.handleChange);
     PipelinesActions.fetchNotifications();
   },
 
   componentWillUnmount() {
-    NotificationStore.off('change', this.handleChange);
+    DashboardStore.off('change', this.handleChange);
     SettingsStore.off('change', this.handleChange);
   },
 
   handleChange() {
     this.setState({
       settings: SettingsStore.getState(),
-      notifications: NotificationStore.getState()
+      notifications: DashboardStore.getState()
     });
   },
 
   renderMenuRow (rowData, sectionID, rowID) {
+    let notifications = DashboardStore.getState().notifications || [],
+      badge = notifications.length && rowData.targetComponent === PipelineDashboardComponent ? (
+      <View style={Styles.menuListBadge}>
+        <Text style={Styles.menuListBadgeText}>{notifications.length}</Text>
+      </View>
+    ) : null;
     return (
       <TouchableHighlight
         onPress={
@@ -113,6 +119,7 @@ export default React.createClass({
           <View style={Styles.menuListRow}>
             <Image source={rowData.icon} style={Styles.menuListIcon}/>
             <Text style={Styles.menuListText}>{rowData.name}</Text>
+            {badge}
           </View>
           <View style={Styles.separator} />
         </View>
@@ -168,7 +175,7 @@ export default React.createClass({
       //);
     }
 
-    let notificationState = NotificationStore.getState(),
+    let notificationState = DashboardStore.getState(),
       notifications = notificationState.notifications || [],
       notificationView = notifications.length ?
         (<View style={Styles.notificationContainer}>
