@@ -36,7 +36,6 @@ function _parseNotifications (pipelineRuns) {
       }
     });
   }
-
   let formatted = [],
     user = SettingsStore.getState().user.userName;
   approvals.forEach((approval) => {
@@ -45,7 +44,8 @@ function _parseNotifications (pipelineRuns) {
       formatted.push({
         text: `There are need Your approval in ${approval.pipelineName} Pipeline.
 Current stage is ${approval.currentStage}.
-Last modify time is ${moment(approval.modifyTime).format('MMM DD, YYYY h:mm A')}`
+Last modify time is ${moment(approval.modifyTime).format('MMM DD, YYYY h:mm A')}`,
+        flowRuntimeId: approval.flowRuntimeId
       });
     }
   });
