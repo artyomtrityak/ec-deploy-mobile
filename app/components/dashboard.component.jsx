@@ -58,11 +58,6 @@ function Refresh () {
     return;
   }
 
-  console.log('---');
-  console.log('atscDynamicRefresh');
-  console.log('---');
-  console.log();
-
   if (!settingsState.autoSync) {
     PipelinesActions.manualNotificationsFetch();
   } else {
