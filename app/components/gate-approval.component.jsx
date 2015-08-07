@@ -169,24 +169,24 @@ export default React.createClass({
       <View style={ Styles.main }>
         <View style={ [Styles.row, Styles.firstRow]}>
           <Text style={Styles.parameterType}>Pipeline name </Text>
-          <Text style={Styles.parameterName}>{this.state.pipelineName}</Text>
+          <Text numberOfLines={1} style={Styles.parameterName}>{this.state.pipelineName}</Text>
         </View>
         <View style={ Styles.row }>
           <Text style={Styles.parameterType}>Stage name </Text>
-          <Text style={Styles.parameterName}>{this.state.stageName}</Text>
+          <Text numberOfLines={1} style={Styles.parameterName}>{this.state.stageName}</Text>
         </View>
         <View style={ Styles.row }>
           <Text style={Styles.parameterType}>Task name </Text>
-          <Text style={Styles.parameterName}>{this.state.taskName}</Text>
+          <Text numberOfLines={1} style={Styles.parameterName}>{this.state.taskName}</Text>
         </View>
         <View style={ [Styles.row, Styles.separator] } />
         <View style={ Styles.row }>
           <Text style={Styles.parameterType}>Approvers </Text>
-          <Text style={Styles.parameterName}>{this.state.approvers}</Text>
+          <Text numberOfLines={1} style={Styles.parameterName}>{this.state.approvers}</Text>
         </View>
         <View style={ Styles.row }>
           <Text style={Styles.parameterType}>Gate Type </Text>
-          <Text style={Styles.parameterName}>{this.state.gateType}</Text>
+          <Text numberOfLines={1} style={Styles.parameterName}>{this.state.gateType}</Text>
         </View>
         <View style={[Styles.row, {backgroundColor: 'rgba(0, 0, 0, 0.1)', marginRight: '10', marginLeft: '10'}]}>
           <Text style={{lineHeight: 18}}>Optional comment </Text>
