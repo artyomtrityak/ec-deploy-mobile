@@ -13,7 +13,8 @@ import NotLoggenInComponent from './shared/not-logged-in.component';
 import LoaderComponent from './shared/loader.component';
 import Styles from './jss/jobs-list';
 import Colors from './jss/colors-scheme';
-
+import ListStyles from './jss/dashboard';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 function Refresh (smartLoad=false) {
   if (smartLoad === true && PipelinesStore.getState().pipelineRuns) {
@@ -65,11 +66,12 @@ export default React.createClass({
         underlayColor={Colors.get('lightGray')}
         >
         <View>
-          <View style={Styles.row}>
-            <Text style={{fontSize: 16}}>{++rowID + '. '}</Text>
+          <View style={ListStyles.notificationRow}>
+            <Text style={{fontSize: 16, width: 30, textAlign: 'center'}}>{++rowID + '.'}</Text>
             <Text style={Styles.text}>{rowData.flowRuntimeName}</Text>
           </View>
-          <View style={Styles.separator} />
+
+          <View style={ListStyles.notificationSeparator} />
         </View>
       </TouchableHighlight>
     );

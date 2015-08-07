@@ -51,7 +51,8 @@ export default StyleSheet.create({
   },
   menuListText: {
     flex: 1,
-    fontSize: 24
+    fontSize: 24,
+    marginLeft: 30
   },
   menuListContainer: {
     flex: 1,

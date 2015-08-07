@@ -128,7 +128,7 @@ export default React.createClass({
               size={26} color="#5d5d5d"
             />
           </View>
-          <View style={Styles.separator} />
+          <View style={Styles.notificationSeparator} />
         </View>
       </TouchableHighlight>
     );

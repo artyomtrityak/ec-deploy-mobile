@@ -15,6 +15,8 @@ import PipelineRunsComponent from './pipeline-runs.component';
 import Swipeout from 'react-native-swipeout';
 import Styles from './jss/jobs-list';
 import Colors from './jss/colors-scheme';
+import ListStyles from './jss/dashboard';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 function Refresh (smartLoad=false) {
@@ -77,16 +79,17 @@ export default React.createClass({
       pipelineName = rowData.pipeline.pipelineName;
     }
     return (
-      <Swipeout backgroundColor="#ffffff" right={[{text: 'Run', onPress: this.runPipeline.bind(this, pipelineName)}]}>
+      <Swipeout backgroundColor="#ffffff" right={[{backgroundColor: '#7AC64A', text: 'Run', onPress: this.runPipeline.bind(this, pipelineName)}]}>
         <TouchableHighlight
           underlayColor={Colors.get('white')}
           >
           <View>
-            <View style={Styles.row}>
-              <Text style={{fontSize: 16}}>{++rowID + '. '}</Text>
+            <View style={ListStyles.notificationRow}>
+              <Text style={{fontSize: 16, width: 30, textAlign: 'center'}}>{++rowID + '.'}</Text>
               <Text style={Styles.text}>{pipelineName}</Text>
             </View>
-            <View style={Styles.separator} />
+
+            <View style={ListStyles.notificationSeparator} />
           </View>
         </TouchableHighlight>
       </Swipeout>

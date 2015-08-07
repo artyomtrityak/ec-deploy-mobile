@@ -88,8 +88,6 @@ export default React.createClass({
         >
         <View>
           <View style={Styles.menuListRow}>
-            <Image source={rowData.icon} style={Styles.menuListIcon}
-                   resizeMode={Image.resizeMode.contain} />
             <Text style={Styles.menuListText}>{rowData.name}</Text>
             {badge}
             <Icon
@@ -98,7 +96,7 @@ export default React.createClass({
               size={26} color="#5d5d5d"
             />
           </View>
-          <View style={Styles.separator} />
+          <View style={Styles.notificationSeparator} />
         </View>
       </TouchableHighlight>
     );
@@ -107,7 +105,7 @@ export default React.createClass({
   getRows() {
     return [
       {
-        name: 'Pipelines',
+        name: 'All Pipelines',
         icon: require('image!pipeIcon'),
         targetComponent: PipelinesComponent,
         targetComponentTitle: 'Pipelines list',
