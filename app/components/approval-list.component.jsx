@@ -9,8 +9,6 @@ import React, {
 
 import PipelinesActions from 'actions/pipelines.actions';
 import PipelinesStore from 'stores/pipeline.store';
-import SettingsStore from 'stores/settings.store';
-import NotLoggedInComponent from './shared/not-logged-in.component';
 import LoaderComponent from './shared/loader.component';
 import GateApprovalComponent from './gate-approval.component';
 import Styles from './jss/jobs-list';
@@ -57,8 +55,7 @@ export default React.createClass({
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.setState({
       dataSource: ds.cloneWithRows(PipelinesStore.getState().approvals),
-      approvals: PipelinesStore.getState(),
-      settings: SettingsStore.getState()
+      approvals: PipelinesStore.getState()
     });
   },
 
@@ -88,11 +85,6 @@ export default React.createClass({
   },
 
   render() {
-
-    if (!this.state.settings.user) {
-      return (<NotLoggedInComponent />);
-    }
-
     if (this.state.approvals.loading) {
       return (
         <View style={Styles.loader}>
