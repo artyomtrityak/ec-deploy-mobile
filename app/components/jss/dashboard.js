@@ -70,7 +70,6 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   notificationRow: {
-    // backgroundColor: '#f6f6f8',
     flexDirection: 'row',
     padding: 10,
     justifyContent: 'space-around',
@@ -98,7 +97,6 @@ export default StyleSheet.create({
   notigicationLabel: {
     backgroundColor: '#f6f6f8',
     alignItems: 'center',
-    fontSize: 28,
     padding: 10
   },
   notificationTypeIcon: {

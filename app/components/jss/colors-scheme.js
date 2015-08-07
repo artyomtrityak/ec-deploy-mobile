@@ -5,12 +5,13 @@ import Immutable from 'immutable';
 export default Immutable.Map({
   black: '#000',
 
-  lightGray: '#CCCCCC',
-  gray: 'gray',
-  darkGray: '#676767',
+  lightGray: '#eeedf3',
+  gray: '#c8c7cc',
+  darkGray: 'gray',
 
   white: '#FFFFFF',
 
+  skyBlue: '#bae3f7',
   lightBlue: '#00aced',
   darkBlue: '#567b99',
 
