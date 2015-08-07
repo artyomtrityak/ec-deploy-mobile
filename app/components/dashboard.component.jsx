@@ -117,9 +117,15 @@ export default React.createClass({
       >
         <View>
           <View style={Styles.menuListRow}>
-            <Image source={rowData.icon} style={Styles.menuListIcon}/>
+            <Image source={rowData.icon} style={Styles.menuListIcon}
+                   resizeMode={Image.resizeMode.contain} />
             <Text style={Styles.menuListText}>{rowData.name}</Text>
             {badge}
+            <Icon
+              name="chevron-right"
+              style={Styles.menuRowIcon}
+              size={26} color="#5d5d5d"
+            />
           </View>
           <View style={Styles.separator} />
         </View>
@@ -144,7 +150,7 @@ export default React.createClass({
               size={26} color="black"
             />
           </View>
-          <View style={Styles.separator} />
+          <View style={Styles.notificationSeparator} />
         </View>
       </TouchableHighlight>
     );
@@ -179,12 +185,17 @@ export default React.createClass({
       notifications = notificationState.notifications || [],
       notificationView = notifications.length ?
         (<View style={Styles.notificationContainer}>
+          <View style={Styles.notigicationLabel}>
+            <Text>Some stuff for your approve</Text>
+          </View>
+          <View style={Styles.notificationSeparator} />
           <ListView
             style={Styles.list}
             automaticallyAdjustContentInsets={false}
             dataSource={listViewDataSource.cloneWithRows(notifications)}
             renderRow={this.renderNotificationRow}
           />
+          <View style={Styles.notificationSeparator} />
         </View>) :
         null;
 
