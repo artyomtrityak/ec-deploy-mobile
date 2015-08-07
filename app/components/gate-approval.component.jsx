@@ -150,7 +150,7 @@ export default React.createClass({
           <LoaderComponent loading={true} />
         </View>
       );
-    }    
+    }
 
     if (!this.state.taskName) {
       return (

@@ -90,6 +90,20 @@ export default {
     });
   },
 
+  runPipeline(pipelineName) {
+    return CommanderClient.fetch({
+      operation: 'runPipeline',
+      parameters: {
+        'projectName': 'Default',
+        'pipelineName': pipelineName,
+        'actualParameter': []
+      }
+    })
+    .then((response) => {
+      return response.flowRuntime;
+    });
+  },
+
   getPipelineRuns() {
     return CommanderClient.fetch({
       operation: 'getPipelineRuntimes',
