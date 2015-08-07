@@ -4,10 +4,12 @@ import Colors from './colors-scheme';
 export default StyleSheet.create({
   mainContainer: {
     backgroundColor: Colors.get('lightGray'),
-    //flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'stretch',
     flex: 1
+  },
+  firstRow: {
+    marginTop: 105
   },
   field: {
     backgroundColor: Colors.get('white'),
@@ -25,9 +27,10 @@ export default StyleSheet.create({
   togglerContainer: {
     justifyContent: 'space-between',
     height: 50,
-    width: 250,
+    width: 290,
     alignSelf: 'center'
   },
+
   userText: {
     fontSize: 16,
     marginLeft: 5
@@ -45,5 +48,8 @@ export default StyleSheet.create({
     height: 40,
     width: 280,
     alignSelf: 'center'
+  },
+  togglerTxt: {
+    fontSize: 16
   }
 });

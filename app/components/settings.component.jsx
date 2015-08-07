@@ -81,11 +81,11 @@ export default React.createClass({
     return (
       <View style={[FormJSS.forms.main, SettingsJSS.mainContainer ]}>
 
-        <View style={FormJSS.login.line}/>
-        <View style={[SettingsJSS.field, FormJSS.forms.firstRow]}>
+        <View style={[FormJSS.login.line, SettingsJSS.firstRow]}/>
+        <View style={[SettingsJSS.field]}>
           <View style={[SettingsJSS.fieldInner, SettingsJSS.fieldTxt ]}>
             <Text style={[SettingsJSS.userText, SettingsJSS.label]}>
-              User:
+              User
             </Text>
             <Text style={ SettingsJSS.userText }>
               {this.state.user.userName}
@@ -94,7 +94,7 @@ export default React.createClass({
           <View style={FormJSS.login.line}/>
           <View style={[SettingsJSS.fieldInner, SettingsJSS.fieldTxt ]}>
             <Text style={[SettingsJSS.userText, SettingsJSS.label]}>
-            Server:
+            Server
             </Text>
             <Text style={ SettingsJSS.userText }>
               {this.state.server}
@@ -104,22 +104,17 @@ export default React.createClass({
 
         <View style={FormJSS.login.line}/>
         <View style={SettingsJSS.gutter} />
-        <View style={FormJSS.login.line}/>
+
+        <ButtonComponent
+          onPress={this.onLogout}
+          text={'Logout'}
+          color={Colors.get('red')}
+          backgroundColor={Colors.get('white')}
+          btnWrapperStyle={SettingsJSS.btn}
+          btnStyle={SettingsJSS.btn}
+        />
 
 
-        <View style={[SettingsJSS.btnField]}>
-          <ButtonComponent
-            onPress={this.onLogout}
-            text={'Logout'}
-            color={Colors.get('red')}
-            backgroundColor={Colors.get('white')}
-            btnWrapperStyle={SettingsJSS.btn}
-            btnStyle={SettingsJSS.btn}
-          />
-        </View>
-
-
-        <View style={FormJSS.login.line}/>
         <View style={SettingsJSS.gutter} />
         <View style={FormJSS.login.line}/>
 
@@ -127,8 +122,8 @@ export default React.createClass({
           <View style={ FormJSS.forms.row }>
             <View style={[ FormJSS.forms.flexRow, SettingsJSS.togglerContainer ]}>
 
-              <View>
-                <Text style={[ FormJSS.texts.small ]}>
+              <View style={SettingsJSS.togglerTxtWrapper}>
+                <Text style={SettingsJSS.togglerTxt}>
                 Remember my credentials
                 </Text>
               </View>
@@ -145,8 +140,8 @@ export default React.createClass({
 
           <View style={ FormJSS.forms.row }>
             <View style={[ FormJSS.forms.flexRow, SettingsJSS.togglerContainer ]}>
-              <View>
-                <Text style={[ FormJSS.texts.small ]}>
+              <View style={SettingsJSS.togglerTxtWrapper}>
+                <Text style={SettingsJSS.togglerTxt}>
                 Auto sync every 30 seconds
                 </Text>
               </View>
@@ -163,8 +158,8 @@ export default React.createClass({
 
           <View style={ FormJSS.forms.row }>
             <View style={[ FormJSS.forms.flexRow, SettingsJSS.togglerContainer ]}>
-              <View>
-                <Text style={[ FormJSS.texts.small ]}>
+              <View style={SettingsJSS.togglerTxtWrapper}>
+                <Text style={SettingsJSS.togglerTxt}>
                 Jobs Notifications
                 </Text>
               </View>
@@ -177,57 +172,10 @@ export default React.createClass({
             </View>
           </View>
         </View>
+        <View style={FormJSS.login.line}/>
 
 
       </View>
     );
   }
 });
-//<View style={ FormJSS.forms.firstRow }>
-//  <View style={[ FormJSS.forms.flexRow, SettingsJSS.togglerContainer ]}>
-//
-//    <View>
-//      <Text style={[ FormJSS.texts.small ]}>
-//        Remember my credentials
-//      </Text>
-//    </View>
-//    <View>
-//      <SwitchIOS
-//        onValueChange={this.onRememberMeChange}
-//        value={this.state.rememberMe}
-//      />
-//    </View>
-//  </View>
-//</View>
-//
-//<View style={ FormJSS.forms.row }>
-//  <View style={[ FormJSS.forms.flexRow, SettingsJSS.togglerContainer ]}>
-//    <View>
-//      <Text style={[ FormJSS.texts.small ]}>
-//        Auto sync every 30 seconds
-//      </Text>
-//    </View>
-//    <View>
-//      <SwitchIOS
-//        onValueChange={this.onAutoSyncChange}
-//        value={this.state.autoSync}
-//      />
-//    </View>
-//  </View>
-//</View>
-//
-//<View style={ FormJSS.forms.row }>
-//  <View style={[ FormJSS.forms.flexRow, SettingsJSS.togglerContainer ]}>
-//    <View>
-//      <Text style={[ FormJSS.texts.small ]}>
-//        Jobs Notifications
-//      </Text>
-//    </View>
-//    <View>
-//      <SwitchIOS
-//        onValueChange={this.onJobsNotificationsChange}
-//        value={this.state.jobsNotifications}
-//      />
-//    </View>
-//  </View>
-//</View>
