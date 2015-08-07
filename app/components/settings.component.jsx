@@ -7,7 +7,6 @@ import React, {
   View,
   SwitchIOS
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 //Components
 import LoaderComponent from './shared/loader.component';
@@ -80,83 +79,100 @@ export default React.createClass({
     }
 
     return (
-      <View style={ FormJSS.forms.main }>
-        <View style={ FormJSS.forms.firstRow }>
-          <View style={ FormJSS.forms.flexRow }>
-            <View style={ SettingsJSS.userIcons }>
-              <Icon name='user' style={{marginLeft: 2}} size={20} color='#00adee' />
-            </View>
+      <View style={[FormJSS.forms.main, SettingsJSS.mainContainer ]}>
+
+        <View style={[FormJSS.login.line, SettingsJSS.firstRow]}/>
+        <View style={[SettingsJSS.field]}>
+          <View style={[SettingsJSS.fieldInner, SettingsJSS.fieldTxt ]}>
+            <Text style={[SettingsJSS.userText, SettingsJSS.label]}>
+              User
+            </Text>
             <Text style={ SettingsJSS.userText }>
               {this.state.user.userName}
             </Text>
           </View>
-          <View style={ FormJSS.forms.flexRow }>
-            <View style={ SettingsJSS.userIcons }>
-              <Icon name='laptop' size={20} color='#00adee' />
-            </View>
+          <View style={FormJSS.login.line}/>
+          <View style={[SettingsJSS.fieldInner, SettingsJSS.fieldTxt ]}>
+            <Text style={[SettingsJSS.userText, SettingsJSS.label]}>
+            Server
+            </Text>
             <Text style={ SettingsJSS.userText }>
               {this.state.server}
             </Text>
           </View>
-
-          <ButtonComponent
-            onPress={this.onLogout}
-            text={'Logout'}
-            icon={'sign-out'}
-            color={Colors.get('white')}
-            backgroundColor={Colors.get('darkBlue')}
-          />
-
         </View>
 
-        <View style={ FormJSS.forms.firstRow }>
-          <View style={[ FormJSS.forms.flexRow, SettingsJSS.togglerContainer ]}>
+        <View style={FormJSS.login.line}/>
+        <View style={SettingsJSS.gutter} />
 
-            <View>
-              <Text style={[ FormJSS.texts.small ]}>
+        <ButtonComponent
+          onPress={this.onLogout}
+          text={'Logout'}
+          color={Colors.get('red')}
+          backgroundColor={Colors.get('white')}
+          btnWrapperStyle={SettingsJSS.btn}
+          btnStyle={SettingsJSS.btn}
+        />
+
+
+        <View style={SettingsJSS.gutter} />
+        <View style={FormJSS.login.line}/>
+
+        <View style={[SettingsJSS.field]}>
+          <View style={ FormJSS.forms.row }>
+            <View style={[ FormJSS.forms.flexRow, SettingsJSS.togglerContainer ]}>
+
+              <View style={SettingsJSS.togglerTxtWrapper}>
+                <Text style={SettingsJSS.togglerTxt}>
                 Remember my credentials
-              </Text>
-            </View>
-            <View>
-              <SwitchIOS
-                onValueChange={this.onRememberMeChange}
-                value={this.state.rememberMe}
-              />
+                </Text>
+              </View>
+              <View>
+                <SwitchIOS
+                  onValueChange={this.onRememberMeChange}
+                  value={this.state.rememberMe}
+                />
+              </View>
             </View>
           </View>
-        </View>
 
-        <View style={ FormJSS.forms.row }>
-          <View style={[ FormJSS.forms.flexRow, SettingsJSS.togglerContainer ]}>
-            <View>
-              <Text style={[ FormJSS.texts.small ]}>
+          <View style={FormJSS.login.line}/>
+
+          <View style={ FormJSS.forms.row }>
+            <View style={[ FormJSS.forms.flexRow, SettingsJSS.togglerContainer ]}>
+              <View style={SettingsJSS.togglerTxtWrapper}>
+                <Text style={SettingsJSS.togglerTxt}>
                 Auto sync every 30 seconds
-              </Text>
-            </View>
-            <View>
-              <SwitchIOS
-                onValueChange={this.onAutoSyncChange}
-                value={this.state.autoSync}
-              />
+                </Text>
+              </View>
+              <View>
+                <SwitchIOS
+                  onValueChange={this.onAutoSyncChange}
+                  value={this.state.autoSync}
+                />
+              </View>
             </View>
           </View>
-        </View>
 
-        <View style={ FormJSS.forms.row }>
-          <View style={[ FormJSS.forms.flexRow, SettingsJSS.togglerContainer ]}>
-            <View>
-              <Text style={[ FormJSS.texts.small ]}>
+          <View style={FormJSS.login.line}/>
+
+          <View style={ FormJSS.forms.row }>
+            <View style={[ FormJSS.forms.flexRow, SettingsJSS.togglerContainer ]}>
+              <View style={SettingsJSS.togglerTxtWrapper}>
+                <Text style={SettingsJSS.togglerTxt}>
                 Jobs Notifications
-              </Text>
-            </View>
-            <View>
-              <SwitchIOS
-                onValueChange={this.onJobsNotificationsChange}
-                value={this.state.jobsNotifications}
-              />
+                </Text>
+              </View>
+              <View>
+                <SwitchIOS
+                  onValueChange={this.onJobsNotificationsChange}
+                  value={this.state.jobsNotifications}
+                />
+              </View>
             </View>
           </View>
         </View>
+        <View style={FormJSS.login.line}/>
 
 
       </View>
