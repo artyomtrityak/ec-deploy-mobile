@@ -26,6 +26,7 @@ import LoaderJSS from './jss/loader';
 import FormJSS from './jss/forms';
 import SettingsJSS from './jss/settings';
 import Colors from './jss/colors-scheme';
+import Styles from './jss/gate-approval';
 
 
 export default React.createClass({
@@ -104,23 +105,25 @@ export default React.createClass({
 
   renderButtons() {
     return (
-      <View>
-        <View style={ FormJSS.forms.row }>
+      <View style={ Styles.buttonBlock }>
+        <View style={null}>
           <ButtonComponent
               onPress={this.onApprove}
               text={'Approve'}
               icon={'thumbs-up'}
               color={Colors.get('white')}
-              backgroundColor={Colors.get('green')}
+              backgroundColor='#7AC64A'
+              btnStyle={Styles.btn}
             />
         </View>
-        <View style={ FormJSS.forms.row }>
+        <View style={null}>
             <ButtonComponent
               onPress={this.onReject}
               text={'Reject'}
               icon={'thumbs-down'}
               color={Colors.get('white')}
               backgroundColor={Colors.get('red')}
+              btnStyle={Styles.btn}
             />
         </View>
       </View>
@@ -130,10 +133,11 @@ export default React.createClass({
   renderDone() {
     return (
         <View>
-          <View style={ FormJSS.forms.row }>
-            <Text>Task status: {this.state.solution}</Text>
+          <View style={ [Styles.row, {marginBottom: 20}] }>
+            <Text style={Styles.parameterType}>Task status </Text>
+            <Text style={Styles.parameterName}>{this.state.solution}</Text>
           </View>
-          <View style={ FormJSS.forms.row }>
+          <View style={ Styles.buttonBlock }>
             <TweetButtonComponent
               text={'I\'ve just ' + this.state.solution + 'ed pipeline ' + this.state.pipelineName +
               ' stage ' + this.state.stageName + ' task ' + this.state.taskName}
@@ -144,6 +148,7 @@ export default React.createClass({
   },
 
   render() {
+    console.log('gate', this.state);
     if (this.state.loading) {
       return (
         <View style={[ FormJSS.forms.main, LoaderJSS.position ]}>
@@ -161,33 +166,38 @@ export default React.createClass({
     }
 
     return (
-      <View style={ FormJSS.forms.main }>
-        <View style={ FormJSS.forms.firstRow }>
-          <Text>Pipeline name: </Text>
-          <Text>{this.state.pipelineName}</Text>
+      <View style={ Styles.main }>
+        <View style={ [Styles.row, Styles.firstRow]}>
+          <Text style={Styles.parameterType}>Pipeline name </Text>
+          <Text numberOfLines={1} style={Styles.parameterName}>{this.state.pipelineName}</Text>
         </View>
-        <View style={ FormJSS.forms.row }>
-          <Text>Stage name: </Text>
-          <Text>{this.state.stageName}</Text>
+        <View style={ Styles.row }>
+          <Text style={Styles.parameterType}>Stage name </Text>
+          <Text numberOfLines={1} style={Styles.parameterName}>{this.state.stageName}</Text>
         </View>
-        <View style={ FormJSS.forms.row }>
-          <Text>Task name: </Text>
-          <Text>{this.state.taskName}</Text>
+        <View style={ Styles.row }>
+          <Text style={Styles.parameterType}>Task name </Text>
+          <Text numberOfLines={1} style={Styles.parameterName}>{this.state.taskName}</Text>
         </View>
-        <View style={ FormJSS.forms.row }>
-          <Text>Approvers: </Text>
-          <Text>{this.state.approvers}</Text>
+        <View style={ [Styles.row, Styles.separator] } />
+        <View style={ Styles.row }>
+          <Text style={Styles.parameterType}>Approvers </Text>
+          <Text numberOfLines={1} style={Styles.parameterName}>{this.state.approvers}</Text>
         </View>
-        <View style={ FormJSS.forms.row }>
-          <Text>Gate Type: </Text>
-          <Text>{this.state.gateType}</Text>
+        <View style={ Styles.row }>
+          <Text style={Styles.parameterType}>Gate Type </Text>
+          <Text numberOfLines={1} style={Styles.parameterName}>{this.state.gateType}</Text>
         </View>
-        <View style={ FormJSS.forms.row }>
+        <View style={[Styles.row, {backgroundColor: 'rgba(0, 0, 0, 0.1)', marginRight: '10', marginLeft: '10'}]}>
+          <Text style={{lineHeight: 18}}>Optional comment </Text>
+        </View>
+        <View style={ [Styles.row, {height: 100, marginTop: 0}]}>
           <TextInput
-              style={[ FormJSS.inputs.main, {height: 80} ]}
-              placeholder={'Optional comment'}
+              style={Styles.commentArea}
+              placeholder={'Start typing here...'}
               onChangeText={this.onChangeComment}
               value={this.state.commentChange}
+              multiline={true}
             />
         </View>
 
