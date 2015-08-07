@@ -53,7 +53,7 @@ export default React.createClass({
     //if (!this.state.server || !this.state.userName || !this.state.password) {
     //  return;
     //}
-    SettingsActions.login('192.168.7.182', 'admin', 'changeme');
+    SettingsActions.login('192.168.5.52', 'admin', 'changeme');
     //SettingsActions.login(
     //  this.state.server, this.state.userName, this.state.password
     //);
