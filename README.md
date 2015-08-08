@@ -3,6 +3,9 @@
 ##Description
 Allows to use Electric Deploy from your iPhone
 
+
+<iframe width="420" height="315" src="https://www.youtube.com/watch?v=Mqb9UiJc35k" frameborder="0" allowfullscreen></iframe>
+
 ##Stack
 React Native Flux Webpack application
 
